@@ -1,9 +1,9 @@
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 from langserve import add_routes
-from dotenv import load_env, find_env
+from dotenv import load_dotenv, find_dotenv
 
-_ = load_env(find_env())
+_ = load_dotenv(find_dotenv())
 
 app = FastAPI()
 
