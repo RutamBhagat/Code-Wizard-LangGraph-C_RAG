@@ -1,7 +1,7 @@
 from dotenv import load_dotenv, find_dotenv
-from langchain.embeddings import OpenAIEmbeddings
+from langchain_community.embeddings import OpenAIEmbeddings
 from langchain_chroma import Chroma
-from langchain.document_loaders import UnstructuredURLLoader
+from langchain_community.document_loaders import UnstructuredURLLoader
 from unstructured.cleaners.core import remove_punctuation, clean, clean_extra_whitespace
 from langchain_community.vectorstores.utils import filter_complex_metadata
 
