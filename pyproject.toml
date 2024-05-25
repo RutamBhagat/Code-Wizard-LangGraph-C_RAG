@@ -19,10 +19,17 @@ langchainhub = "^0.1.16"
 tavily-python = "^0.3.3"
 langchain-chroma = "^0.1.1"
 pytest = "^8.2.1"
+joblib = "^1.4.2"
+unstructured = "^0.14.2"
+langchain-openai = "^0.1.7"
 
 
 [tool.poetry.group.dev.dependencies]
 langchain-cli = ">=0.0.15"
+
+
+[tool.poetry.group.D.dependencies]
+ipykernel = "^6.29.4"
 
 [build-system]
 requires = ["poetry-core"]
