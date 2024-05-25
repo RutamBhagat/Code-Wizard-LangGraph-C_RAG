@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "C_RAG"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+packages = [
+    { include = "app" },
+]
+
+[tool.poetry.dependencies]
+python = ">=3.11,<3.13"
+uvicorn = "^0.23.2"
+langserve = {extras = ["server"], version = ">=0.0.30"}
+pydantic = "<2"
+beautifulsoup4 = "^4.12.3"
+langchain-community = "^0.2.1"
+langchainhub = "^0.1.16"
+tavily-python = "^0.3.3"
+langchain-chroma = "^0.1.1"
+pytest = "^8.2.1"
+
+
+[tool.poetry.group.dev.dependencies]
+langchain-cli = ">=0.0.15"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
