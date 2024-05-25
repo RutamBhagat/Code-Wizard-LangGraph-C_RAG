@@ -17,8 +17,8 @@ llm = ChatOpenAI(temperature=0)
 structured_llm_grader = llm.with_structured_output(GradeDocuments)
 
 system = """You are a grader assessing relevance of a retrieved document to a user question.
-            If the document contains keyword(s) or if the document semantically matches the question grade it as relevant
-            Give a is_document_relevant 'yes' or 'no' answer to indicate whether the document is relevant to the question"""
+            If the document contains any keyword(s) from the question or if the document semantically similar to the question, grade the document as relevant
+            Answer as 'yes' or 'no' to indicate whether the document is relevant to the question"""
 
 grade_prompt = ChatPromptTemplate.from_messages(
     [
@@ -30,3 +30,11 @@ grade_prompt = ChatPromptTemplate.from_messages(
 )
 
 retrieval_grader = grade_prompt | structured_llm_grader
+
+if __name__ == "__main__":
+    question = "agent memory?"
+    doc_text = "Long-term memory as the external vector store that the agent can attend to at query time, accessible via fast retrieval."
+    res: GradeDocuments = retrieval_grader.invoke(
+        {"question": question, "document": doc_text}
+    )
+    print(res)
