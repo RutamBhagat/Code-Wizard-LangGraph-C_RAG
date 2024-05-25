@@ -1,5 +1,4 @@
 from langchain.prompts import ChatPromptTemplate
-from langchain.schema import HumanMessage, SystemMessage
 from langchain_core.pydantic_v1 import BaseModel, Field
 from langchain_openai import ChatOpenAI
 
@@ -45,4 +44,3 @@ if __name__ == "__main__":
         {"question": question, "document": doc_text}
     )
     print(res)
-    # The res is always "no" why is that?
