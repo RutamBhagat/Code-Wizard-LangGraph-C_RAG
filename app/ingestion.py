@@ -48,9 +48,12 @@ embeddings = OpenAIEmbeddings(disallowed_special=set())
 # )
 # print("****** All Embeddings Added to Pinecone Vectorstore ******")
 
-retriever = PineconeVectorStore.from_existing_index(
+docsearch = PineconeVectorStore.from_existing_index(
     index_name=INDEX_NAME, embedding=embeddings
 )
+
+retriever = docsearch.as_retriever()
+
 
 if __name__ == "__main__":
     question = "Agent Memory?"
