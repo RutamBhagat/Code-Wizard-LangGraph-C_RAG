@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 from langserve import add_routes
 from dotenv import load_dotenv, find_dotenv
+from app.graph.graph import c_rag_app
 
 _ = load_dotenv(find_dotenv())
 
@@ -14,7 +15,7 @@ async def redirect_root_to_docs():
 
 
 # Edit this to add the chain you want to add
-add_routes(app, NotImplemented)
+add_routes(app, c_rag_app, path="/c_rag")
 
 if __name__ == "__main__":
     import uvicorn

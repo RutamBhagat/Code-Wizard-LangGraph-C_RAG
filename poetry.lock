@@ -1839,6 +1839,22 @@ files = [
 six = "*"
 
 [[package]]
+name = "langgraph"
+version = "0.0.55"
+description = "langgraph"
+category = "main"
+optional = false
+python-versions = "<4.0,>=3.9.0"
+files = [
+    {file = "langgraph-0.0.55-py3-none-any.whl", hash = "sha256:98abfaea107af79cfe3e9eb3768542fcff6c78561d79f3a532099bd17c0b9be2"},
+    {file = "langgraph-0.0.55.tar.gz", hash = "sha256:beb74bff8429b98d5840882a615913a3df4a6986825b96cf3b6453c9aab013b1"},
+]
+
+[package.dependencies]
+langchain-core = ">=0.2,<0.3"
+uuid6 = ">=2024.1.12,<2025.0.0"
+
+[[package]]
 name = "langserve"
 version = "0.2.1"
 description = ""
@@ -4590,6 +4606,18 @@ socks = ["pysocks (>=1.5.6,!=1.5.7,<2.0)"]
 zstd = ["zstandard (>=0.18.0)"]
 
 [[package]]
+name = "uuid6"
+version = "2024.1.12"
+description = "New time-based UUID formats which are suited for use as a database key"
+category = "main"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "uuid6-2024.1.12-py3-none-any.whl", hash = "sha256:8150093c8d05a331bc0535bc5ef6cf57ac6eceb2404fd319bc10caee2e02c065"},
+    {file = "uuid6-2024.1.12.tar.gz", hash = "sha256:ed0afb3a973057575f9883201baefe402787ca5e11e1d24e377190f0c43f1993"},
+]
+
+[[package]]
 name = "uvicorn"
 version = "0.23.2"
 description = "The lightning-fast ASGI server."
@@ -5077,4 +5105,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "jaraco.test", "more
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.11,<3.13"
-content-hash = "8a1e2512313bf649822b890f7b85e19a705c57e27d2f2ca6d85ae426f9c4755b"
+content-hash = "693f8aed47f81fd5e7d3f74ed0da040b1a4fb0df40e5064ae3f6b4234d1b3acd"
