@@ -1,5 +1,7 @@
 from typing import List, Optional, TypedDict
 
+from langchain.schema import Document
+
 
 class GraphState(TypedDict):
     """Represents the state of our graph.
@@ -13,9 +15,9 @@ class GraphState(TypedDict):
     # question: str
     # generation: Optional[str] = None
     # is_web_search_needed: Optional[bool] = None
-    # documents: Optional[List[str]] = None
+    # documents: Optional[List[Document]] = None
 
     question: str
     generation: str
     is_web_search_needed: bool
-    documents: List[str]
+    documents: List[Document]
