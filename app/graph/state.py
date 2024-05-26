@@ -10,7 +10,12 @@ class GraphState(TypedDict):
         is_web_search_needed: whether to add search
         documents: list of strings"""
 
+    # question: str
+    # generation: Optional[str] = None
+    # is_web_search_needed: Optional[bool] = None
+    # documents: Optional[List[str]] = None
+
     question: str
-    generation: Optional[str] = None
-    is_web_search_needed: Optional[bool] = None
-    documents: Optional[List[str]] = None
+    generation: str
+    is_web_search_needed: bool
+    documents: List[str]
