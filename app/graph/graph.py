@@ -1,11 +1,11 @@
 from dotenv import load_dotenv, find_dotenv
 
+from langgraph.graph import END, StateGraph
+from app.graph.state import GraphState
 from app.graph.nodes.generate import generate
 from app.graph.nodes.web_search import web_search
 from app.graph.nodes.retrieve import retrieve
 from app.graph.nodes.grade_documents import grade_documents
-from app.graph.state import GraphState
-from langgraph.graph import END, StateGraph
 
 _ = load_dotenv(find_dotenv())
 
@@ -37,5 +37,5 @@ c_rag_app.get_graph().draw_mermaid_png(output_file_path="graph.png")
 
 if __name__ == "__main__":
     print("Hello C_RAG with LangGraph")
-    res = c_rag_app.invoke(input={"input": "Agent Memory"})
+    res = c_rag_app.invoke(input={"question": "Agent Memory"})
     print(res)

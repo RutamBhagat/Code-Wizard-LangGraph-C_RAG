@@ -1,4 +1,4 @@
-from typing import List, TypedDict
+from typing import List, Optional, TypedDict
 
 
 class GraphState(TypedDict):
@@ -11,6 +11,6 @@ class GraphState(TypedDict):
         documents: list of strings"""
 
     question: str
-    generation: str
-    is_web_search_needed: bool
-    documents: List[str]
+    generation: Optional[str]
+    is_web_search_needed: Optional[bool]
+    documents: Optional[List[str]]

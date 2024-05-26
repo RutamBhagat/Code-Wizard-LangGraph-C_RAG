@@ -25,8 +25,8 @@ text_splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
 )
 doc_splits = text_splitter.split_documents(docs_list)
 
-print("Length of docs: ", len(doc_splits))
-print("Docs List: ", doc_splits)
+# print("Length of docs: ", len(doc_splits))
+# print("Docs List: ", doc_splits)
 
 # vectorstore = Chroma.from_documents(
 #     doc_splits,

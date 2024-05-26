@@ -43,4 +43,4 @@ if __name__ == "__main__":
     res: GradeDocuments = retrieval_grader.invoke(
         {"question": question, "document": doc_text}
     )
-    print(res)
+    # print(res)
