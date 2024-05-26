@@ -1,6 +1,6 @@
 from typing import Any, Dict
 
-from app.graph.chains import retrieval_grader
+from app.graph.chains.retrieval_grader import retrieval_grader
 from app.graph.state import GraphState
 
 
