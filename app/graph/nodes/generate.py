@@ -7,6 +7,6 @@ def generate(state: GraphState) -> Dict[str, Any]:
     print("Generating answer...")
     question = state["question"]
     documents = state["documents"]
-
+    print("Length of Documents: ", len(documents))
     generation = generation_chain.invoke({"context": documents, "question": question})
     return {"documents": documents, "generation": generation, "question": question}

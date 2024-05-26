@@ -8,4 +8,5 @@ def retrieve(state: GraphState) -> Dict[str, Any]:
     question = state["question"]
 
     documents = retriever.invoke(question)
+    print("Length of Retrieved Documents: ", len(documents))
     return {"documents": documents, "question": question}
