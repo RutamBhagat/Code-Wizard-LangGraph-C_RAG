@@ -1,45 +1,56 @@
+import os
 from dotenv import load_dotenv, find_dotenv
+from pinecone import Pinecone
+
+from langchain_pinecone import PineconeVectorStore
 from langchain_openai import OpenAIEmbeddings
-from langchain_chroma import Chroma
-from langchain_community.document_loaders import WebBaseLoader
-from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_core.documents import Document
+
+from unstructured.chunking.title import chunk_by_title
+from unstructured.partition.md import partition_md
+
+from app.graph.consts import INDEX_NAME
 
 
 _ = load_dotenv(find_dotenv())
+pc = Pinecone(environment="northamerica-northeast1-gcp")
 
-urls = [
-    "https://lilianweng.github.io/posts/2023-06-23-agent/",
-    "https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/",
-    "https://lilianweng.github.io/posts/2023-10-25-adv-attack-llm/",
-]
-
-docs = [WebBaseLoader(url).load() for url in urls]
-
-docs_list = [item for sublist in docs for item in sublist]
-
-# print("Length of docs: ", len(docs_list))
-# print("Docs List: ", docs_list)
-
-text_splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
-    chunk_size=250, chunk_overlap=0
+current_dir = os.getcwd()
+docs_path = os.path.join(
+    current_dir,
+    "..",
+    "langchain_docs",
 )
-doc_splits = text_splitter.split_documents(docs_list)
 
-# print("Length of docs: ", len(doc_splits))
-# print("Docs List: ", doc_splits)
+md_elements = []
+for filename in os.listdir(docs_path):
+    if filename.endswith(".md") or filename.endswith(".mdx"):
+        file_path = os.path.join(docs_path, filename)
+        md_elements.extend(partition_md(filename=file_path))
 
-# vectorstore = Chroma.from_documents(
-#     doc_splits,
-#     embedding=OpenAIEmbeddings(),
-#     collection_name="rag_chroma",
-#     persist_directory="/home/voldemort/Downloads/Code/Eden/C_RAG/app/.chroma",
+elements = chunk_by_title(md_elements)
+
+documents = []
+for element in elements:
+    metadata = element.metadata.to_dict()
+    del metadata["languages"]
+    metadata["source"] = metadata["filename"]
+    documents.append(Document(page_content=element.text, metadata=metadata))
+
+embeddings = OpenAIEmbeddings(disallowed_special=set())
+
+# Indexing the documents to Pinecone
+# print(f"Going to insert {len(documents)} Documents to Pinecone index {INDEX_NAME}")
+# docsearch = PineconeVectorStore.from_documents(
+#     documents=documents,
+#     embedding=embeddings,
+#     index_name=INDEX_NAME,
 # )
+# print("****** All Embeddings Added to Pinecone Vectorstore ******")
 
-retriever = Chroma(
-    collection_name="rag_chroma",
-    persist_directory="/home/voldemort/Downloads/Code/Eden/C_RAG/app/.chroma",
-    embedding_function=OpenAIEmbeddings(),
-).as_retriever()
+retriever = PineconeVectorStore.from_existing_index(
+    index_name=INDEX_NAME, embedding=embeddings
+)
 
 if __name__ == "__main__":
     question = "Agent Memory?"
