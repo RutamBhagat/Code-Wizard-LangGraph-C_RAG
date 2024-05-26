@@ -32,17 +32,17 @@ doc_splits = text_splitter.split_documents(docs_list)
 #     doc_splits,
 #     embedding=OpenAIEmbeddings(),
 #     collection_name="rag_chroma",
-#     persist_directory="./.chroma",
+#     persist_directory="/home/voldemort/Downloads/Code/Eden/C_RAG/app/.chroma",
 # )
 
 retriever = Chroma(
     collection_name="rag_chroma",
-    persist_directory="./.chroma",
+    persist_directory="/home/voldemort/Downloads/Code/Eden/C_RAG/app/.chroma",
     embedding_function=OpenAIEmbeddings(),
 ).as_retriever()
 
 if __name__ == "__main__":
-    question = "Agent Memory"
+    question = "Agent Memory?"
     docs = retriever.invoke(question)
     print(docs)
     print(docs[0].page_content)
