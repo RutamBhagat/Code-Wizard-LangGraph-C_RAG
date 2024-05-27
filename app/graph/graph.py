@@ -10,7 +10,7 @@ _ = load_dotenv(find_dotenv())
 
 def decide_to_generate(state) -> str:
     print("Assessing if we need a web search or we should generate the answer.")
-    if state["is_web_search_needed"]:
+    if state.is_web_search_needed:
         print(
             "----DECISION: NOT ALL DOCUMENT ARE RELEVANT TO THE QUESTION, PERFORMING WEB SEARCH"
         )

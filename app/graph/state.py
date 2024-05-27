@@ -1,9 +1,9 @@
-from typing import List, TypedDict
+from typing import Any, List, Optional
 
-from langchain.schema import Document
+from pydantic import BaseModel
 
 
-class GraphState(TypedDict):
+class GraphState(BaseModel):
     """Represents the state of our graph.
 
     Attributes:
@@ -13,6 +13,6 @@ class GraphState(TypedDict):
         documents: list of documents"""
 
     question: str
-    generation: str
-    is_web_search_needed: bool
-    documents: List[Document]
+    generation: Optional[str] = ""
+    is_web_search_needed: bool = False
+    documents: Optional[List[Any]] = []

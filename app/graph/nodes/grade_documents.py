@@ -16,8 +16,8 @@ def grade_documents(state: GraphState) -> Dict[str, Any]:
     """
 
     print("Checking the relevance of the retrieved documents to the question")
-    question = state["question"]
-    documents = state["documents"]
+    question = state.question
+    documents = state.documents
 
     filtered_docs = []
     is_web_search_needed = False
