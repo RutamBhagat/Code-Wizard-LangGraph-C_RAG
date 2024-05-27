@@ -27,7 +27,7 @@ def reciprocal_rank_fusion(results: list[list], k=60):
             # Retrieve the current score of the document, if any
             previous_score = fused_scores[doc_str]
             # Update the score of the document using the RRF formula: 1 / (rank + k)
-            fused_scores[doc_str] += 1 / (rank + k)
+            fused_scores[doc_str] = previous_score + 1 / (rank + k)
 
     # Sort the documents based on their fused scores in descending order to get the final reranked results
     reranked_results = [
@@ -65,6 +65,10 @@ def retrieve(state: GraphState) -> Dict[str, Any]:
     )
     documents = retrieval_chain_rag_fusion.invoke({"question": question})
     print("Length of Retrieved Documents: ", len(documents))
+    # only take top 6 documents because of the limited context window
+    # if the length of documents is less than 6 then take all
+    documents = documents[:6] if len(documents) > 6 else documents
+    print("Length of Top Retrieved Documents: ", len(documents))
     return {"documents": documents, "question": question}
 
 

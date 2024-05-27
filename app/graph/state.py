@@ -1,4 +1,4 @@
-from typing import List, Optional, TypedDict
+from typing import List, TypedDict
 
 from langchain.schema import Document
 
@@ -13,6 +13,6 @@ class GraphState(TypedDict):
         documents: list of documents"""
 
     question: str
-    generation: Optional[str] = None
-    is_web_search_needed: Optional[bool] = None
-    documents: Optional[List[Document]] = None
+    generation: str
+    is_web_search_needed: bool
+    documents: List[Document]
