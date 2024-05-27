@@ -51,7 +51,7 @@ docsearch = PineconeVectorStore.from_existing_index(
     index_name=INDEX_NAME, embedding=embeddings
 )
 
-retriever = docsearch.as_retriever()
+retriever = docsearch.as_retriever(search_kwargs={"k": 4})
 
 
 if __name__ == "__main__":
