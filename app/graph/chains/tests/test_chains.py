@@ -20,7 +20,7 @@ def test_retrival_grader_answer_yes() -> None:
     res: GradeDocuments = retrieval_grader.invoke(
         {"question": question, "document": doc_text}
     )
-    assert res.is_document_relevant == "yes"
+    assert res.is_document_relevant == True
 
 
 def test_retrival_grader_answer_no() -> None:
@@ -30,7 +30,7 @@ def test_retrival_grader_answer_no() -> None:
     res: GradeDocuments = retrieval_grader.invoke(
         {"question": question, "document": doc_text}
     )
-    assert res.is_document_relevant == "no"
+    assert res.is_document_relevant == False
 
 
 def test_generation_chain() -> None:

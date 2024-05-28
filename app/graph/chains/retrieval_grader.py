@@ -6,8 +6,8 @@ from langchain_openai import ChatOpenAI
 class GradeDocuments(BaseModel):
     """for relevance check on retrieved documents"""
 
-    is_document_relevant: str = Field(
-        description="Documents are relevant to the question, 'yes' or 'no'"
+    is_document_relevant: bool = Field(
+        description="Documents are relevant to the question, 'True' or 'False'"
     )
     explaination: str = Field(
         description="Explaination of why the document is relevent or not"
@@ -20,7 +20,7 @@ structured_llm_grader = llm.with_structured_output(GradeDocuments)
 
 system = """Your task is to determine the relevance of a retrieved document to a user's question.
             If the document mentions key terms, concepts, or contextual information related to the question, consider the document relevant, even if it does not explicitly answer the question.
-            Reply with 'yes' or 'no' to indicate the document's relevance. Along with the explaination of why the document is relevent or not"""
+            Reply with 'True' or 'False' to indicate the document's relevance. Along with the short explaination of why the document is relevent or not"""
 
 grade_prompt = ChatPromptTemplate.from_messages(
     [
