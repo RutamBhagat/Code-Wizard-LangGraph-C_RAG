@@ -4,9 +4,6 @@ from langchain_core.runnables import RunnableSequence
 from langchain_openai import ChatOpenAI
 
 
-llm = ChatOpenAI(temperature=0)
-
-
 class GradeHallucinations(BaseModel):
     """Boolean value for hallucination present in the generation"""
 
@@ -14,6 +11,8 @@ class GradeHallucinations(BaseModel):
         description="Answer is grounded in / supported by a set of documents, 'True' or 'False'"
     )
 
+
+llm = ChatOpenAI(temperature=0)
 
 structured_llm_grader = llm.with_structured_output(GradeHallucinations)
 
@@ -27,4 +26,4 @@ hallucination_prompt = ChatPromptTemplate.from_messages(
     ]
 )
 
-hallucination_grader = RunnableSequence = hallucination_prompt | structured_llm_grader
+hallucination_grader: RunnableSequence = hallucination_prompt | structured_llm_grader
