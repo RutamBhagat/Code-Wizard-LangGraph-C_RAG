@@ -15,7 +15,7 @@ async def redirect_root_to_docs():
 
 
 # Edit this to add the chain you want to add
-add_routes(app, c_rag_app, path="/c_rag")
+add_routes(app, c_rag_app, path="/code_wizard")
 
 if __name__ == "__main__":
     import uvicorn
