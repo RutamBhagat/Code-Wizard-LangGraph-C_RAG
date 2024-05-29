@@ -50,7 +50,7 @@ prompt_perspectives = ChatPromptTemplate.from_template(template)
 
 generate_queries = (
     prompt_perspectives
-    | ChatGroq(temperature=0, model_name="llama3-70b-8192", max_tokens=8192)
+    | ChatGroq(temperature=0, model_name="mixtral-8x7b-32768", max_tokens=32768)
     | StrOutputParser()
     | (lambda x: x.split("\n"))
 )

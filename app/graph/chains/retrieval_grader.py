@@ -14,7 +14,7 @@ class GradeDocuments(BaseModel):
     )
 
 
-llm = ChatGroq(temperature=0, model_name="llama3-70b-8192", max_tokens=8192)
+llm = ChatGroq(temperature=0, model_name="mixtral-8x7b-32768", max_tokens=32768)
 
 structured_llm_grader = llm.with_structured_output(GradeDocuments)
 
