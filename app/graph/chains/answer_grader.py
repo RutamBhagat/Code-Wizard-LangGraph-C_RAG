@@ -12,7 +12,7 @@ class GradeAnswer(BaseModel):
     )
 
 
-llm = ChatOpenAI(temperature=0, model_name="mixtral-8x7b-32768", max_tokens=5)
+llm = ChatOpenAI(temperature=0, max_tokens=5)
 
 structured_llm_grader = llm.with_structured_output(GradeAnswer)
 

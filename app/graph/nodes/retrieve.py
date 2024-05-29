@@ -50,7 +50,7 @@ prompt_perspectives = ChatPromptTemplate.from_template(template)
 
 generate_queries = (
     prompt_perspectives
-    | ChatOpenAI(temperature=0, model_name="mixtral-8x7b-32768")
+    | ChatOpenAI(temperature=0)
     | StrOutputParser()
     | (lambda x: x.split("\n"))
 )
