@@ -65,9 +65,9 @@ def retrieve(state: GraphState) -> Dict[str, Any]:
     )
     documents = retrieval_chain_rag_fusion.invoke({"question": question})
     print("Length of Retrieved Documents: ", len(documents))
-    # only take top 6 documents because of the limited context window
-    # if the length of documents is less than 6 then take all
-    documents = documents[:6] if len(documents) > 6 else documents
+    # only take top 4 documents because of the limited context window
+    # if the length of documents is less than 4 then take all
+    documents = documents[:4] if len(documents) > 4 else documents
     print("Length of Top Retrieved Documents: ", len(documents))
     return {"documents": documents, "question": question}
 
