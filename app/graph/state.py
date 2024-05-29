@@ -14,5 +14,5 @@ class GraphState(BaseModel):
 
     question: str = Field(..., description="The question to be answered")
     generation: Optional[str] = ""
-    is_web_search_needed: bool = False
+    is_web_search_needed: Optional[bool] = False
     documents: Optional[List[Any]] = []
