@@ -1,3 +1,5 @@
+import time
+import httpx
 from typing import Any, Dict
 
 from app.graph.chains.retrieval_grader import retrieval_grader
@@ -23,16 +25,24 @@ def grade_documents(state: GraphState) -> Dict[str, Any]:
     is_web_search_needed = False
 
     for doc in documents:
-        is_document_relevant = retrieval_grader.invoke(
-            {"question": question, "document": doc}
-        ).is_document_relevant
+        try:
+            is_document_relevant = retrieval_grader.invoke(
+                {"question": question, "document": doc}
+            ).is_document_relevant
 
-        if is_document_relevant:
-            print("GRADE: Document is relevant")
-            filtered_docs.append(doc)
-        else:
-            print("GRADE: Document is not relevant")
-            is_web_search_needed = True
+            if is_document_relevant:
+                print("GRADE: Document is relevant")
+                filtered_docs.append(doc)
+            else:
+                print("GRADE: Document is not relevant")
+                is_web_search_needed = True
+
+            # Introduce a delay to avoid rate limiting
+            time.sleep(1)  # wait for 1 second
+        except httpx.HTTPStatusError as e:
+            print(f"Error: {e}")
+            # Handle the error, you can retry the request or log the error
+
     print("Length of Filtered Documents: ", len(filtered_docs))
     print("Is Web Search Needed: ", is_web_search_needed)
     return {

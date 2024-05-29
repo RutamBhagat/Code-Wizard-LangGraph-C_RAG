@@ -40,7 +40,7 @@ def reciprocal_rank_fusion(results: list[list], k=60):
 
 
 # Multi Query: Different Perspectives
-template = """You are an AI language model assistant. Your task is to generate five 
+template = """You are an AI language model assistant. Your task is to generate three 
 different versions of the given user question to retrieve relevant documents from a vector 
 database. By generating multiple perspectives on the user question, your goal is to help
 the user overcome some of the limitations of the distance-based similarity search. 
@@ -50,7 +50,7 @@ prompt_perspectives = ChatPromptTemplate.from_template(template)
 
 generate_queries = (
     prompt_perspectives
-    | ChatGroq(temperature=0, model="llama3-70b-8192")
+    | ChatGroq(temperature=0, model="llama3-70b-8192", max_tokens=8192)
     | StrOutputParser()
     | (lambda x: x.split("\n"))
 )
@@ -65,9 +65,9 @@ def retrieve(state: GraphState) -> Dict[str, Any]:
     )
     documents = retrieval_chain_rag_fusion.invoke({"question": question})
     print("Length of Retrieved Documents: ", len(documents))
-    # only take top 6 documents because of the limited context window
-    # if the length of documents is less than 6 then take all
-    documents = documents[:6] if len(documents) > 6 else documents
+    # only take top 4 documents because of the limited context window
+    # if the length of documents is less than 4 then take all
+    documents = documents[:4] if len(documents) > 4 else documents
     print("Length of Top Retrieved Documents: ", len(documents))
     return {"documents": documents, "question": question}
 
