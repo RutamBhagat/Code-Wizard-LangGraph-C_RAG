@@ -1,7 +1,7 @@
 from typing import Any, Dict
 from langchain.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
-from langchain_openai import ChatOpenAI
+from langchain_groq import ChatGroq
 from langchain.load import dumps, loads
 from app.graph.state import GraphState
 from app.ingestion import retriever
@@ -50,7 +50,7 @@ prompt_perspectives = ChatPromptTemplate.from_template(template)
 
 generate_queries = (
     prompt_perspectives
-    | ChatOpenAI(temperature=0)
+    | ChatGroq(temperature=0, model="llama3-70b-8192")
     | StrOutputParser()
     | (lambda x: x.split("\n"))
 )

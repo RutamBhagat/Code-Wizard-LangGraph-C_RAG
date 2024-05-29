@@ -1,7 +1,7 @@
 from langchain import hub
 from langchain.schema import StrOutputParser
-from langchain_openai import ChatOpenAI
+from langchain_groq import ChatGroq
 
-llm = ChatOpenAI(temperature=0)
+llm = ChatGroq(temperature=0, model="llama3-70b-8192")
 prompt = hub.pull("rlm/rag-prompt")
 generation_chain = prompt | llm | StrOutputParser()

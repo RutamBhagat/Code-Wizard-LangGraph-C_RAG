@@ -1,6 +1,6 @@
 from langchain.prompts import ChatPromptTemplate
 from langchain_core.pydantic_v1 import BaseModel, Field
-from langchain_openai import ChatOpenAI
+from langchain_groq import ChatGroq
 
 
 class GradeDocuments(BaseModel):
@@ -14,7 +14,7 @@ class GradeDocuments(BaseModel):
     )
 
 
-llm = ChatOpenAI(temperature=0)
+llm = ChatGroq(temperature=0, model="llama3-70b-8192")
 
 structured_llm_grader = llm.with_structured_output(GradeDocuments)
 
