@@ -9,9 +9,6 @@ class GradeDocuments(BaseModel):
     is_document_relevant: bool = Field(
         description="Documents are relevant to the question, 'True' or 'False'"
     )
-    explaination: str = Field(
-        description="Explaination of why the document is relevent or not"
-    )
 
 
 llm = ChatGroq(temperature=0, model_name="mixtral-8x7b-32768", max_tokens=32768)
@@ -20,7 +17,7 @@ structured_llm_grader = llm.with_structured_output(GradeDocuments)
 
 system = """Your task is to determine the relevance of a retrieved document to a user's question.
             If the document mentions key terms, concepts, or contextual information related to the question, consider the document relevant, even if it does not explicitly answer the question.
-            Reply with 'True' or 'False' to indicate the document's relevance. Along with the short explaination of why the document is relevent or not"""
+            Reply with 'True' or 'False' to indicate the document's relevance."""
 
 grade_prompt = ChatPromptTemplate.from_messages(
     [
