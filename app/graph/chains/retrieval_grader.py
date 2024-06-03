@@ -23,10 +23,10 @@ To consider a document relevant, it should provide explicit instructions, steps,
 Mentioning the key terms or concepts alone is not enough; the context should be about the process or task described in the question.
 Additionally, consider synonyms, paraphrases, or alternative phrasings of the key terms or concepts, as well as descriptions or explanations that provide the necessary information to answer the question, even if they don't use the exact terms.
 
-2. If you determine the document is relevant (True), use the information in the document to provide a detailed answer to the original question.
+2. If you determine the document is relevant (True), use the information in the document to provide a explaination as to why.
 
 Reply with 'True' or 'False' to indicate the document's relevance, followed by a brief explanation for your decision.
-If the document is relevant (True), also provide a detailed answer to the original question based on the information in the document."""
+If the document is relevant (True), also provide a explaination as to why based on the information in the document."""
 
 
 grade_prompt = ChatPromptTemplate.from_messages(
