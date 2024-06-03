@@ -14,14 +14,14 @@ from app.graph.chains.hallucination_grader import (
 )
 
 
-# def test_retrival_grader_answer_yes() -> None:
-#     question = "Agent Memory?"
-#     docs = retriever.invoke(question)
-#     doc_text = docs[0].page_content
-#     res: GradeDocuments = retrieval_grader.invoke(
-#         {"question": question, "document": doc_text}
-#     )
-#     assert res.is_document_relevant == True
+def test_retrival_grader_answer_yes() -> None:
+    question = "LangChain Expression Language"
+    docs = retriever.invoke(question)
+    doc_text = docs[0].page_content
+    res: GradeDocuments = retrieval_grader.invoke(
+        {"question": question, "document": doc_text}
+    )
+    assert res.is_document_relevant == True
 
 
 def test_retrival_grader_answer_no() -> None:
@@ -35,44 +35,44 @@ def test_retrival_grader_answer_no() -> None:
     assert res.is_document_relevant == False
 
 
-# def test_generation_chain() -> None:
-#     question = "Agent Memory?"
-#     docs = retriever.invoke(question)
-#     generation = generation_chain.invoke({"context": docs, "question": question})
-#     # pprint(generation)
+def test_generation_chain() -> None:
+    question = "Agent Memory?"
+    docs = retriever.invoke(question)
+    generation = generation_chain.invoke({"context": docs, "question": question})
+    # pprint(generation)
 
 
-# def test_hallucination_grader_answer_yes() -> None:
-#     question = "Agent Memory?"
-#     docs = retriever.invoke(question)
+def test_hallucination_grader_answer_yes() -> None:
+    question = "Agent Memory?"
+    docs = retriever.invoke(question)
 
-#     generation = generation_chain.invoke({"context": docs, "question": question})
-#     res: GradeHallucinations = hallucination_grader.invoke(
-#         {"documents": docs, "generation": generation}
-#     )
-#     assert res.is_grounded == True
-
-
-# def test_hallucination_grader_answer_no() -> None:
-#     question = "Agent Memory?"
-#     docs = retriever.invoke(question)
-
-#     res: GradeHallucinations = hallucination_grader.invoke(
-#         {
-#             "documents": docs,
-#             "generation": "As an OpenAI model I can not answer that question",
-#         }
-#     )
-#     assert res.is_grounded == False
+    generation = generation_chain.invoke({"context": docs, "question": question})
+    res: GradeHallucinations = hallucination_grader.invoke(
+        {"documents": docs, "generation": generation}
+    )
+    assert res.is_grounded == True
 
 
-# def test_router_to_vectorstore() -> None:
-#     question = "Agent Memory?"
-#     res = question_router.invoke({"question": question})
-#     assert res.datasource == "vectorstore"
+def test_hallucination_grader_answer_no() -> None:
+    question = "Agent Memory?"
+    docs = retriever.invoke(question)
+
+    res: GradeHallucinations = hallucination_grader.invoke(
+        {
+            "documents": docs,
+            "generation": "As an OpenAI model I can not answer that question",
+        }
+    )
+    assert res.is_grounded == False
 
 
-# def test_router_to_websearch() -> None:
-#     question = "Who is Harrison Chase?"
-#     res = question_router.invoke({"question": question})
-#     assert res.datasource == "web_search"
+def test_router_to_vectorstore() -> None:
+    question = "Agent Memory?"
+    res = question_router.invoke({"question": question})
+    assert res.datasource == "vectorstore"
+
+
+def test_router_to_websearch() -> None:
+    question = "Who is Harrison Chase?"
+    res = question_router.invoke({"question": question})
+    assert res.datasource == "web_search"

@@ -16,9 +16,18 @@ llm = ChatOpenAI(temperature=0)
 
 structured_llm_grader = llm.with_structured_output(GradeDocuments)
 
-system = """Your task is to determine the relevance of a retrieved document to a user's question.
-            If the document mentions key terms, concepts, or contextual information related to the question, consider the document relevant, even if it does not explicitly answer the question.
-            Reply with 'True' or 'False' to indicate the document's relevance. Also explain why you made your decision."""
+system = """Your task is two-fold:
+
+1. Determine the relevance of a retrieved document to a user's question. 
+To consider a document relevant, it should provide explicit instructions, steps, or procedural information directly related to the key terms or concepts mentioned in the question.
+Mentioning the key terms or concepts alone is not enough; the context should be about the process or task described in the question.
+Additionally, consider synonyms, paraphrases, or alternative phrasings of the key terms or concepts, as well as descriptions or explanations that provide the necessary information to answer the question, even if they don't use the exact terms.
+
+2. If you determine the document is relevant (True), use the information in the document to provide a detailed answer to the original question.
+
+Reply with 'True' or 'False' to indicate the document's relevance, followed by a brief explanation for your decision.
+If the document is relevant (True), also provide a detailed answer to the original question based on the information in the document."""
+
 
 grade_prompt = ChatPromptTemplate.from_messages(
     [
@@ -30,14 +39,9 @@ grade_prompt = ChatPromptTemplate.from_messages(
 retrieval_grader = grade_prompt | structured_llm_grader
 
 if __name__ == "__main__":
-    question = "Agent Memory"
-    doc_text = """They also discussed the risks, especially with illicit drugs and bioweapons. They developed a test set containing a list of known chemical weapon agents and asked the agent to synthesize them. 4 out of 11 requests (36%) were accepted to obtain a synthesis solution and the agent attempted to consult documentation to execute the procedure. 7 out of 11 were rejected and among these 7 rejected cases, 5 happened after a Web search while 2 were rejected based on prompt only.
-                    Generative Agents Simulation#
-                    Generative Agents (Park, et al. 2023) is super fun experiment where 25 virtual characters, each controlled by a LLM-powered agent, are living and interacting in a sandbox environment, inspired by The Sims. Generative agents create believable simulacra of human behavior for interactive applications.
-                    The design of generative agents combines LLM with memory, planning and reflection mechanisms to enable agents to behave conditioned on past experience, as well as to interact with other agents.
-
-                    Memory stream: is a long-term memory module (external database) that records a comprehensive list of agents’ experience in natural language.
-                """
+    # question = "LangChain Expression Language"
+    question = "How to make pizza"
+    doc_text = """LangChain Expression Language, or LCEL, is a declarative way to chain LangChain components. LCEL was designed from day 1 to support putting prototypes in production, with no code changes, from the simplest “prompt + LLM” chain to the most complex chains (we’ve seen folks successfully run LCEL chains with 100s of steps in production). To highlight a few of the reasons you might want to use LCEL:"""
     res: GradeDocuments = retrieval_grader.invoke(
         {"question": question, "document": doc_text}
     )
