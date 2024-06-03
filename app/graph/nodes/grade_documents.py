@@ -26,10 +26,10 @@ def grade_documents(state: GraphState) -> Dict[str, Any]:
         [{"question": question, "document": doc} for doc in documents]
     )
 
-    for grade in grades:
+    for index, grade in enumerate(grades):
         if grade.is_document_relevant:
             print("GRADE: Document is relevant")
-            filtered_docs.append(grade.document)
+            filtered_docs.append(documents[index])
         else:
             print("GRADE: Document is not relevant")
             is_web_search_needed = True
