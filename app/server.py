@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
-from langserve import add_routes
 from dotenv import load_dotenv, find_dotenv
+from langserve import add_routes
 from app.graph.graph import c_rag_app
 
 _ = load_dotenv(find_dotenv())
