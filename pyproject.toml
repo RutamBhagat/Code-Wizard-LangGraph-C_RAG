@@ -26,6 +26,8 @@ langchain-pinecone = "^0.1.1"
 pinecone = "^4.0.0"
 markdown = "^3.6"
 langchain-groq = "^0.1.4"
+pytest-xdist = "^3.6.1"
+python-dotenv = "^1.0.1"
 
 
 [tool.poetry.group.dev.dependencies]

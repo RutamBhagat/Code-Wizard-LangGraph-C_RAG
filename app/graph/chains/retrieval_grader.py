@@ -9,6 +9,7 @@ class GradeDocuments(BaseModel):
     is_document_relevant: bool = Field(
         description="Documents are relevant to the question, 'True' or 'False'"
     )
+    explaination: str = Field(description="Explanation of the relevance check")
 
 
 llm = ChatOpenAI(temperature=0)
@@ -17,7 +18,7 @@ structured_llm_grader = llm.with_structured_output(GradeDocuments)
 
 system = """Your task is to determine the relevance of a retrieved document to a user's question.
             If the document mentions key terms, concepts, or contextual information related to the question, consider the document relevant, even if it does not explicitly answer the question.
-            Reply with 'True' or 'False' to indicate the document's relevance."""
+            Reply with 'True' or 'False' to indicate the document's relevance. Also explain why you made your decision."""
 
 grade_prompt = ChatPromptTemplate.from_messages(
     [

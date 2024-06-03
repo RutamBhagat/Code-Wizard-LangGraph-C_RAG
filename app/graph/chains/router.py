@@ -16,23 +16,45 @@ class RouteQuery(BaseModel):
 llm = ChatOpenAI(temperature=0)
 structured_llm_router = llm.with_structured_output(RouteQuery)
 
-system_prompt = """Option 1 (vectorstore): A vectorstore with a large collection of documents about LangChain. LangChain is a framework for building applications using large language models (LLMs). The vectorstore contains:
-- Overview and intro to LangChain
-- Tutorials and guides for building LLM apps with LangChain
-- Explanations of key LangChain components and concepts  
-- API documentation for LangChain's Python libraries
-- Info on LangChain's ecosystem like LangSmith, LangGraph, LangServe
-- Security best practices for using LangChain
-- Details on integrating third-party tools with LangChain
-- Guidelines for contributing to LangChain
+system_prompt = """
+You are an expert at routing a user question to a vectorstore or web search.
+The vectorstore is related to LangChain and it provides information about the following topics:
+<<<
+    Components: These are composable tools and integrations for working with language models. They are modular and easy-to-use, whether you are using the rest of the LangChain framework or not. Some of the main components include:
+        Model I/O: Formatting and managing language model input and output.
+        Prompts: Formatting for LLM inputs that guide generation.
+        Chat models: Interfaces for language models that use chat messages as inputs and returns chat messages as outputs.
+        LLMs: Interfaces for language models that use plain text as input and output.
+        Retrieval: Interface with application-specific data for e.g. RAG.
+        Document loaders: Load data from a source as Documents for later processing.
+        Text splitters: Transform source documents to better suit your application.
+        Embedding models: Create vector representations of a piece of text, allowing for natural language search.
+        Vectorstores: Interfaces for specialized databases that can search over unstructured data with natural language.
+        Retrievers: More generic interfaces that return documents given an unstructured query.
+        Composition: Higher-level components that combine other arbitrary systems and/or or LangChain primitives together.
+        Tools: Interfaces that allow an LLM to interact with external systems.
+        Agents: Constructs that choose which tools to use given high-level directives.
+        Chains: Building block-style compositions of other runnables.
+        Memory: Persist application state between runs of a chain.
+        Callbacks: Log and stream intermediate steps of any chain. (source (https://python.langchain.com/v0.1/docs/modules/))
 
-Option 2 (web_search): Access to search the vast information on the internet.
+    Off-the-shelf chains: These are built-in assemblages of components for accomplishing higher-level tasks. They make it easy to get started and customize existing chains and build new ones. (source (https://python.langchain.com/v0.1/docs/integrations/document_loaders/tomarkdown/))
 
-Your job is to carefully read each user's question. Then decide if the vectorstore or web search is the best place to find a relevant and accurate answer. Use the vectorstore for questions related to LangChain, since it has reliable LangChain documentation. 
 
-But if the question is not about LangChain or not covered in the vectorstore, use web searches to find trustworthy sources to answer it effectively.
+    LangChain Libraries: The LangChain libraries themselves are made up of several different packages:
+        langchain-core: Base abstractions and LangChain Expression Language.
+        langchain-community: Third party integrations.
+        langchain: Chains, agents, and retrieval strategies that make up an application's cognitive architecture.
+        langgraph: An extension of langchain aimed at building robust and stateful multi-actor applications with LLMs by modeling steps as edges and nodes in a graph.
+        langserve: A package to deploy LangChain chains as REST APIs. (source (https://python.langchain.com/v0.2/docs/concepts/))
 
-Use the vectorstore first for LangChain questions. Only use web searches when needed for questions the vectorstore can't fully answer.
+
+    LangChain Expression Language (LCEL): LCEL is a declarative way to compose chains. It was designed from day 1 to support putting prototypes in production, with no code changes, from the simplest “prompt + LLM” chain to the most complex chains. (source (https://python.langchain.com/v0.1/docs/integrations/document_loaders/tomarkdown/))
+
+
+Please note that these are just the main components and packages. LangChain also provides many other features and tools to help you build powerful applications. For more detailed information, you might want to check the LangChain documentation.
+>>>
+Use the vectorstore for questions on these topics. For other questions, use the web search.
 """
 
 
