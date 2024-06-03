@@ -15,7 +15,7 @@ from app.graph.chains.hallucination_grader import (
 
 
 def test_retrival_grader_answer_yes() -> None:
-    question = "LangChain Expression Language"
+    question = "LangChain Expression Language?"
     docs = retriever.invoke(question)
     doc_text = docs[0].page_content
     res: GradeDocuments = retrieval_grader.invoke(
@@ -31,19 +31,19 @@ def test_retrival_grader_answer_no() -> None:
     res: GradeDocuments = retrieval_grader.invoke(
         {"question": question, "document": doc_text}
     )
-    pprint(res)
+    # pprint(res)
     assert res.is_document_relevant == False
 
 
 def test_generation_chain() -> None:
-    question = "Agent Memory?"
+    question = "LangChain Expression Language?"
     docs = retriever.invoke(question)
     generation = generation_chain.invoke({"context": docs, "question": question})
     # pprint(generation)
 
 
 def test_hallucination_grader_answer_yes() -> None:
-    question = "Agent Memory?"
+    question = "LangChain Expression Language?"
     docs = retriever.invoke(question)
 
     generation = generation_chain.invoke({"context": docs, "question": question})
@@ -54,7 +54,7 @@ def test_hallucination_grader_answer_yes() -> None:
 
 
 def test_hallucination_grader_answer_no() -> None:
-    question = "Agent Memory?"
+    question = "LangChain Expression Language?"
     docs = retriever.invoke(question)
 
     res: GradeHallucinations = hallucination_grader.invoke(
@@ -67,7 +67,7 @@ def test_hallucination_grader_answer_no() -> None:
 
 
 def test_router_to_vectorstore() -> None:
-    question = "Agent Memory?"
+    question = "LangChain Expression Language?"
     res = question_router.invoke({"question": question})
     assert res.datasource == "vectorstore"
 
