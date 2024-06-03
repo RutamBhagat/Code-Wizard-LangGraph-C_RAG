@@ -16,15 +16,10 @@ llm = ChatOpenAI(temperature=0)
 
 structured_llm_grader = llm.with_structured_output(GradeHallucinations)
 
-system = """Your task is two-fold:
-
-1. Assess whether an LLM generation is grounded in / supported by a set of documents or facts.
+system = """Assess whether an LLM generation is grounded in / supported by a set of documents or facts.
 To consider the generation grounded, it should be consistent with and supported by the information provided in the set of documents or facts, without introducing any new unsupported information or contradicting the given facts.
 
-2. If you determine the generation is grounded (True), use the information in the set of documents or facts to provide a detailed and comprehensive answer that incorporates all relevant information from the given facts.
-
-Reply with 'True' or 'False' to indicate whether the generation is grounded, followed by a brief explanation for your decision.
-If the generation is grounded (True)"""
+Reply with 'True' or 'False' to indicate is_generation_grounded."""
 
 hallucination_prompt = ChatPromptTemplate.from_messages(
     [
