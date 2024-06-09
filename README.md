@@ -43,9 +43,6 @@ Building Code Wizard was an incredible learning experience that taught me so muc
 
 Check out these example conversations with Code Wizard:
 
-**Understanding Langchain agents:**
-![image](https://github.com/RutamBhagat/code_wizard_backend/assets/72187009/c712f75d-00dd-4c15-a8f9-034c55f43b28)
-
 **What is Langchain:**
 ![Screenshot 2024-04-27 095418](https://github.com/RutamBhagat/code_wizard_backend/assets/72187009/38f3bcd2-e135-487b-a81e-5563302f7b04)
 
