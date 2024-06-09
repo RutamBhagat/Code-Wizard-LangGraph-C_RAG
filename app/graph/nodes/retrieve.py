@@ -1,5 +1,5 @@
 from typing import Any, Dict
-from langchain.prompts import ChatPromptTemplate
+from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.output_parsers import StrOutputParser
 from langchain_openai import ChatOpenAI
 from langchain.load import dumps, loads
@@ -49,7 +49,12 @@ By generating multiple perspectives on the user question, your goal is to help
 the user overcome some of the limitations of the distance-based similarity search. 
 Provide these alternative questions separated by newlines. 
 Original question: {question}."""
-prompt_perspectives = ChatPromptTemplate.from_template(template)
+prompt_perspectives = ChatPromptTemplate.from_messages(
+    [
+        ("system", template),
+        MessagesPlaceholder(variable_name="chat_history"),
+    ]
+)
 
 
 generate_queries = (

@@ -1,4 +1,4 @@
-from langchain.prompts import ChatPromptTemplate
+from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.pydantic_v1 import BaseModel, Field
 from langchain_core.runnables import RunnableSequence
 from langchain_openai import ChatOpenAI
@@ -16,17 +16,19 @@ llm = ChatOpenAI(temperature=0)
 
 structured_llm_grader = llm.with_structured_output(GradeAnswer)
 
-system = """You are a grader assessing whether an answer addresses / resolves a question while taking into account the chat history context.
+template = """You are a grader assessing whether an answer addresses / resolves a question while taking into account the chat history context.
             Give a boolean value 'True' or 'False'. 'True" means that the answer resolves the question"""
 
 answer_prompt = ChatPromptTemplate.from_messages(
     [
-        ("system", system),
+        ("system", template),
+        MessagesPlaceholder(variable_name="chat_history"),
         (
-            "human",
-            "Users Question: \n\n {question} \n\n Chat History: {chat_history} LLM generation: {generation}",
+            "user",
+            "Users Question: \n\n {question} \n\n LLM generation: {generation}",
         ),
     ]
 )
+
 
 answer_grader: RunnableSequence = answer_prompt | structured_llm_grader

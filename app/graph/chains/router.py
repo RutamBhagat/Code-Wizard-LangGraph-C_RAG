@@ -1,4 +1,5 @@
 from typing import Literal
+from langchain.prompts import MessagesPlaceholder
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.pydantic_v1 import BaseModel, Field
 from langchain_openai import ChatOpenAI
@@ -16,7 +17,7 @@ class RouteQuery(BaseModel):
 llm = ChatOpenAI(temperature=0)
 structured_llm_router = llm.with_structured_output(RouteQuery)
 
-system_prompt = """
+template = """
 You are an expert at routing a user question to a vectorstore or web search while taking into account the recent chat history context.
 The vectorstore is related to LangChain and it provides information about the following topics:
 <<<
@@ -60,9 +61,11 @@ Use the vectorstore for questions on these topics. For other questions, use the 
 
 router_prompt = ChatPromptTemplate.from_messages(
     [
-        ("system", system_prompt),
-        ("human", "Question: {question} \n\n Chat history: {chat_history}"),
+        ("system", template),
+        MessagesPlaceholder(variable_name="chat_history"),
+        ("human", "Question: {question}"),
     ]
 )
+
 
 question_router = router_prompt | structured_llm_router
