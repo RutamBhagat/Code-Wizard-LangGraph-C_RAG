@@ -2,6 +2,7 @@ import os
 import asyncio
 import time
 from dotenv import load_dotenv, find_dotenv
+from langchain_core.messages import HumanMessage
 from app.graph.graph import c_rag_app
 
 load_dotenv(find_dotenv())
@@ -9,7 +10,8 @@ load_dotenv(find_dotenv())
 
 async def get_response(message):
     start_time = time.time()
-    res = await c_rag_app.ainvoke(input={"question": message})
+    chat_history = [HumanMessage(content=message)]
+    res = await c_rag_app.ainvoke(input={"chat_history": chat_history})
     end_time = time.time()
     time_taken = end_time - start_time
     return message, res, time_taken

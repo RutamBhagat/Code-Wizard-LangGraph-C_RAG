@@ -40,11 +40,15 @@ def reciprocal_rank_fusion(results: list[list], k=60):
 
 
 # Multi Query: Different Perspectives
-template = """You are an AI language model assistant. Your task is to generate three 
+template = """You are an AI language model assistant. 
+Chat History for context: {chat_history}.
+Your task is to generate three 
 different versions of the given user question to retrieve relevant documents from a vector 
-database. By generating multiple perspectives on the user question, your goal is to help
+database. Go through the chat history for addtional context. 
+By generating multiple perspectives on the user question, your goal is to help
 the user overcome some of the limitations of the distance-based similarity search. 
-Provide these alternative questions separated by newlines. Original question: {question}"""
+Provide these alternative questions separated by newlines. 
+Original question: {question}."""
 prompt_perspectives = ChatPromptTemplate.from_template(template)
 
 
@@ -58,27 +62,29 @@ generate_queries = (
 
 def retrieve(state: GraphState) -> Dict[str, Any]:
     print("Retrieving data...")
-    question = state.question
+    question = state.chat_history[-1].content
     print("Question: ", question)
     retrieval_chain_rag_fusion = (
         generate_queries | retriever.map() | reciprocal_rank_fusion
     )
-    documents = retrieval_chain_rag_fusion.invoke({"question": question})
+    documents = retrieval_chain_rag_fusion.invoke(
+        {"question": question, "chat_history": chat_history}
+    )
     print("Length of Retrieved Documents: ", len(documents))
     # only take top 4 documents because of the limited context window
     # if the length of documents is less than 4 then take all
     documents = documents[:4] if len(documents) > 4 else documents
     print("Length of Top Retrieved Documents: ", len(documents))
-    return {"documents": documents, "question": question}
+    return {"documents": documents}
 
 
 if __name__ == "__main__":
+    from langchain_core.messages import HumanMessage
+
+    chat_history = [HumanMessage(content="What is Agent Memory?")]
     res = retrieve(
         {
-            "question": "What is Agent Memory?",
-            "generation": "",
-            "is_web_search_needed": False,
-            "documents": [],
+            "chat_history": chat_history,
         }
     )
     print(res)
