@@ -25,7 +25,7 @@ def decide_to_generate(state) -> str:
 
 def grade_generation_grounded_in_documents_and_question(state: GraphState) -> str:
     print("Assessing if the generation is grounded in the documents and question.")
-    question = state.question
+    question = state.chat_history[-1].content
     documents = state.documents
     generation = state.generation
 
@@ -38,7 +38,11 @@ def grade_generation_grounded_in_documents_and_question(state: GraphState) -> st
         print("---GRADE GENERATION vs QUESTION---")
 
         is_answer_valid = answer_grader.invoke(
-            {"question": question, "generation": generation}
+            {
+                "question": question,
+                "chat_history": state.chat_history,
+                "generation": generation,
+            }
         ).is_answer_valid
 
         if is_answer_valid:

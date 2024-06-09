@@ -16,13 +16,16 @@ llm = ChatOpenAI(temperature=0)
 
 structured_llm_grader = llm.with_structured_output(GradeAnswer)
 
-system = """You are a grader assessing whether an answer addresses / resolves a question.
+system = """You are a grader assessing whether an answer addresses / resolves a question while taking into account the chat history context.
             Give a boolean value 'True' or 'False'. 'True" means that the answer resolves the question"""
 
 answer_prompt = ChatPromptTemplate.from_messages(
     [
         ("system", system),
-        ("human", "Users Question: \n\n {question} \n\n LLM generation: {generation}"),
+        (
+            "human",
+            "Users Question: \n\n {question} \n\n Chat History: {chat_history} LLM generation: {generation}",
+        ),
     ]
 )
 

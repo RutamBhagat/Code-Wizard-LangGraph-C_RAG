@@ -28,7 +28,7 @@ def web_search(state: GraphState) -> Dict[str, Any]:
         web_results = Document(page_content=joined_tavily_results)
         documents.append(web_results)
 
-    return {"documents": documents, "question": question}
+    return {"documents": documents}
 
 
 if __name__ == "__main__":
