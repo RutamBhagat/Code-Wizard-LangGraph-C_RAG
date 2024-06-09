@@ -1,0 +1,1 @@
+[{"content": "What are the key features of LCEL that make it beneficial for building apps with LLMs?", "additional_kwargs": {}, "response_metadata": {}, "type": "human", "name": null, "id": null, "example": false}]
