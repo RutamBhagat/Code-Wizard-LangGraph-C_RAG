@@ -10,8 +10,11 @@ load_dotenv(find_dotenv())
 
 async def get_response(message):
     start_time = time.time()
+    question = message
     chat_history = [HumanMessage(content=message)]
-    res = await c_rag_app.ainvoke(input={"chat_history": chat_history})
+    res = await c_rag_app.ainvoke(
+        input={"question": question, "chat_history": chat_history}
+    )
     end_time = time.time()
     time_taken = end_time - start_time
     return message, res, time_taken

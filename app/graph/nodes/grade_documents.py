@@ -16,7 +16,7 @@ def grade_documents(state: GraphState) -> Dict[str, Any]:
     """
 
     print("Checking the relevance of the retrieved documents to the question")
-    question = state.chat_history[-1].content
+    question = state.question
     documents = state.documents
     chat_history = state.chat_history
 

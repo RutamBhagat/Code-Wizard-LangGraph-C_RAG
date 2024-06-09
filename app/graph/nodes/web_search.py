@@ -12,7 +12,7 @@ web_search_tool = TavilySearchResults(max_results=3)
 
 def web_search(state: GraphState) -> Dict[str, Any]:
     print("Searching the web for additional context...")
-    question = state.chat_history[-1].content
+    question = state.question
     documents = state.documents or []  # Handle None case
 
     tavily_results = web_search_tool.invoke({"query": question})

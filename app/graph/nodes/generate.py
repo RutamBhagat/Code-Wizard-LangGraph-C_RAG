@@ -5,7 +5,7 @@ from app.graph.state import GraphState
 
 def generate(state: GraphState) -> Dict[str, Any]:
     print("Generating answer...")
-    question = state.chat_history[-1].content
+    question = state.question
     documents = state.documents
     chat_history = state.chat_history
     print("Length of Documents: ", len(documents))
