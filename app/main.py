@@ -22,11 +22,11 @@ async def get_response(message):
 
 async def main():
     messages = [
-        # "What is the purpose of the LangChain framework?",
+        "What is the purpose of the LangChain framework?",
         "What is Retrieval Augmented Generation (RAG)?",
-        # "What are the core features of chatbots?",
-        # "What are the two main ways to use tools in LangChain?",
-        # "What are the key features of LCEL that make it beneficial for building apps with LLMs?",
+        "What are the core features of chatbots?",
+        "What are the two main ways to use tools in LangChain?",
+        "What are the key features of LCEL that make it beneficial for building apps with LLMs?",
     ]
     print("Hello C_RAG with LangGraph")
     coroutines = [get_response(message) for message in messages]
