@@ -12,7 +12,7 @@ web_search_tool = TavilySearchResults(max_results=3)
 
 def web_search(state: GraphState) -> Dict[str, Any]:
     print("Searching the web for additional context...")
-    question = state.question
+    question = state.chat_history[-1].content
     documents = state.documents or []  # Handle None case
 
     tavily_results = web_search_tool.invoke({"query": question})
@@ -32,4 +32,7 @@ def web_search(state: GraphState) -> Dict[str, Any]:
 
 
 if __name__ == "__main__":
-    web_search(state={"question": "agent memory", "documents": None})
+    from langchain_core.messages import HumanMessage
+
+    chat_history = [HumanMessage(content="What is Agent Memory?")]
+    web_search(state={"chat_history": chat_history})
