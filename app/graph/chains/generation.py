@@ -1,3 +1,4 @@
+from langchain.prompts import PromptTemplate
 from langchain.schema import StrOutputParser
 from langchain_openai import ChatOpenAI
 
@@ -11,4 +12,5 @@ Question: {question}
 Chat History: {chat_history}
 Context: {context}
 Answer:"""
+prompt = PromptTemplate.from_template(prompt)
 generation_chain = prompt | llm | StrOutputParser()
