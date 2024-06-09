@@ -54,8 +54,11 @@ def grade_generation_grounded_in_documents_and_question(state: GraphState) -> st
 
 def route_question(state: GraphState) -> str:
     print("____ROUTE QUESTION____")
-    question = state.question
-    source: RouteQuery = question_router.invoke({"question": question})
+    question = state.chat_history[-1].content
+    chat_history = state.chat_history
+    source: RouteQuery = question_router.invoke(
+        {"question": question, "chat_history": chat_history}
+    )
     if source.datasource == "web_search":
         return WEB_SEARCH
     else:

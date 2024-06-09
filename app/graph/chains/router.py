@@ -17,7 +17,7 @@ llm = ChatOpenAI(temperature=0)
 structured_llm_router = llm.with_structured_output(RouteQuery)
 
 system_prompt = """
-You are an expert at routing a user question to a vectorstore or web search.
+You are an expert at routing a user question to a vectorstore or web search while taking into account the recent chat history context.
 The vectorstore is related to LangChain and it provides information about the following topics:
 <<<
     Components: These are composable tools and integrations for working with language models. They are modular and easy-to-use, whether you are using the rest of the LangChain framework or not. Some of the main components include:
@@ -59,7 +59,10 @@ Use the vectorstore for questions on these topics. For other questions, use the 
 
 
 router_prompt = ChatPromptTemplate.from_messages(
-    [("system", system_prompt), ("human", "{question}")]
+    [
+        ("system", system_prompt),
+        ("human", "Question: {question} \n\n Chat history: {chat_history}"),
+    ]
 )
 
 question_router = router_prompt | structured_llm_router

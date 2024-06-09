@@ -15,7 +15,7 @@ llm = ChatOpenAI(temperature=0)
 
 structured_llm_grader = llm.with_structured_output(GradeDocuments)
 
-system = """Determine the relevance of a retrieved document to a user's question along with the context of the conversation (chat history).
+system = """Determine the relevance of a retrieved document to a user's question while taking into account the recent chat history context.
 To consider a document relevant, it should provide explicit instructions, steps, or procedural information directly related to the key terms or concepts mentioned in the question or the recent chat history.
 Mentioning the key terms or concepts alone is not enough; the context should be about the process or task described in the question.
 Additionally, consider synonyms, paraphrases, or alternative phrasings of the key terms or concepts, as well as descriptions or explanations that provide the necessary information to answer the question, even if they don't use the exact terms. 

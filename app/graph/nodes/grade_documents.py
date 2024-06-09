@@ -5,7 +5,7 @@ from app.graph.chains.retrieval_grader import retrieval_grader
 
 
 def grade_documents(state: GraphState) -> Dict[str, Any]:
-    """Determines whether the retrieved documents are relevant to the question along with the context of the conversation (chat history).
+    """Determines whether the retrieved documents are relevant to the question while taking into account the recent chat history context.
     If any document is not relevant we will set a flag to run web search
 
     Args:
