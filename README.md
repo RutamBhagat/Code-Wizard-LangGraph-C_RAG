@@ -1,80 +1,53 @@
-# C_RAG
+# Code Wizard: LangChain Documentation AI Chatbot
 
-## Installation
+Code Wizard is a super cool AI chatbot that helps you learn and use the LangChain Documentation in an interactive way. Just ask it anything about LangChain concepts or code, and it'll break it down for you in an easy-to-understand way. Built with Next.js, FastAPI, LangChain, LangGraph, LCEL, and ChatOpenAI which can be easily switched a local LLaMA model.
 
-Install the LangChain CLI if you haven't yet
+**Link to project:** https://code-wizard-frontend.vercel.app/
 
-```bash
-pip install -U langchain-cli
-```
+**Frontend Repo:** https://github.com/RutamBhagat/code_wizard_frontend
 
-## Adding packages
+**Backend Repo:** https://github.com/RutamBhagat/Code-Wizard-LangGraph-C_RAG
 
-```bash
-# adding packages from 
-# https://github.com/langchain-ai/langchain/tree/master/templates
-langchain app add $PROJECT_NAME
+https://github.com/RutamBhagat/code_wizard_frontend/assets/72187009/353ced90-f408-44ae-b633-c30f20dbd28f
 
-# adding custom GitHub repo packages
-langchain app add --repo $OWNER/$REPO
-# or with whole git string (supports other git providers):
-# langchain app add git+https://github.com/hwchase17/chain-of-verification
+## How It's Made
 
-# with a custom api mount point (defaults to `/{package_name}`)
-langchain app add $PROJECT_NAME --api_path=/my/custom/path/rag
-```
+**Tech used:** LangChain, LangGraph, LCEL, LLaMA, Next.js, Typescript, FastAPI
 
-Note: you remove packages by their api path
+Code Wizard is a full-stack app that combines some cutting edge tech. The front-end is built with Next.js and React, which makes it fast and snappy. The back-end uses FastAPI to host the LangChain and LangGraph pipelines and APIs.
 
-```bash
-langchain app remove my/custom/path/rag
-```
+The core is powered by LangChain, which lets us build cool applications with large language models like ChatOpenAI. Code Wizard takes the LangChain documentation, chunks it up, and stores it in a vector database using embeddings.
 
-## Setup LangSmith (Optional)
-LangSmith will help us trace, monitor and debug LangChain applications. 
-You can sign up for LangSmith [here](https://smith.langchain.com/). 
-If you don't have access, you can skip this section
+When you ask Code Wizard a question, it uses a LangGraph DAG to search the vector database for relevant doc chunks. It then generates a response by combining those chunks with the ChatOpenAI.
 
+The front-end has a slick chat interface built with React, so you can have natural conversations with the AI. It also renders Markdown and code snippets nicely.
 
-```shell
-export LANGCHAIN_TRACING_V2=true
-export LANGCHAIN_API_KEY=<your-api-key>
-export LANGCHAIN_PROJECT=<your-project>  # if not specified, defaults to "default"
-```
+## Optimizations
 
-## Launch LangServe
+To make Code Wizard performant and scalable, it uses some cool optimizations:
 
-```bash
-langchain serve
-```
+1. **Caching**: Frequently asked questions and their responses are cached to improve latency.
+2. **Streaming Response**: The LangChain pipelines to stream the response to the user.
+3. **Model Optimization**: Switching the model to a better but more expensive model like gpt-4o.
 
-## Running in Docker
+## Lessons Learned
 
-This project folder includes a Dockerfile that allows you to easily build and host your LangServe app.
+Building Code Wizard was an incredible learning experience that taught me so much about LangChain, LangGraph, LCEL, large language models, and modern web development. Some key lessons:
 
-### Building the Image
+- How to effectively integrate LangChain components like agents, memory, chat history, agent state, nodes, chains, and vector stores.
+- Optimizing LLM performance through techniques like quantization and CPU offloading.
+- Designing intuitive conversational UIs that feel natural and engaging.
+- Leveraging the latest web frameworks like Next.js and FastAPI for building scalable apps.
 
-To build the image, you simply:
+## Examples
 
-```shell
-docker build . -t my-langserve-app
-```
+Check out these example conversations with Code Wizard:
 
-If you tag your image with something other than `my-langserve-app`,
-note it for use in the next step.
+**Understanding Langchain agents:**
+![image](https://github.com/RutamBhagat/code_wizard_backend/assets/72187009/c712f75d-00dd-4c15-a8f9-034c55f43b28)
 
-### Running the Image Locally
+**What is Langchain:**
+![Screenshot 2024-04-27 095418](https://github.com/RutamBhagat/code_wizard_backend/assets/72187009/38f3bcd2-e135-487b-a81e-5563302f7b04)
 
-To run the image, you'll need to include any environment variables
-necessary for your application.
-
-In the below example, we inject the `OPENAI_API_KEY` environment
-variable with the value set in my local environment
-(`$OPENAI_API_KEY`)
-
-We also expose port 8080 with the `-p 8080:8080` option.
-
-```shell
-docker run -e OPENAI_API_KEY=$OPENAI_API_KEY -p 8080:8080 my-langserve-app
-```
-# C_RAG
+**Explaining LangChain Expression Language:**
+![Screenshot 2024-04-27 095430](https://github.com/RutamBhagat/code_wizard_backend/assets/72187009/fb16a35e-d619-4332-a3c1-3cc211069c1f)
