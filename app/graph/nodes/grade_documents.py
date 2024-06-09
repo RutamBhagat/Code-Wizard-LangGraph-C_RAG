@@ -1,11 +1,11 @@
 from typing import Any, Dict
 
-from app.graph.chains.retrieval_grader import retrieval_grader
 from app.graph.state import GraphState
+from app.graph.chains.retrieval_grader import retrieval_grader
 
 
 def grade_documents(state: GraphState) -> Dict[str, Any]:
-    """Determines whether the retrieved documents are relevant to the question
+    """Determines whether the retrieved documents are relevant to the question along with the context of the conversation (chat history).
     If any document is not relevant we will set a flag to run web search
 
     Args:
@@ -18,12 +18,16 @@ def grade_documents(state: GraphState) -> Dict[str, Any]:
     print("Checking the relevance of the retrieved documents to the question")
     question = state.chat_history[-1].content
     documents = state.documents
+    chat_history = state.chat_history
 
     filtered_docs = []
     is_web_search_needed = False
 
     grades = retrieval_grader.batch(
-        [{"question": question, "document": doc} for doc in documents]
+        [
+            {"question": question, "chat_history": chat_history, "document": doc}
+            for doc in documents
+        ]
     )
 
     for index, grade in enumerate(grades):
@@ -40,5 +44,4 @@ def grade_documents(state: GraphState) -> Dict[str, Any]:
     return {
         "documents": filtered_docs,
         "is_web_search_needed": is_web_search_needed,
-        "question": question,
     }
