@@ -4,6 +4,7 @@ from dotenv import load_dotenv, find_dotenv
 from langserve import add_routes
 from app.api import router as api_router
 from app.graph.graph import c_rag_app
+from app.middleware import cors_middleware
 
 _ = load_dotenv(find_dotenv())
 
@@ -14,6 +15,8 @@ app = FastAPI()
 async def redirect_root_to_docs():
     return RedirectResponse("/docs")
 
+
+cors_middleware.middleware(app)
 
 app.include_router(api_router)
 
