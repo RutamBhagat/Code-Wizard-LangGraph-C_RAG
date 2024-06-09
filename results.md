@@ -1,6 +1,6 @@
-Question: What is the purpose of the LangChain framework?
-Time Taken: 110.31 seconds
-Response: The purpose of the LangChain framework is to simplify the development, productionization, and deployment of applications powered by large language models (LLMs). It provides open-source building blocks, components, and integrations for creating versatile applications that leverage the capabilities of LLMs. LangChain also offers tools like LangSmith for monitoring and optimizing chains to ensure efficient deployment.
+Question: What is Retrieval Augmented Generation (RAG)?
+Time Taken: 48.73 seconds
+Response: Retrieval Augmented Generation (RAG) is a technique that combines large language models (LLMs) and vector stores to enhance information retrieval and generation processes. It involves using a retriever to find relevant information from a vector store and then leveraging an LLM to generate an output based on the retrieved data and a prompt. RAG has gained attention for its ability to expand the capabilities of information retrieval systems.
 
 
 

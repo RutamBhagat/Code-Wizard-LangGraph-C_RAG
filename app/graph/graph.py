@@ -1,4 +1,5 @@
 from dotenv import load_dotenv, find_dotenv
+from langchain_core import chat_history
 from langgraph.graph import END, StateGraph
 
 from app.graph.state import GraphState
@@ -28,9 +29,10 @@ def grade_generation_grounded_in_documents_and_question(state: GraphState) -> st
     question = state.question
     documents = state.documents
     generation = state.generation
+    chat_history = state.chat_history
 
     is_grounded = hallucination_grader.invoke(
-        {"documents": documents, "generation": generation}
+        {"documents": documents, "generation": generation, "chat_history": chat_history}
     ).is_grounded
 
     if is_grounded:
@@ -40,7 +42,7 @@ def grade_generation_grounded_in_documents_and_question(state: GraphState) -> st
         is_answer_valid = answer_grader.invoke(
             {
                 "question": question,
-                "chat_history": state.chat_history,
+                "chat_history": chat_history,
                 "generation": generation,
             }
         ).is_answer_valid
