@@ -63,6 +63,7 @@ generate_queries = (
 def retrieve(state: GraphState) -> Dict[str, Any]:
     print("Retrieving data...")
     question = state.chat_history[-1].content
+    chat_history = state.chat_history
     print("Question: ", question)
     retrieval_chain_rag_fusion = (
         generate_queries | retriever.map() | reciprocal_rank_fusion
