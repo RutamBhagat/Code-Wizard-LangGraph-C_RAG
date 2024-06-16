@@ -1,13 +1,11 @@
-import os
 from dotenv import load_dotenv, find_dotenv
 from pinecone import Pinecone
 
 from langchain_pinecone import PineconeVectorStore
 from langchain_openai import OpenAIEmbeddings
-from langchain_core.documents import Document
 
-from unstructured.chunking.title import chunk_by_title
-from unstructured.partition.md import partition_md
+# from unstructured.chunking.title import chunk_by_title
+# from unstructured.partition.md import partition_md
 
 from app.graph.consts import INDEX_NAME
 
