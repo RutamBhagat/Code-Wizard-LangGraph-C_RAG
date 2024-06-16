@@ -1,6 +1,8 @@
 from dotenv import load_dotenv, find_dotenv
-from langchain_core import chat_history
+from langchain.schema import AIMessage
 from langgraph.graph import END, StateGraph
+from langgraph.checkpoint.sqlite import SqliteSaver
+
 
 from app.graph.state import GraphState
 from app.graph.consts import RETRIEVE, GRADE_DOCUMENTS, GENERATE, WEB_SEARCH
@@ -49,6 +51,9 @@ def grade_generation_grounded_in_documents_and_question(state: GraphState) -> st
 
         if is_answer_valid:
             print("---DECISION: GENERATION ADDRESSES QUESTION---")
+            state.chat_history.append(
+                AIMessage(content=generation)
+            )
             return "useful"
         else:
             print("---DECISION: GENERATION DOES NOT ADDRESS QUESTION---")
@@ -96,5 +101,6 @@ workflow.add_conditional_edges(
 workflow.add_edge(WEB_SEARCH, GENERATE)
 workflow.add_edge(GENERATE, END)
 
-c_rag_app = workflow.compile()
+memory = SqliteSaver.from_conn_string(":memory:")
+c_rag_app = workflow.compile(checkpointer=memory)
 c_rag_app.get_graph().draw_mermaid_png(output_file_path="graph.png")
