@@ -10,6 +10,6 @@ def generate(state: GraphState) -> Dict[str, Any]:
     chat_history = state.chat_history
     print("Length of Documents: ", len(documents))
     generation = generation_chain.invoke(
-        {"context": documents, "question": question, "chat_history": chat_history}
+        {"context": documents, "question": question, "chat_history": chat_history or []}
     )
     return {"generation": generation}

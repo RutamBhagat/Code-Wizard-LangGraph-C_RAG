@@ -74,7 +74,7 @@ def retrieve(state: GraphState) -> Dict[str, Any]:
         generate_queries | retriever.map() | reciprocal_rank_fusion
     )
     documents = retrieval_chain_rag_fusion.invoke(
-        {"question": question, "chat_history": chat_history}
+        {"question": question, "chat_history": chat_history or []}
     )
     print("Length of Retrieved Documents: ", len(documents))
     # only take top 4 documents because of the limited context window

@@ -25,7 +25,7 @@ def grade_documents(state: GraphState) -> Dict[str, Any]:
 
     grades = retrieval_grader.batch(
         [
-            {"question": question, "chat_history": chat_history, "document": doc}
+            {"question": question, "chat_history": chat_history or [], "document": doc}
             for doc in documents
         ]
     )
