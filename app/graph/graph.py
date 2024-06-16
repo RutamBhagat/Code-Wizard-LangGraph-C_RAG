@@ -103,7 +103,6 @@ workflow.add_conditional_edges(
     path_map={"useful": ADD_ANSWER, "not useful": WEB_SEARCH, "not supported": GENERATE},
 )
 workflow.add_edge(WEB_SEARCH, GENERATE)
-workflow.add_edge(GENERATE, END)
 workflow.add_edge(ADD_ANSWER, END)
 
 memory = SqliteSaver.from_conn_string(":memory:")

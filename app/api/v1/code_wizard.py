@@ -3,8 +3,6 @@ import json
 import time
 from fastapi import Body, APIRouter
 from pydantic import BaseModel
-from typing import List
-from langchain_core.messages import HumanMessage, AIMessage
 from app.graph.graph import c_rag_app
 
 router = APIRouter(prefix="/code_wizard", tags=["code_wizard"])

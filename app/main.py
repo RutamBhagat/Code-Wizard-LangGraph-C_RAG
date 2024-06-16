@@ -2,7 +2,6 @@ import os
 import asyncio
 import time
 from dotenv import load_dotenv, find_dotenv
-from langchain_core.messages import HumanMessage
 from app.graph.graph import c_rag_app
 
 load_dotenv(find_dotenv())

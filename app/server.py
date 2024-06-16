@@ -15,10 +15,13 @@ app = FastAPI()
 async def redirect_root_to_docs():
     return RedirectResponse("/docs")
 
-
-cors_middleware.middleware(app)
+app.add_middleware(cors_middleware.middleware())
 
 app.include_router(api_router)
+
+@app.get("/health_check")
+async def health_check():
+    return {"status": "ok"}
 
 
 # Edit this to add the chain you want to add

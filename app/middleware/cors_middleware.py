@@ -1,11 +1,9 @@
-from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 
-def middleware(app: FastAPI):
+def middleware():
     origins = ["*"]
-    app.add_middleware(
-        CORSMiddleware,
+    return CORSMiddleware(
         allow_origins=origins,
         allow_credentials=True,
         allow_methods=["*"],
