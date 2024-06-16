@@ -1,12 +1,12 @@
 from typing import Any, Dict, Sequence
 from dotenv import load_dotenv, find_dotenv
-from langchain.schema import AIMessage, HumanMessage
+from langchain.schema import HumanMessage
 from langgraph.graph import END, StateGraph
 from langgraph.checkpoint.sqlite import SqliteSaver
 
 
 from app.graph.state import GraphState
-from app.graph.consts import RETRIEVE, GRADE_DOCUMENTS, GENERATE, WEB_SEARCH
+from app.graph.consts import RETRIEVE, GRADE_DOCUMENTS, GENERATE, WEB_SEARCH, ADD_ANSWER
 from app.graph.nodes import retrieve, grade_documents, generate, web_search
 from app.graph.chains.hallucination_grader import hallucination_grader
 from app.graph.chains.answer_grader import answer_grader
@@ -52,9 +52,6 @@ def grade_generation_grounded_in_documents_and_question(state: GraphState) -> st
 
         if is_answer_valid:
             print("---DECISION: GENERATION ADDRESSES QUESTION---")
-            state.chat_history.append(
-                AIMessage(content=generation)
-            )
             return "useful"
         else:
             print("---DECISION: GENERATION DOES NOT ADDRESS QUESTION---")
@@ -63,18 +60,10 @@ def grade_generation_grounded_in_documents_and_question(state: GraphState) -> st
         print("---DECISION: GENERATION IS NOT GROUNDED IN DOCUMENTS, RE-TRY---")
         return "not supported"
     
-def define_state_1(state: GraphState) -> Dict[str, Any]:
-    question = state.question
-    chat_history = state.chat_history or Sequence[HumanMessage(content=question)]
-
-    return { "chat_history": chat_history}
-
-
-def define_state_2(state: GraphState) -> Dict[str, Any]:
-    print("____DEFINE STATE____")
-    print("state", state)
-    question = state.question
-    return { "chat_history": HumanMessage(content=question)}
+def add_answer(state: GraphState) -> Dict[str, Any]:
+    print("____ADD ANSWER____")
+    generation = state.generation
+    return { "chat_history": HumanMessage(content=generation)}
 
 
 def route_question(state: GraphState) -> str:
@@ -96,6 +85,7 @@ workflow.add_node(RETRIEVE, retrieve)
 workflow.add_node(GRADE_DOCUMENTS, grade_documents)
 workflow.add_node(GENERATE, generate)
 workflow.add_node(WEB_SEARCH, web_search)
+workflow.add_node(ADD_ANSWER, add_answer)
 
 workflow.set_conditional_entry_point(route_question, path_map={WEB_SEARCH: WEB_SEARCH, RETRIEVE: RETRIEVE}) 
 workflow.add_edge(RETRIEVE, GRADE_DOCUMENTS)
@@ -107,10 +97,11 @@ workflow.add_conditional_edges(
 workflow.add_conditional_edges(
     GENERATE,
     grade_generation_grounded_in_documents_and_question,
-    path_map={"useful": END, "not useful": WEB_SEARCH, "not supported": GENERATE},
+    path_map={"useful": ADD_ANSWER, "not useful": WEB_SEARCH, "not supported": GENERATE},
 )
 workflow.add_edge(WEB_SEARCH, GENERATE)
 workflow.add_edge(GENERATE, END)
+workflow.add_edge(ADD_ANSWER, END)
 
 memory = SqliteSaver.from_conn_string(":memory:")
 c_rag_app = workflow.compile(checkpointer=memory)
