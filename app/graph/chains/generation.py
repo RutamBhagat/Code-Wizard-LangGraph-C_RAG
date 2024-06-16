@@ -1,6 +1,8 @@
+from dotenv import load_dotenv, find_dotenv
+_ = load_dotenv(find_dotenv())
+from langchain_openai import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain.schema import StrOutputParser
-from langchain_openai import ChatOpenAI
 
 llm = ChatOpenAI(temperature=0)
 template = """You are an assistant for question-answering tasks. 

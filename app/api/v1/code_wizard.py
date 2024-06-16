@@ -31,6 +31,7 @@ async def code_wizard(request_body: RequestBody = Body(...)):
         for message in request_body.chat_history
     ]
     question = chat_history[-1].content
+    # This is just for debugging to be removed in production
     with open(os.path.join(os.environ["PYTHONPATH"], "body.md"), "w") as f:
         json.dump([message.dict() for message in chat_history], f)
 
