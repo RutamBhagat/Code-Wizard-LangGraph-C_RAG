@@ -15,8 +15,8 @@ class GraphState(BaseModel):
         chat_history: list of chat messages
     """
 
-    question: Optional[str] = Field(description="Question to be answered")
+    question: str = Field(description="Question to be answered")
     generation: Optional[str] = ""
     is_web_search_needed: Optional[bool] = False
     documents: Optional[List[Any]] = []
-    chat_history: Annotated[Sequence[Union[HumanMessage, AIMessage]], operator.add] = []
+    chat_history: Optional[Annotated[Sequence[Union[HumanMessage, AIMessage]], operator.add]] = []

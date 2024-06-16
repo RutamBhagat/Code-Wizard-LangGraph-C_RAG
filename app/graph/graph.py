@@ -1,5 +1,6 @@
+from typing import Any, Dict, Sequence
 from dotenv import load_dotenv, find_dotenv
-from langchain.schema import AIMessage
+from langchain.schema import AIMessage, HumanMessage
 from langgraph.graph import END, StateGraph
 from langgraph.checkpoint.sqlite import SqliteSaver
 
@@ -61,6 +62,19 @@ def grade_generation_grounded_in_documents_and_question(state: GraphState) -> st
     else:
         print("---DECISION: GENERATION IS NOT GROUNDED IN DOCUMENTS, RE-TRY---")
         return "not supported"
+    
+def define_state_1(state: GraphState) -> Dict[str, Any]:
+    question = state.question
+    chat_history = state.chat_history or Sequence[HumanMessage(content=question)]
+
+    return { "chat_history": chat_history}
+
+
+def define_state_2(state: GraphState) -> Dict[str, Any]:
+    print("____DEFINE STATE____")
+    print("state", state)
+    question = state.question
+    return { "chat_history": HumanMessage(content=question)}
 
 
 def route_question(state: GraphState) -> str:
@@ -83,10 +97,7 @@ workflow.add_node(GRADE_DOCUMENTS, grade_documents)
 workflow.add_node(GENERATE, generate)
 workflow.add_node(WEB_SEARCH, web_search)
 
-workflow.set_conditional_entry_point(
-    route_question, path_map={WEB_SEARCH: WEB_SEARCH, RETRIEVE: RETRIEVE}
-)
-
+workflow.set_conditional_entry_point(route_question, path_map={WEB_SEARCH: WEB_SEARCH, RETRIEVE: RETRIEVE}) 
 workflow.add_edge(RETRIEVE, GRADE_DOCUMENTS)
 workflow.add_conditional_edges(
     GRADE_DOCUMENTS,

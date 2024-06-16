@@ -22,26 +22,18 @@ class RequestBody(BaseModel):
 
 @router.post("/")
 async def code_wizard(request_body: RequestBody = Body(...)):
-    chat_history = [
-        (
-            HumanMessage(content=message.content)
-            if message.role == "user"
-            else AIMessage(content=message.content)
-        )
-        for message in request_body.chat_history
-    ]   
-    question = chat_history[-1].content
+    question = request_body.chat_history[-1].content
     # This is just for debugging to be removed in production
     with open(os.path.join(os.environ["PYTHONPATH"], "body.md"), "w") as f:
         json.dump({
             "chat_id": request_body.chat_id,
-            "messages": [message.dict() for message in chat_history]
+            "question": question
             }, f)
 
     start_time = time.time()
     config = {"configurable": {"thread_id": request_body.chat_id}}
     res = await c_rag_app.ainvoke(
-        input={"chat_history": chat_history, "question": question},
+        input={"question": question},
         config=config,
     )
     end_time = time.time()
