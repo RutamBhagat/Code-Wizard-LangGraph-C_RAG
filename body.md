@@ -1,1 +1,1 @@
-[{"content": "What is the purpose of the LangChain framework?", "additional_kwargs": {}, "response_metadata": {}, "type": "human", "name": null, "id": null, "example": false}]
+{"chat_id": "5eC4feR", "messages": [{"content": "What is the purpose of the LangChain framework?", "additional_kwargs": {}, "response_metadata": {}, "type": "human", "name": null, "id": null, "example": false}]}

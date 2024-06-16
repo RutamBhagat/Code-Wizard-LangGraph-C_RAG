@@ -17,8 +17,8 @@ class Message(BaseModel):
 
 
 class RequestBody(BaseModel):
+    chat_id: str
     chat_history: List[Message]
-
 
 @router.post("/")
 async def code_wizard(request_body: RequestBody = Body(...)):
@@ -33,7 +33,16 @@ async def code_wizard(request_body: RequestBody = Body(...)):
     question = chat_history[-1].content
     # This is just for debugging to be removed in production
     with open(os.path.join(os.environ["PYTHONPATH"], "body.md"), "w") as f:
-        json.dump([message.dict() for message in chat_history], f)
+        json.dump({
+            "chat_id": request_body.chat_id,
+            "messages": [message.dict() for message in chat_history]
+            }, f)
+
+    class Res(BaseModel):
+        generation: str
+
+    res = Res(generation="Test response")
+    return res
 
     start_time = time.time()
     res = await c_rag_app.ainvoke(
