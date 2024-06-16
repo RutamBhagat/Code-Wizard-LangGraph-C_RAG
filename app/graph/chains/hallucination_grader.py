@@ -12,7 +12,7 @@ class GradeHallucinations(BaseModel):
     )
 
 
-llm = ChatOpenAI(temperature=0)
+llm = ChatOpenAI(temperature=0, model="gpt-3.5-turbo")
 
 structured_llm_grader = llm.with_structured_output(GradeHallucinations)
 
