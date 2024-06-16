@@ -18,16 +18,16 @@ class Message(BaseModel):
 
 class RequestBody(BaseModel):
     chat_id: str
-    chat_history: List[Message]
+    question: str
 
 @router.post("/")
 async def code_wizard(request_body: RequestBody = Body(...)):
-    question = request_body.chat_history[-1].content
+    question = request_body.question
     # This is just for debugging to be removed in production
     with open(os.path.join(os.environ["PYTHONPATH"], "body.md"), "w") as f:
         json.dump({
             "chat_id": request_body.chat_id,
-            "question": question
+            "question": request_body.question
             }, f)
 
     start_time = time.time()

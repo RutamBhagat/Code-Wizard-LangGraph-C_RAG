@@ -1,6 +1,7 @@
 from typing import Any, Dict, Sequence
 from dotenv import load_dotenv, find_dotenv
 from langchain.schema import HumanMessage
+from langchain_core import chat_history
 from langgraph.graph import END, StateGraph
 from langgraph.checkpoint.sqlite import SqliteSaver
 
@@ -63,13 +64,15 @@ def grade_generation_grounded_in_documents_and_question(state: GraphState) -> st
 def add_answer(state: GraphState) -> Dict[str, Any]:
     print("____ADD ANSWER____")
     generation = state.generation
-    return { "chat_history": HumanMessage(content=generation)}
+    chat_history = state.chat_history or []
+    chat_history.append(HumanMessage(content=generation))
+    return { "chat_history": chat_history, "generation": generation}
 
 
 def route_question(state: GraphState) -> str:
     print("____ROUTE QUESTION____")
     question = state.question
-    chat_history = state.chat_history
+    chat_history = state.chat_history or []
     source: RouteQuery = question_router.invoke(
         {"question": question, "chat_history": chat_history}
     )
