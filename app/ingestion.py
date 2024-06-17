@@ -50,10 +50,3 @@ docsearch = PineconeVectorStore.from_existing_index(
 )
 
 retriever = docsearch.as_retriever(search_kwargs={"k": 4})
-
-
-if __name__ == "__main__":
-    question = "Agent Memory?"
-    docs = retriever.invoke(question)
-    print(docs)
-    print(docs[0].page_content)

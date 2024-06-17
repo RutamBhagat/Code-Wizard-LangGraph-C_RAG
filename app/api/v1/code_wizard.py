@@ -18,16 +18,10 @@ class RequestBody(BaseModel):
     chat_id: str
     question: str
 
+
 @router.post("/")
 async def code_wizard(request_body: RequestBody = Body(...)):
     question = request_body.question
-    # This is just for debugging to be removed in production
-    with open(os.path.join(os.environ["PYTHONPATH"], "body.md"), "w") as f:
-        json.dump({
-            "chat_id": request_body.chat_id,
-            "question": request_body.question
-            }, f)
-
     start_time = time.time()
     config = {"configurable": {"thread_id": request_body.chat_id}}
     res = ""

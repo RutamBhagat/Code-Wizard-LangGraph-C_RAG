@@ -37,15 +37,3 @@ grade_prompt = ChatPromptTemplate.from_messages(
 
 
 retrieval_grader = grade_prompt | structured_llm_grader
-
-if __name__ == "__main__":
-    from langchain_core.messages import HumanMessage
-
-    # question = "LangChain Expression Language"
-    question = "How to make pizza"
-    chat_history = [HumanMessage(content="How to make pizza")]
-    doc_text = """LangChain Expression Language, or LCEL, is a declarative way to chain LangChain components. LCEL was designed from day 1 to support putting prototypes in production, with no code changes, from the simplest “prompt + LLM” chain to the most complex chains (we’ve seen folks successfully run LCEL chains with 100s of steps in production). To highlight a few of the reasons you might want to use LCEL:"""
-    res: GradeDocuments = retrieval_grader.invoke(
-        {"question": question, "chat_history": chat_history, "document": doc_text}
-    )
-    print(res)

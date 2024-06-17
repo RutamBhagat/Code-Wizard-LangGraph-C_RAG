@@ -9,7 +9,7 @@ load_dotenv(find_dotenv())
 
 async def get_response(message):
     start_time = time.time()
-    question = message 
+    question = message
     config = {"configurable": {"thread_id": "1"}}
     res = ""
     for event in c_rag_app.stream(input={"question": question}, config=config):
@@ -28,7 +28,6 @@ async def main():
         # "What are the two main ways to use tools in LangChain?",
         # "What are the key features of LCEL that make it beneficial for building apps with LLMs?",
     ]
-    print("Hello C_RAG with LangGraph")
     coroutines = [get_response(message) for message in messages]
     results = await asyncio.gather(*coroutines)
 

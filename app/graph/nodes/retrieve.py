@@ -66,21 +66,17 @@ generate_queries = (
 
 
 def retrieve(state: GraphState) -> Dict[str, Any]:
-    print("Retrieving data...")
     question = state.question
     chat_history = state.chat_history
-    print("Question: ", question)
     retrieval_chain_rag_fusion = (
         generate_queries | retriever.map() | reciprocal_rank_fusion
     )
     documents = retrieval_chain_rag_fusion.invoke(
         {"question": question, "chat_history": chat_history or []}
     )
-    print("Length of Retrieved Documents: ", len(documents))
     # only take top 4 documents because of the limited context window
     # if the length of documents is less than 4 then take all
     documents = documents[:4] if len(documents) > 4 else documents
-    print("Length of Top Retrieved Documents: ", len(documents))
     return {"documents": documents}
 
 
@@ -93,4 +89,3 @@ if __name__ == "__main__":
             "chat_history": chat_history,
         }
     )
-    print(res)

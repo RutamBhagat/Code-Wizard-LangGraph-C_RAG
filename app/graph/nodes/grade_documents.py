@@ -15,7 +15,6 @@ def grade_documents(state: GraphState) -> Dict[str, Any]:
         state (dict): Filtered out irrelevant documents and updated is_web_search_needed flag
     """
 
-    print("Checking the relevance of the retrieved documents to the question")
     question = state.question
     documents = state.documents
     chat_history = state.chat_history
@@ -32,15 +31,11 @@ def grade_documents(state: GraphState) -> Dict[str, Any]:
 
     for index, grade in enumerate(grades):
         if grade.is_document_relevant:
-            print("GRADE: Document is relevant")
             filtered_docs.append(documents[index])
         else:
-            print("GRADE: Document is not relevant")
             is_web_search_needed = True
             break
 
-    print("Length of Filtered Documents: ", len(filtered_docs))
-    print("Is Web Search Needed: ", is_web_search_needed)
     return {
         "documents": filtered_docs,
         "is_web_search_needed": is_web_search_needed,

@@ -1,1 +1,1 @@
-{"chat_id": "XoiEJTc", "question": "What is the purpose of the LangChain framework?"}
+{"chat_id": "XoiEJTc", "question": "explain with code snippets"}
