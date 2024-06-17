@@ -1,1 +1,0 @@
-{"chat_id": "XoiEJTc", "question": "explain with code snippets"}
