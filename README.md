@@ -8,7 +8,7 @@ Code Wizard is a super cool AI chatbot that helps you learn and use the LangChai
 
 **Backend Repo:** https://github.com/RutamBhagat/Code-Wizard-LangGraph-C_RAG
 
-https://github.com/RutamBhagat/code_wizard_frontend/assets/72187009/353ced90-f408-44ae-b633-c30f20dbd28f
+https://github.com/RutamBhagat/code_wizard_frontend/assets/72187009/5bbd7785-2ee7-43ac-be28-547a29806044
 
 ## How It's Made
 
