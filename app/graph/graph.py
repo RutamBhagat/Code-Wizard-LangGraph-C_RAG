@@ -71,12 +71,15 @@ def add_answer(state: GraphState) -> Dict[str, Any]:
 
 workflow = StateGraph(GraphState)
 
+# Node Definition
 workflow.add_node(RETRIEVE, retrieve)
 workflow.add_node(GRADE_DOCUMENTS, grade_documents)
 workflow.add_node(GENERATE, generate)
 workflow.add_node(WEB_SEARCH, web_search)
 workflow.add_node(ADD_ANSWER, add_answer)
 
+
+# Graph flow
 workflow.set_conditional_entry_point(
     route_question, path_map={WEB_SEARCH: WEB_SEARCH, RETRIEVE: RETRIEVE}
 )
