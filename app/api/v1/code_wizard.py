@@ -23,6 +23,8 @@ async def code_wizard(request_body: RequestBody = Body(...)):
     start_time = time.time()
     config = {"configurable": {"thread_id": request_body.chat_id}}
     res = ""
+    # Note:  You might need to adapt this based on how `c_rag_app.stream` works
+    # to handle potential issues with checkpointing in the `stream` method.
     for event in c_rag_app.stream(input={"question": question}, config=config):
         for v in event.values():
             res = v

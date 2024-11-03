@@ -2,8 +2,7 @@ from typing import Any, Dict
 from dotenv import load_dotenv, find_dotenv
 from langchain.schema import HumanMessage
 from langgraph.graph import END, StateGraph
-from langgraph.checkpoint.sqlite import SqliteSaver
-
+from langgraph.checkpoint.sqlite import SqliteSaver  # Using SqliteSaver for now
 
 from app.graph.state import GraphState
 from app.graph.consts import RETRIEVE, GRADE_DOCUMENTS, GENERATE, WEB_SEARCH, ADD_ANSWER
@@ -13,6 +12,9 @@ from app.graph.chains.answer_grader import answer_grader
 from app.graph.chains.router import question_router, RouteQuery
 
 _ = load_dotenv(find_dotenv())
+
+# Note:  You might need to modify this to handle potential issues with checkpointing
+# in the `stream` method of `c_rag_app` based on how that method functions.
 
 
 def route_question(state: GraphState) -> str:
@@ -100,6 +102,7 @@ workflow.add_conditional_edges(
 workflow.add_edge(WEB_SEARCH, GENERATE)
 workflow.add_edge(ADD_ANSWER, END)
 
-memory = SqliteSaver.from_conn_string(":memory:")
+# Persistence: Using a file-based sqlite database
+memory = SqliteSaver.from_conn_string("checkpoints.sqlite")  # Use a file path
 c_rag_app = workflow.compile(checkpointer=memory)
 c_rag_app.get_graph().draw_mermaid_png(output_file_path="graph.png")
