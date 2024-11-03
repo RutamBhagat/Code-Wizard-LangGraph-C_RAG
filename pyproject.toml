@@ -10,25 +10,8 @@ packages = [
 
 [tool.poetry.dependencies]
 python = ">=3.11,<3.13"
-uvicorn = "^0.23.2"
 langserve = {extras = ["server"], version = ">=0.0.30"}
-pydantic = "<2"
-beautifulsoup4 = "^4.12.3"
-langchain-community = "^0.2.1"
-langchainhub = "^0.1.16"
-tavily-python = "^0.3.3"
-pytest = "^8.2.1"
-joblib = "^1.4.2"
 unstructured = {extras = ["markdown"], version = "^0.14.2"}
-langchain-openai = "^0.1.7"
-langgraph = "^0.0.55"
-langchain-pinecone = "^0.1.1"
-pinecone = "^4.0.0"
-markdown = "^3.6"
-langchain-groq = "^0.1.4"
-pytest-xdist = "^3.6.1"
-python-dotenv = "^1.0.1"
-nbconvert = "^7.16.4"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -38,6 +21,48 @@ langchain-cli = ">=0.0.15"
 [tool.poetry.group.D.dependencies]
 ipykernel = "^6.29.4"
 
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "langchain-cli>=0.0.15",
+]
+D = [
+    "ipykernel<7.0.0,>=6.29.4",
+]
+
+[tool.pdm.build]
+includes = ["app"]
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[project]
+authors = [
+    {name = "Your Name", email = "you@example.com"},
+]
+requires-python = "<3.13,>=3.11"
+dependencies = [
+    "langserve[server]>=0.0.30",
+    "unstructured[markdown]<1.0.0,>=0.14.2",
+    "uvicorn>=0.23.2",
+    "pydantic>=2.9.2",
+    "beautifulsoup4>=4.12.3",
+    "langchain-community>=0.3.5",
+    "langchainhub>=0.1.21",
+    "tavily-python>=0.5.0",
+    "pytest>=8.3.3",
+    "joblib>=1.4.2",
+    "langchain-openai>=0.2.5",
+    "langgraph>=0.2.44",
+    "langchain-pinecone>=0.2.0",
+    "pinecone>=5.3.1",
+    "markdown>=3.7",
+    "langchain-groq>=0.2.1",
+    "pytest-xdist>=3.6.1",
+    "python-dotenv>=1.0.1",
+    "nbconvert>=7.16.4",
+]
+name = "C_RAG"
+version = "0.1.0"
+description = ""
+readme = "README.md"
