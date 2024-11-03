@@ -22,7 +22,8 @@ async def redirect_root_to_docs():
     return RedirectResponse("/docs")
 
 
-@app.get("/health_check")
+@app.head("/health")
+@app.get("/health")
 async def health_check():
     return {"status": "ok"}
 

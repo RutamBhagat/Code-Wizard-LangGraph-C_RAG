@@ -61,6 +61,7 @@ dependencies = [
     "pytest-xdist>=3.6.1",
     "python-dotenv>=1.0.1",
     "nbconvert>=7.16.4",
+    "langgraph-checkpoint-sqlite>=2.0.1",
 ]
 name = "C_RAG"
 version = "0.1.0"

@@ -5,7 +5,7 @@
 groups = ["default", "D", "dev"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:db0d3c43ec58bcd4e04434b47cf1546dc8a8d0e1ca6855b5ad530ace953199d4"
+content_hash = "sha256:0e7d2f95516b29ba7d7214f3d3e6bc8a1ad9f24db4663105a7f1e60b552cc757"
 
 [[metadata.targets]]
 requires_python = ">=3.11,<3.13"
@@ -70,6 +70,20 @@ dependencies = [
 files = [
     {file = "aiosignal-1.3.1-py3-none-any.whl", hash = "sha256:f8376fb07dd1e86a584e4fcdec80b36b7f81aac666ebc724e2c090300dd83b17"},
     {file = "aiosignal-1.3.1.tar.gz", hash = "sha256:54cd96e15e1649b75d6c87526a6ff0b6c1b0dd3459f43d9ca11d48c339b68cfc"},
+]
+
+[[package]]
+name = "aiosqlite"
+version = "0.20.0"
+requires_python = ">=3.8"
+summary = "asyncio bridge to the standard sqlite3 module"
+groups = ["default"]
+dependencies = [
+    "typing-extensions>=4.0",
+]
+files = [
+    {file = "aiosqlite-0.20.0-py3-none-any.whl", hash = "sha256:36a1deaca0cac40ebe32aac9977a6e2bbc7f5189f23f4a54d5908986729e5bd6"},
+    {file = "aiosqlite-0.20.0.tar.gz", hash = "sha256:6d35c8c256637f4672f843c31021464090805bf925385ac39473fb16eaaca3d7"},
 ]
 
 [[package]]
@@ -1176,6 +1190,21 @@ dependencies = [
 files = [
     {file = "langgraph_checkpoint-2.0.2-py3-none-any.whl", hash = "sha256:6e5dfd90e1fc71b91ccff75939ada1114e5d7f824df5f24c62d39bed69039ee2"},
     {file = "langgraph_checkpoint-2.0.2.tar.gz", hash = "sha256:c1d033e4e4855f580fa56830327eb86513b64ab5be527245363498e76b19a0b9"},
+]
+
+[[package]]
+name = "langgraph-checkpoint-sqlite"
+version = "2.0.1"
+requires_python = "<4.0.0,>=3.9.0"
+summary = "Library with a SQLite implementation of LangGraph checkpoint saver."
+groups = ["default"]
+dependencies = [
+    "aiosqlite<0.21.0,>=0.20.0",
+    "langgraph-checkpoint<3.0.0,>=2.0.2",
+]
+files = [
+    {file = "langgraph_checkpoint_sqlite-2.0.1-py3-none-any.whl", hash = "sha256:8f9e78c45d27ac7e1305af596c0cb799a780c0356568f20df5f49726ae2ba687"},
+    {file = "langgraph_checkpoint_sqlite-2.0.1.tar.gz", hash = "sha256:303a43b9dc769a087aaa6365009e8b6db132bc30021edcbcb70a2d18c7aafcd9"},
 ]
 
 [[package]]

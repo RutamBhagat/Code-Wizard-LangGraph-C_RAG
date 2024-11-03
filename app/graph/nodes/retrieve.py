@@ -49,6 +49,7 @@ By generating multiple perspectives on the user question, your goal is to help
 the user overcome some of the limitations of the distance-based similarity search. 
 Provide these alternative questions separated by newlines. 
 Original question: {question}."""
+
 prompt_perspectives = ChatPromptTemplate.from_messages(
     [
         ("system", template),

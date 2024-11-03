@@ -9,11 +9,11 @@ llm = ChatOpenAI(temperature=0, model="gpt-3.5-turbo")
 template = """You are an assistant for question-answering tasks. 
 Use the following pieces of retrieved context and the chat history to answer the question. 
 If you don't know the answer based on the provided information, just say that you don't know. 
-Use three sentences maximum and keep the answer concise unless the question asks for more details.
+Try to keep the answer concise unless the question asks for more details or code is requested.
 
-Question: {question}
 Chat History: {chat_history}
 Context: {context}
+Question: {question}
 Answer:"""
 ANSWER_PROMPT = ChatPromptTemplate.from_messages(
     [

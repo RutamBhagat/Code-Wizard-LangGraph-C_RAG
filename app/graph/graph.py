@@ -1,7 +1,6 @@
-from typing import Any, Dict, Sequence
+from typing import Any, Dict
 from dotenv import load_dotenv, find_dotenv
 from langchain.schema import HumanMessage
-from langchain_core import chat_history
 from langgraph.graph import END, StateGraph
 from langgraph.checkpoint.sqlite import SqliteSaver
 
