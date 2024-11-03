@@ -18,17 +18,18 @@ class RequestBody(BaseModel):
 
 
 @router.post("/")
-async def code_wizard(request_body: RequestBody = Body(...)):
+def code_wizard(
+    request_body: RequestBody = Body(...),
+):  # Removed async since we're using synchronous SqliteSaver
     question = request_body.question
     start_time = time.time()
     config = {"configurable": {"thread_id": request_body.chat_id}}
-    res = ""
-    # Note:  You might need to adapt this based on how `c_rag_app.stream` works
-    # to handle potential issues with checkpointing in the `stream` method.
-    for event in c_rag_app.stream(input={"question": question}, config=config):
-        for v in event.values():
-            res = v
+
+    # Using invoke instead of stream since we're using synchronous SqliteSaver
+    res = c_rag_app.invoke({"question": question}, config=config)
+
     end_time = time.time()
     time_taken = end_time - start_time
     print(f"Time taken: {time_taken:.2f} seconds")
+
     return res
