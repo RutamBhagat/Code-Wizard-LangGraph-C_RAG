@@ -36,6 +36,9 @@ aiohttp==3.9.5 \
 aiosignal==1.3.1 \
     --hash=sha256:54cd96e15e1649b75d6c87526a6ff0b6c1b0dd3459f43d9ca11d48c339b68cfc \
     --hash=sha256:f8376fb07dd1e86a584e4fcdec80b36b7f81aac666ebc724e2c090300dd83b17
+aiosqlite==0.20.0 \
+    --hash=sha256:36a1deaca0cac40ebe32aac9977a6e2bbc7f5189f23f4a54d5908986729e5bd6 \
+    --hash=sha256:6d35c8c256637f4672f843c31021464090805bf925385ac39473fb16eaaca3d7
 annotated-types==0.7.0 \
     --hash=sha256:1f02e8b43a8fbbc3f3e0d4f0f4bfc8131bcb4eebe8849b8e5c773f3a1c582a53 \
     --hash=sha256:aff07c09a53a08bc8cfccb9c85b05f1aa9a2a6f23728d790723543408344ce89
@@ -383,6 +386,9 @@ langgraph==0.2.44 \
 langgraph-checkpoint==2.0.2 \
     --hash=sha256:6e5dfd90e1fc71b91ccff75939ada1114e5d7f824df5f24c62d39bed69039ee2 \
     --hash=sha256:c1d033e4e4855f580fa56830327eb86513b64ab5be527245363498e76b19a0b9
+langgraph-checkpoint-sqlite==2.0.1 \
+    --hash=sha256:303a43b9dc769a087aaa6365009e8b6db132bc30021edcbcb70a2d18c7aafcd9 \
+    --hash=sha256:8f9e78c45d27ac7e1305af596c0cb799a780c0356568f20df5f49726ae2ba687
 langgraph-sdk==0.1.35 \
     --hash=sha256:414cfbc172b883446197763f3645d86bbc6a5b8ce9693c1df3fb6ce7d854a994 \
     --hash=sha256:b137c324fbce96afe39cc6a189c61fc042164068f0f6f02ac8de864d8ece6e05
