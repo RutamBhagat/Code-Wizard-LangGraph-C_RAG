@@ -64,7 +64,7 @@ def add_answer(state: GraphState) -> Dict[str, Any]:
     return {"chat_history": chat_history, "generation": generation}
 
 
-# Create the workflow
+# Create the workflow without the SQLite connection
 workflow = StateGraph(GraphState)
 
 # Node Definition
@@ -96,10 +96,10 @@ workflow.add_conditional_edges(
 workflow.add_edge(WEB_SEARCH, GENERATE)
 workflow.add_edge(ADD_ANSWER, END)
 
-# Create SQLite connection and saver
-conn = sqlite3.connect("checkpoints.sqlite")
-memory = SqliteSaver(conn)  # Using synchronous SqliteSaver instead of AsyncSqliteSaver
 
-# Compile the workflow
-c_rag_app = workflow.compile(checkpointer=memory)
-c_rag_app.get_graph().draw_mermaid_png(output_file_path="graph.png")
+# Create a function to get a new graph instance with its own SQLite connection
+def get_graph_instance():
+    conn = sqlite3.connect("checkpoints.sqlite", check_same_thread=False)
+    memory = SqliteSaver(conn)
+    memory.setup()  # Create tables if they don't exist
+    return workflow.compile(checkpointer=memory)
