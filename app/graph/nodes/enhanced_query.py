@@ -1,5 +1,4 @@
 # enhanced_query_node.py
-from typing import Any
 from langchain.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers import StrOutputParser
