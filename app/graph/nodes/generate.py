@@ -13,6 +13,6 @@ def generate(state: GraphState) -> Dict[str, Any]:
             "chat_history": state.chat_history or [],
         }
     )
-    state.chat_history = HumanMessage(content=state.question)
-    state.chat_history = AIMessage(content=state.generation)
+    state.chat_history.append(HumanMessage(content=state.question))
+    state.chat_history.append(AIMessage(content=state.generation))
     return state
