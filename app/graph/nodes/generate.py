@@ -13,4 +13,5 @@ def generate(state: GraphState) -> Dict[str, Any]:
             "chat_history": chat_history or [],
         }
     )
+    state.chat_history = state.generation
     return state
