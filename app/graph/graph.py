@@ -37,7 +37,7 @@ workflow.add_node(GENERATE, generate)
 # Graph flow
 workflow.set_entry_point(ENHANCED_QUERY_NODE)
 workflow.add_conditional_edges(
-    ENHANCED_QUERY_NODE, route_question, {RETRIEVE, WEB_SEARCH}
+    ENHANCED_QUERY_NODE, route_question, path_map={RETRIEVE, WEB_SEARCH}
 )
 workflow.add_edge(RETRIEVE, WEB_SEARCH)
 workflow.add_edge(WEB_SEARCH, GENERATE)
@@ -49,4 +49,6 @@ def get_graph_instance():
     conn = sqlite3.connect("checkpoints.sqlite", check_same_thread=False)
     memory = SqliteSaver(conn)
     memory.setup()  # Create tables if they don't exist
-    return workflow.compile(checkpointer=memory)
+    graph = workflow.compile(checkpointer=memory)
+    graph.get_graph().draw_mermaid_png(output_file_path="graph.png")
+    return graph
