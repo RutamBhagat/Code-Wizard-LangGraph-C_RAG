@@ -11,10 +11,7 @@ web_search_tool = TavilySearchResults(max_results=3)
 
 
 def web_search(state: GraphState) -> Dict[str, Any]:
-    question = state.question
-    documents = state.documents or []  # Handle None case
-
-    tavily_results = web_search_tool.invoke({"query": question})
+    tavily_results = web_search_tool.invoke({"query": state.enhanced_query})
     joined_tavily_results = "\n".join(
         [
             result["content"]
@@ -25,9 +22,9 @@ def web_search(state: GraphState) -> Dict[str, Any]:
 
     if joined_tavily_results:
         web_results = Document(page_content=joined_tavily_results)
-        documents.append(web_results)
+        state.documents.append(web_results)
 
-    return {"documents": documents}
+    return state
 
 
 if __name__ == "__main__":

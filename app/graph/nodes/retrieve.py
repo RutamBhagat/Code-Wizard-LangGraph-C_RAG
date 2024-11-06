@@ -28,15 +28,12 @@ def retrieve(state: GraphState) -> Dict[str, Any]:
     chat_history = state.chat_history
 
     # Generate enhanced query considering chat history
-    enhanced_query = generate_enhanced_query.invoke(
+    state.enhanced_query = generate_enhanced_query.invoke(
         {"question": question, "chat_history": chat_history or []}
     )
 
     # Retrieve documents using the enhanced query
-    documents = retriever.get_relevant_documents(enhanced_query)
-
-    # Maintain the document limit logic
-    state.documents = documents[:4] if len(documents) > 4 else documents
+    state.documents = retriever.get_relevant_documents(state.enhanced_query)
 
     return state
 
