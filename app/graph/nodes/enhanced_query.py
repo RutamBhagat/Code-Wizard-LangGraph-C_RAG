@@ -1,16 +1,27 @@
-# enhanced_query_node.py
 from langchain.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers import StrOutputParser
 from app.graph.state import GraphState
 
-template = """You are an AI language model assistant. 
-            Your task is to generate an enhanced search query based on the user's question and chat history.
-            Consider the context from the chat history to create a more informative query.
-            Chat History for context: {chat_history}
-            Current question: {question}
-            Generate a single, comprehensive search query that captures the user's intent and context.
-            Keep the query concise but informative. Return only the enhanced query text."""
+template = """You are a query enhancement system. Your role is to analyze the user's question and chat history to create a more comprehensive search query.
+
+                DO NOT answer the question. Instead, formulate an enhanced search query that:
+                - Incorporates relevant context from the chat history
+                - Maintains the original intent of the question
+                - Includes important contextual details that were mentioned earlier
+                - Removes ambiguous pronouns by replacing them with their referents from context
+
+                Chat History for context: {chat_history}
+                Current question: {question}
+
+                Return only the enhanced query text without any explanations or additional content.
+
+                Example:
+                Chat history: "User: I have a 2019 Toyota Camry"
+                Question: "How do I change its oil?"
+                Enhanced query: "How to change oil in 2019 Toyota Camry step by step procedure"
+
+                Format your response as a single query string without any prefixes or explanations."""
 
 query_generator_prompt = ChatPromptTemplate.from_messages([("system", template)])
 generate_enhanced_query = (

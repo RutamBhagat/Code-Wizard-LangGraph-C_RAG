@@ -3,7 +3,7 @@ from dotenv import load_dotenv, find_dotenv
 from langgraph.graph import END, StateGraph
 from langgraph.checkpoint.sqlite import SqliteSaver
 from app.graph.state import GraphState
-from app.graph.consts import RETRIEVE, GENERATE, WEB_SEARCH, ENHANCED_QUERY
+from app.graph.consts import RETRIEVE, GENERATE, WEB_SEARCH, ENHANCED_QUERY_NODE
 from app.graph.nodes import (
     generate,
     web_search,
@@ -29,14 +29,16 @@ def route_question(state: GraphState) -> str:
 workflow = StateGraph(GraphState)
 
 # Node Definition
-workflow.add_node(ENHANCED_QUERY, generate_enhanced_query_node)
+workflow.add_node(ENHANCED_QUERY_NODE, generate_enhanced_query_node)
 workflow.add_node(RETRIEVE, retrieve_documents_node)
 workflow.add_node(WEB_SEARCH, web_search)
 workflow.add_node(GENERATE, generate)
 
 # Graph flow
-workflow.set_entry_point(ENHANCED_QUERY)
-workflow.add_conditional_edges(ENHANCED_QUERY, route_question, {RETRIEVE, WEB_SEARCH})
+workflow.set_entry_point(ENHANCED_QUERY_NODE)
+workflow.add_conditional_edges(
+    ENHANCED_QUERY_NODE, route_question, {RETRIEVE, WEB_SEARCH}
+)
 workflow.add_edge(RETRIEVE, WEB_SEARCH)
 workflow.add_edge(WEB_SEARCH, GENERATE)
 workflow.add_edge(GENERATE, END)
