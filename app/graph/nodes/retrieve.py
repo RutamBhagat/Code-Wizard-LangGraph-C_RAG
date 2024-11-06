@@ -1,84 +1,44 @@
 from typing import Any, Dict
-from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
-from langchain_core.output_parsers import StrOutputParser
+from langchain.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
-from langchain.load import dumps, loads
+from langchain_core.output_parsers import StrOutputParser
 from app.graph.state import GraphState
 from app.ingestion import retriever
 
-
-# Utility Function
-def reciprocal_rank_fusion(results: list[list], k=60):
-    """Reciprocal_rank_fusion that takes multiple lists of ranked documents
-    and an optional parameter k used in the RRF formula"""
-
-    # Initialize a dictionary to hold fused scores for each unique document
-    fused_scores = {}
-
-    # Iterate through each list of ranked documents
-    for docs in results:
-        # Iterate through each document in the list, with its rank (position in the list)
-        for rank, doc in enumerate(docs):
-            # Convert the document to a string format to use as a key (assumes documents can be serialized to JSON)
-            doc_str = dumps(doc)
-            # If the document is not yet in the fused_scores dictionary, add it with an initial score of 0
-            if doc_str not in fused_scores:
-                fused_scores[doc_str] = 0
-            # Retrieve the current score of the document, if any
-            previous_score = fused_scores[doc_str]
-            # Update the score of the document using the RRF formula: 1 / (rank + k)
-            fused_scores[doc_str] = previous_score + 1 / (rank + k)
-
-    # Sort the documents based on their fused scores in descending order to get the final reranked results
-    reranked_results = [
-        (loads(doc), score)
-        for doc, score in sorted(fused_scores.items(), key=lambda x: x[1], reverse=True)
-    ]
-
-    # Return the reranked results as a list of tuples, each containing the document and its fused score
-    return reranked_results
-
-
-# Multi Query: Different Perspectives
+# Template for generating a single enhanced query
 template = """You are an AI language model assistant. 
-Chat History for context: {chat_history}.
-Your task is to generate three 
-different versions of the given user question to retrieve relevant documents from a vector 
-database. Go through the chat history for addtional context. 
-By generating multiple perspectives on the user question, your goal is to help
-the user overcome some of the limitations of the distance-based similarity search. 
-Provide these alternative questions separated by newlines. 
-Original question: {question}."""
+            Your task is to generate an enhanced search query based on the user's question and chat history.
+            Consider the context from the chat history to create a more informative query.
 
-prompt_perspectives = ChatPromptTemplate.from_messages(
-    [
-        ("system", template),
-        MessagesPlaceholder(variable_name="chat_history"),
-    ]
-)
+            Chat History for context: {chat_history}
+            Current question: {question}
 
+            Generate a single, comprehensive search query that captures the user's intent and context.
+            Keep the query concise but informative. Return only the enhanced query text."""
 
-generate_queries = (
-    prompt_perspectives
-    | ChatOpenAI(temperature=0)
-    | StrOutputParser()
-    | (lambda x: x.split("\n"))
+query_generator_prompt = ChatPromptTemplate.from_messages([("system", template)])
+
+generate_enhanced_query = (
+    query_generator_prompt | ChatOpenAI(temperature=0) | StrOutputParser()
 )
 
 
 def retrieve(state: GraphState) -> Dict[str, Any]:
     question = state.question
     chat_history = state.chat_history
-    retrieval_chain_rag_fusion = (
-        generate_queries | retriever.map() | reciprocal_rank_fusion
-    )
-    documents = retrieval_chain_rag_fusion.invoke(
+
+    # Generate enhanced query considering chat history
+    enhanced_query = generate_enhanced_query.invoke(
         {"question": question, "chat_history": chat_history or []}
     )
-    # only take top 4 documents because of the limited context window
-    # if the length of documents is less than 4 then take all
-    documents = documents[:4] if len(documents) > 4 else documents
-    return {"documents": documents}
+
+    # Retrieve documents using the enhanced query
+    documents = retriever.get_relevant_documents(enhanced_query)
+
+    # Maintain the document limit logic
+    state.documents = documents[:4] if len(documents) > 4 else documents
+
+    return state
 
 
 if __name__ == "__main__":
@@ -86,7 +46,7 @@ if __name__ == "__main__":
 
     chat_history = [HumanMessage(content="What is Agent Memory?")]
     res = retrieve(
-        {
-            "chat_history": chat_history,
-        }
+        GraphState(
+            question="Tell me more about Agent Memory", chat_history=chat_history
+        )
     )
