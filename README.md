@@ -1,50 +1,87 @@
 # Code Wizard: LangChain Documentation AI Chatbot
 
-Code Wizard is a super cool AI chatbot that helps you learn and use the LangChain Documentation in an interactive way. Just ask it anything about LangChain concepts or code, and it'll break it down for you in an easy-to-understand way. Built with Next.js, FastAPI, LangChain, LangGraph, LCEL, and ChatOpenAI which can be easily switched a local LLaMA model.
+## Overview
 
-**Link to project:** https://code-wizard-frontend.vercel.app/
+Code Wizard is an AI-powered chatbot designed to make understanding and using LangChain documentation effortless. Ask any question related to LangChain concepts or code, and Code Wizard will explain it clearly and interactively. It is built using a tech stack that includes Next.js, FastAPI, LangChain, LangGraph, and LCEL, with the ability to switch between models like ChatOpenAI and local LLaMA models.
 
-**Frontend Repo:** https://github.com/RutamBhagat/code_wizard_frontend
+**Frontend:** [Code Wizard UI](https://code-wizard-frontend.vercel.app/)
 
-**Backend Repo:** https://github.com/RutamBhagat/Code-Wizard-LangGraph-C_RAG
+**Frontend Repo:** [Code Wizard Frontend](https://github.com/RutamBhagat/code_wizard_frontend)
 
-[Langchain & Langgraph Documentation Chatbot Walkthrough [nTZu6I-0xF8].webm](https://github.com/user-attachments/assets/399aae3e-a1fc-4160-b878-4aa43cd28a38)
+**Backend Repo:** [Code Wizard Backend](https://github.com/RutamBhagat/Code-Wizard-LangGraph-C_RAG)
 
-## How It's Made
+## Demo Video
 
-**Tech used:** LangChain, LangGraph, LCEL, LLaMA, Next.js, Typescript, FastAPI
+https://github.com/user-attachments/assets/399aae3e-a1fc-4160-b878-4aa43cd28a38
 
-Code Wizard is a full-stack app that combines some cutting edge tech. The front-end is built with Next.js and React, which makes it fast and snappy. The back-end uses FastAPI to host the LangChain and LangGraph pipelines and APIs.
+## Key Features
 
-The core is powered by LangChain, which lets us build cool applications with large language models like ChatOpenAI. Code Wizard takes the LangChain documentation, chunks it up, and stores it in a vector database using embeddings.
+- **Interactive Chat Interface**: Engaging chat interface built with Next.js and React for smooth and intuitive user experience
+- **LangChain Integration**: Uses LangChain for building applications with large language models
+- **Documentation Search**: Implements LangGraph DAG to search vector databases for relevant documentation chunks
+- **Custom AI Responses**: Combines retrieved documentation chunks with ChatOpenAI to generate detailed answers
+- **Markdown Rendering**: Supports rendering code snippets and Markdown for easy comprehension
 
-When you ask Code Wizard a question, it uses a LangGraph DAG to search the vector database for relevant doc chunks. It then generates a response by combining those chunks with the ChatOpenAI.
+## Technologies Used
 
-The front-end has a slick chat interface built with React, so you can have natural conversations with the AI. It also renders Markdown and code snippets nicely.
+- **Frontend**: Next.js, Typescript for a responsive and dynamic user interface
+- **Backend**: FastAPI for fast and reliable API handling
+- **AI Frameworks**: LangChain, LangGraph, LCEL for processing and understanding queries
+- **Model Support**: Switchable between ChatOpenAI and LLaMA models for flexibility
+- **Data Storage**: Vector databases for efficient document retrieval
+
+## Challenges and Learnings
+
+Building Code Wizard was a fantastic learning journey, offering valuable lessons on:
+
+- **LangChain Mastery**: Leveraging components like agents, memory, and vector stores effectively
+- **Model Optimization**: Techniques like quantization and CPU offloading for efficient performance
+- **UI/UX Design**: Creating conversational interfaces that feel natural and easy to use
+- **Scalable Backend Architecture**: Using FastAPI and async processing for better performance
 
 ## Optimizations
 
-To make Code Wizard performant and scalable, it uses some cool optimizations:
+1. **Caching System**
 
-1. **Caching**: Frequently asked questions and their responses are cached to improve latency.
-2. **Streaming Response**: The LangChain pipelines to stream the response to the user.
-3. **Model Optimization**: Switching the model to a better but more expensive model like gpt-4o.
+   - Cached responses for frequently asked questions to improve latency and efficiency
+   - Reduced API load and provided faster user experiences
 
-## Lessons Learned
+2. **Streaming Responses**
 
-Building Code Wizard was an incredible learning experience that taught me so much about LangChain, LangGraph, LCEL, large language models, and modern web development. Some key lessons:
+   - Implemented LangChain’s streaming feature to send data to users as soon as it’s available
+   - Enhanced user interaction by reducing waiting times
 
-- How to effectively integrate LangChain components like agents, memory, chat history, agent state, nodes, chains, and vector stores.
-- Optimizing LLM performance through techniques like quantization and CPU offloading.
-- Designing intuitive conversational UIs that feel natural and engaging.
-- Leveraging the latest web frameworks like Next.js and FastAPI for building scalable apps.
+3. **Model Flexibility**
+   - Capability to switch to more powerful models like GPT-4 for critical use cases
+   - Balances performance and cost-effectiveness based on user needs
 
-## Examples
+## Getting Started
 
-Check out these example conversations with Code Wizard:
+1. **Clone the Repositories**
 
-**What is Langchain:**
-![Screenshot 2024-04-27 095418](https://github.com/RutamBhagat/code_wizard_backend/assets/72187009/38f3bcd2-e135-487b-a81e-5563302f7b04)
+   ```bash
+   # Frontend
+   git clone https://github.com/RutamBhagat/code_wizard_frontend
+   # Backend
+   git clone https://github.com/RutamBhagat/Code-Wizard-LangGraph-C_RAG
+   ```
 
-**Explaining LangChain Expression Language:**
-![Screenshot 2024-04-27 095430](https://github.com/RutamBhagat/code_wizard_backend/assets/72187009/fb16a35e-d619-4332-a3c1-3cc211069c1f)
+2. **Configure Environment**
+
+   - Set up necessary API keys and configurations for LangChain and models
+   - Adjust settings for vector databases and data storage
+
+3. **Install Dependencies**
+   - Follow setup instructions in the repos to install dependencies
+   - Use Python and npm to ensure the backend and frontend are configured properly
+
+## Outcome
+
+Code Wizard has demonstrated its ability to transform the way developers learn and utilize the LangChain framework. It offers seamless integration of documentation search and AI-based explanations while being highly optimized for scalability and performance.
+
+# Screenshots
+
+![Screenshot 1](https://github.com/user-attachments/assets/85720540-b534-4907-bfe3-da125306e684)
+![Screenshot 2](https://github.com/user-attachments/assets/f798dff9-eae2-4818-b0f9-620ea596e034)
+![Screenshot 3](https://github.com/user-attachments/assets/288af3ed-bc70-4191-9bf6-b00c8f44fdd2)
+![Screenshot 4](https://github.com/user-attachments/assets/e31b8075-d5ef-4a28-a113-37fc9f8c2842)
