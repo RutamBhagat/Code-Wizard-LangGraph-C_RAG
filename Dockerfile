@@ -1,24 +1,15 @@
-# Use Python 3.11 slim image as base
-FROM python:3.11-slim
+FROM python:3.11-slim-bullseye
+ENV PYTHONUNBUFFERED 1
 
-# Set work directory
 WORKDIR /code
 
-# Copy entire project first
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
 COPY . .
 
-# Install venv package (required for virtual environment creation)
-RUN apt-get update && apt-get install -y python3-venv && apt-get clean
+# Expose ports for better visibility
+EXPOSE 8000
 
-# Create a virtual environment
-RUN python -m venv .venv
-
-# Activate the virtual environment and install dependencies
-RUN . .venv/bin/activate && pip install --upgrade pip && pip install -r requirements.txt
-
-# Set environment variables
-ENV PYTHONPATH=/code/app
-ENV PATH="/code/.venv/bin:$PATH"
-
-# Command to run the application using the virtual environment's uvicorn
-CMD ["uvicorn", "app.server:app", "--host", "0.0.0.0", "--port", "8000"]
+# Use an entrypoint instead of a CMD. Entrypoint allows overriding with docker run
+ENTRYPOINT ["gunicorn", "--bind", "0.0.0.0:8000", "app.server:app"]
