@@ -1,6 +1,6 @@
 from dotenv import load_dotenv, find_dotenv
 from pinecone import Pinecone
-
+import os
 from langchain_pinecone import PineconeVectorStore
 from langchain_openai import OpenAIEmbeddings
 
@@ -11,7 +11,7 @@ from app.graph.consts import INDEX_NAME
 
 
 _ = load_dotenv(find_dotenv())
-pc = Pinecone(environment="northamerica-northeast1-gcp")
+pc = Pinecone(api_key=os.environ["PINECONE_API_KEY"], environment="northamerica-northeast1-gcp")
 embeddings = OpenAIEmbeddings(disallowed_special=set())
 
 # current_dir = os.getcwd()
