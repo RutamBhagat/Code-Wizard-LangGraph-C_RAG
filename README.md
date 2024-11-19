@@ -57,14 +57,50 @@ Building Code Wizard was a fantastic learning journey, offering valuable lessons
 
 ## Getting Started
 
-1. **Clone the Repositories**
+### Prerequisites
 
-   ```bash
-   # Frontend
-   git clone https://github.com/RutamBhagat/code_wizard_frontend
+- Node.js 18+
+- Python 3.10+
+- Docker (optional)
+- Git
+
+### Frontend Setup
+
+```bash
+# Clone repository
+git clone https://github.com/RutamBhagat/code_wizard_frontend
+cd code_wizard_frontend
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+```
+
+```bash
    # Backend
    git clone https://github.com/RutamBhagat/Code-Wizard-LangGraph-C_RAG
-   ```
+
+   pipx install pdm
+
+   pdm install
+
+   source .venv/bin/activate
+
+   pdm run uvicorn app.server:app --reload
+```
+
+```bash
+   # Remove the old container if present
+   docker rm code-wizard-container
+
+   # Build the new image with no cache
+   docker build --no-cache -t code-wizard-app .
+
+   # Run the container
+   docker run -d -p 8000:8000 --name code-wizard-container code-wizard-app
+```
 
 2. **Configure Environment**
 

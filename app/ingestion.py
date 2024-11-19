@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv, find_dotenv
-from pinecone import Pinecone
+from pinecone.control import Pinecone
 from langchain_pinecone import PineconeVectorStore
 from langchain_openai import OpenAIEmbeddings
 
