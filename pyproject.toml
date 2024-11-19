@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "C_RAG"
 version = "0.1.0"
-description = ""
+description = "Your project description here"
 authors = ["Your Name <you@example.com>"]
 readme = "README.md"
 packages = [
@@ -10,28 +10,27 @@ packages = [
 
 [tool.poetry.dependencies]
 python = ">=3.11,<3.13"
-langserve = {extras = ["server"], version = ">=0.0.30"}
-unstructured = {extras = ["markdown"], version = "^0.14.2"}
+fastapi = {extras = ["standard"], version = ">=0.110.3"}
+uvicorn = "==0.23.2"
+langgraph = ">=0.2.52"
+langgraph-checkpoint-sqlite = ">=2.0.1"
+langchain = ">=0.3.7,<=0.3.9"  # Upper bound set to avoid breaking changes
+langchain-openai = ">=0.2.9"
+pinecone = "<5.4.0"  # Ensure compatibility with langchain-pinecone
+langchain-pinecone = "<0.2.0"  # Align with compatible Pinecone versions
 
+unstructured = {extras = ["markdown"], version = "^0.14.2"}
+langserve = {extras = ["server"], version = ">=0.0.30"}
 
 [tool.poetry.group.dev.dependencies]
 langchain-cli = ">=0.0.15"
 
-
 [tool.poetry.group.D.dependencies]
 ipykernel = "^6.29.4"
 
-
-[tool.pdm.dev-dependencies]
-dev = [
-    "langchain-cli>=0.0.15",
-]
-D = [
-    "ipykernel<7.0.0,>=6.29.4",
-]
-
 [tool.pdm.build]
 includes = ["app"]
+
 [build-system]
 requires = ["pdm-backend"]
 build-backend = "pdm.backend"
@@ -46,11 +45,13 @@ dependencies = [
     "uvicorn==0.23.2",
     "langgraph>=0.2.52",
     "langgraph-checkpoint-sqlite>=2.0.1",
-    "langchain>=0.3.7",
+    "langchain>=0.3.7,<=0.3.9",  # Match the compatible version
     "langchain-openai>=0.2.9",
-    "pinecone>=5.4.0",
+    "pinecone<5.4.0",  # Ensure compatibility with langchain-pinecone
+    "pinecone-client>=3.2.2",
+    "langchain-pinecone>=0.2.0",
 ]
 name = "C_RAG"
 version = "0.1.0"
-description = ""
+description = "Your project description here"
 readme = "README.md"
