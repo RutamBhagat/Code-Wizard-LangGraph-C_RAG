@@ -1,13 +1,14 @@
-# Stage 1: Build
-FROM python:3.11-slim-bullseye AS build
-WORKDIR /app
-COPY requirements.txt requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+FROM python:3.11-slim
+
+WORKDIR /code
+
+COPY requirements.txt .
+
+RUN pip install -r requirements.txt
+
 COPY . .
 
-# Stage 2: Run
-FROM python:3.11-slim-bullseye
-WORKDIR /app
-COPY --from=build /app/ .
-EXPOSE 8000
-CMD ["uvicorn", "app.server:app", "--host", "0.0.0.0", "--port", "8000"]
+# Add extensive logging (This might not be as useful without venv, but keep it for now)
+RUN pip show uvicorn > uvicorn_info.txt 2>&1
+
+CMD ["python", "-m", "uvicorn", "app.server:app", "--host", "0.0.0.0", "--port", "8000"]
