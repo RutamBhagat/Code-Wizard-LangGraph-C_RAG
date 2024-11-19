@@ -6,7 +6,8 @@ from app.ingestion import retriever
 
 def retrieve_documents_node(state: GraphState) -> GraphState:
     """Node for retrieving documents using the enhanced query"""
-    state.documents = retriever.get_relevant_documents(state.enhanced_query)
+    # Updated to use invoke() instead of deprecated get_relevant_documents()
+    state.documents = retriever.invoke(state.enhanced_query)
     return state
 
 

@@ -5,23 +5,25 @@ from app.graph.state import GraphState
 
 template = """You are a query enhancement system. Your role is to analyze the user's question and chat history to create a more comprehensive search query.
 
-                DO NOT answer the question. Instead, formulate an enhanced search query that:
-                - Incorporates relevant context from the chat history
-                - Maintains the original intent of the question
-                - Includes important contextual details that were mentioned earlier
-                - Removes ambiguous pronouns by replacing them with their referents from context
+            DO NOT answer the question. Instead, formulate an enhanced search query that:
+            - Incorporates relevant context from the chat history
+            - Maintains the original intent of the question
+            - Includes important contextual details that were mentioned earlier
+            - Removes ambiguous pronouns by replacing them with their referents from context
 
-                Chat History for context: {chat_history}
-                Current question: {question}
+            Chat History for context: {chat_history}
+            Current question: {question}
 
-                Return only the enhanced query text without any explanations or additional content.
+            If there is no relevant chat history, or you cannot formulate a more comprehensive query based on the provided context, return the original question exactly as it is without any modifications.
 
-                Example:
-                Chat history: "User: I have a 2019 Toyota Camry"
-                Question: "How do I change its oil?"
-                Enhanced query: "How to change oil in 2019 Toyota Camry step by step procedure"
+            Otherwise, return only the enhanced query text without any prefixes or explanations.
 
-                Format your response as a single query string without any prefixes or explanations."""
+            Example:
+            Chat history: "User: I have a 2019 Toyota Camry"
+            Question: "How do I change its oil?"
+            Enhanced query: "How to change oil in 2019 Toyota Camry step by step procedure"
+
+            Format your response as a single query string without any prefixes or explanations."""
 
 query_generator_prompt = ChatPromptTemplate.from_messages([("system", template)])
 generate_enhanced_query = (
