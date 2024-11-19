@@ -1,15 +1,13 @@
-FROM python:3.11-slim-bullseye
-ENV PYTHONUNBUFFERED 1
-
-WORKDIR /code
-
-COPY requirements.txt .
+# Stage 1: Build
+FROM python:3.11-slim-bullseye AS build
+WORKDIR /app
+COPY requirements.txt requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
-
 COPY . .
 
-# Expose ports for better visibility
+# Stage 2: Run
+FROM python:3.11-slim-bullseye
+WORKDIR /app
+COPY --from=build /app/ .
 EXPOSE 8000
-
-# Use an entrypoint instead of a CMD. Entrypoint allows overriding with docker run
-ENTRYPOINT ["gunicorn", "--bind", "0.0.0.0:8000", "app.server:app"]
+CMD ["uvicorn", "app.server:app", "--host", "0.0.0.0", "--port", "8000"]
