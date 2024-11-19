@@ -78,6 +78,8 @@ npm install
 npm run dev
 ```
 
+### Backend Setup
+
 ```bash
    # Backend
    git clone https://github.com/RutamBhagat/Code-Wizard-LangGraph-C_RAG
@@ -90,6 +92,8 @@ npm run dev
 
    pdm run uvicorn app.server:app --reload
 ```
+
+#### If you want to setup using Docker
 
 ```bash
    # Remove the old container if present
