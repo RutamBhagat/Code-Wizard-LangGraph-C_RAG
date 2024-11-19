@@ -51,6 +51,7 @@ dependencies = [
     "pinecone-client>=3.2.2",
     "langchain-pinecone>=0.2.0",
     "langchain-community>=0.3.7",
+    "python-dotenv>=1.0.1",
 ]   
 name = "C_RAG"
 version = "0.1.0"
