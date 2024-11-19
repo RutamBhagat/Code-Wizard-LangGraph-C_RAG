@@ -83,6 +83,7 @@ Building Code Wizard was a fantastic learning journey, offering valuable lessons
 ```bash
    # Backend
    git clone https://github.com/RutamBhagat/Code-Wizard-LangGraph-C_RAG
+   cd Code-Wizard-LangGraph-C_RAG
 
    pipx install pdm
 
