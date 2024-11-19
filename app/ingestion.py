@@ -12,6 +12,7 @@ from app.graph.consts import INDEX_NAME
 
 _ = load_dotenv(find_dotenv())
 pc = Pinecone(api_key=os.environ["PINECONE_API_KEY"], environment="northamerica-northeast1-gcp")
+index = pc.Index("langchain-doc-index-unstructured")
 embeddings = OpenAIEmbeddings(disallowed_special=set())
 
 # current_dir = os.getcwd()
