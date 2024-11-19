@@ -1,14 +1,41 @@
-FROM python:3.11-slim
+FROM python:3.10
 
-WORKDIR /code
+ENV PYTHONUNBUFFERED=1
 
-COPY requirements.txt .
+WORKDIR /app/
 
-RUN pip install -r requirements.txt
+# Install uv
+# Ref: https://docs.astral.sh/uv/guides/integration/docker/#installing-uv
+COPY --from=ghcr.io/astral-sh/uv:0.4.15 /uv /bin/uv
 
-COPY . .
+# Place executables in the environment at the front of the path
+# Ref: https://docs.astral.sh/uv/guides/integration/docker/#using-the-environment
+ENV PATH="/app/.venv/bin:$PATH"
 
-# Add extensive logging (This might not be as useful without venv, but keep it for now)
-RUN pip show uvicorn > uvicorn_info.txt 2>&1
+# Compile bytecode
+# Ref: https://docs.astral.sh/uv/guides/integration/docker/#compiling-bytecode
+ENV UV_COMPILE_BYTECODE=1
 
-CMD ["python", "-m", "uvicorn", "app.server:app", "--host", "0.0.0.0", "--port", "8000"]
+# uv Cache
+# Ref: https://docs.astral.sh/uv/guides/integration/docker/#caching
+ENV UV_LINK_MODE=copy
+
+# Install dependencies
+# Ref: https://docs.astral.sh/uv/guides/integration/docker/#intermediate-layers
+RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    uv sync --frozen --no-install-project
+
+ENV PYTHONPATH=/app
+
+COPY ./pyproject.toml ./uv.lock /app/
+
+COPY ./app /app/app
+
+# Sync the project
+# Ref: https://docs.astral.sh/uv/guides/integration/docker/#intermediate-layers
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync
+
+CMD ["fastapi", "run", "--workers", "4", "app/main.py"]
