@@ -1,21 +1,24 @@
+# Use Python 3.11 slim image as base
 FROM python:3.11-slim
 
-RUN pip install poetry==1.6.1
-
-RUN poetry config virtualenvs.create false
-
+# Set work directory
 WORKDIR /code
 
-COPY ./pyproject.toml ./README.md ./poetry.lock* ./
+# Copy entire project first
+COPY . .
 
-COPY ./package[s] ./packages
+# Install venv package (required for virtual environment creation)
+RUN apt-get update && apt-get install -y python3-venv && apt-get clean
 
-RUN poetry install  --no-interaction --no-ansi --no-root
+# Create a virtual environment
+RUN python -m venv .venv
 
-COPY ./app ./app
+# Activate the virtual environment and install dependencies
+RUN . .venv/bin/activate && pip install --upgrade pip && pip install -r requirements.txt
 
-RUN poetry install --no-interaction --no-ansi
+# Set environment variables
+ENV PYTHONPATH=/code/app
+ENV PATH="/code/.venv/bin:$PATH"
 
-EXPOSE 8080
-
-CMD exec uvicorn app.server:app --host 0.0.0.0 --port 8080
+# Command to run the application using the virtual environment's uvicorn
+CMD ["uvicorn", "app.server:app", "--host", "0.0.0.0", "--port", "8000"]
