@@ -67,15 +67,15 @@ Building Code Wizard was a fantastic learning journey, offering valuable lessons
 ### Frontend Setup
 
 ```bash
-# Clone repository
-git clone https://github.com/RutamBhagat/code_wizard_frontend
-cd code_wizard_frontend
+   # Clone repository
+   git clone https://github.com/RutamBhagat/code_wizard_frontend
+   cd code_wizard_frontend
 
-# Install dependencies
-npm install
+   # Install dependencies
+   npm install
 
-# Start development server
-npm run dev
+   # Start development server
+   npm run dev
 ```
 
 ### Backend Setup
