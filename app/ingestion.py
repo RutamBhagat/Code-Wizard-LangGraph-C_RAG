@@ -11,7 +11,9 @@ _ = load_dotenv(find_dotenv())
 
 # Pinecone initialization
 PINECONE_API_KEY = os.environ.get("PINECONE_API_KEY")
-PINECONE_ENVIRONMENT = os.environ.get("PINECONE_ENVIRONMENT", "northamerica-northeast1-gcp")
+PINECONE_ENVIRONMENT = os.environ.get(
+    "PINECONE_ENVIRONMENT", "northamerica-northeast1-gcp"
+)
 
 if not PINECONE_API_KEY:
     raise ValueError("PINECONE_API_KEY environment variable not set.")
@@ -26,7 +28,7 @@ if index_name not in pc.list_indexes().names():
     pc.create_index(
         name=index_name,
         dimension=1536,  # OpenAI embeddings dimension
-        metric='cosine'
+        metric="cosine",
     )
 
 index = pc.Index(index_name)
@@ -42,5 +44,5 @@ docsearch = PineconeVectorStore(
 # Create and export the retriever
 retriever = docsearch.as_retriever(
     search_type="similarity",
-    search_kwargs={"k": 4}  # Adjust k value as needed
+    search_kwargs={"k": 4},  # Adjust k value as needed
 )
