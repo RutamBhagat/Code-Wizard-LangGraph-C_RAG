@@ -18,7 +18,7 @@ class GraphState(BaseModel):
 
     question: str = Field(description="Question to be answered")
     enhanced_query: str = Field(default="")
-    documents: Annotated[List[Any], operator.add] = Field(default_factory=list)
+    documents: List[Any] = Field(default_factory=list)
     chat_history: Annotated[Sequence[Union[HumanMessage, AIMessage]], operator.add] = (
         Field(default_factory=list)
     )

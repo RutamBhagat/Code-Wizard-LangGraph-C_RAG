@@ -17,5 +17,4 @@ def web_search(state: GraphState) -> Dict[str, Any]:
         for result in tavily_results
         if "content" in result
     ]
-
-    return {"documents": web_results}
+    return {"documents": [*state.documents, *web_results]}

@@ -19,4 +19,5 @@ def generate(state: GraphState) -> Dict[str, Any]:
             AIMessage(content=generation),
         ],
         "generation": generation,
+        "documents": [],
     }
