@@ -3,14 +3,22 @@ from dotenv import load_dotenv, find_dotenv
 from langgraph.graph import END, StateGraph
 from langgraph.checkpoint.sqlite import SqliteSaver
 from app.graph.state import GraphState
-from app.graph.consts import RETRIEVE, GENERATE, WEB_SEARCH, ENHANCED_QUERY_NODE
+from app.graph.consts import (
+    RETRIEVE,
+    GENERATE,
+    WEB_SEARCH,
+    ENHANCED_QUERY_NODE,
+    RETRIEVE_AND_WEB_SEARCH,
+)
 from app.graph.nodes import (
     generate,
+    retrieve_and_web_search,
     web_search,
     retrieve_documents_node,
     generate_enhanced_query_node,
 )
 from app.graph.chains.router import question_router, RouteQuery
+
 
 _ = load_dotenv(find_dotenv())
 
@@ -28,7 +36,7 @@ def route_question(state: GraphState) -> str:
     if source.datasource == "web_search":
         return WEB_SEARCH
     else:
-        return RETRIEVE
+        return RETRIEVE_AND_WEB_SEARCH
 
 
 # Create the workflow without the SQLite connection
@@ -36,41 +44,22 @@ workflow = StateGraph(GraphState)
 
 # Node Definition
 workflow.add_node(ENHANCED_QUERY_NODE, generate_enhanced_query_node)
+workflow.add_node(RETRIEVE_AND_WEB_SEARCH, retrieve_and_web_search)
 workflow.add_node(RETRIEVE, retrieve_documents_node)
 workflow.add_node(WEB_SEARCH, web_search)
 workflow.add_node(GENERATE, generate)
 
 # Graph flow
 workflow.set_entry_point(ENHANCED_QUERY_NODE)
-
-
-# Conditional logic: WEB_SEARCH skips RETRIEVE; RETRIEVE executes both RETRIEVE and WEB_SEARCH
-def route_and_handle_parallel(state: GraphState) -> dict:
-    route = route_question(state)
-    if route == WEB_SEARCH:
-        # Skip RETRIEVE and go directly to WEB_SEARCH
-        return {"next": [WEB_SEARCH]}
-    else:
-        # Execute both RETRIEVE and WEB_SEARCH in parallel
-        return {"next": [RETRIEVE, WEB_SEARCH]}
-
-
-# Add conditional edge routing
 workflow.add_conditional_edges(
     ENHANCED_QUERY_NODE,
-    route_and_handle_parallel,
-    path_map={RETRIEVE: RETRIEVE, WEB_SEARCH: WEB_SEARCH},
+    route_question,
+    path_map={WEB_SEARCH: WEB_SEARCH, RETRIEVE_AND_WEB_SEARCH: RETRIEVE_AND_WEB_SEARCH},
 )
-
-# Parallel Execution
-# RETRIEVE leads to WEB_SEARCH in parallel mode
-workflow.add_edge(RETRIEVE, WEB_SEARCH)
-
-# Both RETRIEVE and WEB_SEARCH lead to GENERATE
-workflow.add_edge(WEB_SEARCH, GENERATE)
 workflow.add_edge(RETRIEVE, GENERATE)
-
-# GENERATE leads to END
+workflow.add_edge(WEB_SEARCH, GENERATE)
+workflow.add_edge(RETRIEVE_AND_WEB_SEARCH, RETRIEVE)
+workflow.add_edge(RETRIEVE_AND_WEB_SEARCH, WEB_SEARCH)
 workflow.add_edge(GENERATE, END)
 
 
