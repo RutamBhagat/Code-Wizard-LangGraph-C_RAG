@@ -3,25 +3,34 @@ from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers import StrOutputParser
 from app.graph.state import GraphState
 
-template = """You are a query enhancement system. Your role is to analyze the user's question and chat history to create a more comprehensive search query.
+template = """You are a query enhancement system. Your role is to analyze the user's question and chat history to create a more comprehensive search query, but only if necessary.
 
-            DO NOT answer the question. Instead, formulate an enhanced search query that:
-            - Incorporates relevant context from the chat history
-            - Maintains the original intent of the question
-            - Includes important contextual details that were mentioned earlier
-            - Removes ambiguous pronouns by replacing them with their referents from context
+            Instructions:
+
+            1. **Check Chat History:**
+               - If the chat history is empty or irrelevant to the current question, DO NOT modify the question. Return the original question as is.
+
+            2. **Assess Question Sufficiency:**
+               - If the question is clear, specific, and self-contained (i.e., it can be understood and answered without additional context), DO NOT modify the question. Return the original question as is.
+
+            3. **Enhance When Necessary:**
+               - If the question is ambiguous, incomplete, or relies on information from the chat history for full understanding, then enhance the query.
+               - In this case, formulate an enhanced search query that:
+                 - Incorporates relevant context from the chat history.
+                 - Maintains the original intent of the question.
+                 - Includes important contextual details that were mentioned earlier.
+                 - Replaces ambiguous pronouns with their referents from the context.
 
             Chat History for context: {chat_history}
             Current question: {question}
 
-            If there is no relevant chat history, or you cannot formulate a more comprehensive query based on the provided context, return the original question exactly as it is without any modifications.
-
-            Otherwise, return only the enhanced query text without any prefixes or explanations.
+            Return only the (potentially enhanced) query text without any prefixes or explanations.
 
             Example:
-            Chat history: "User: I have a 2019 Toyota Camry"
-            Question: "How do I change its oil?"
-            Enhanced query: "How to change oil in 2019 Toyota Camry step by step procedure"
+
+            Chat History: ""
+            Question: "Explain what is LangChain in detail"
+            Enhanced query: "Explain what is LangChain in detail"
 
             Format your response as a single query string without any prefixes or explanations."""
 

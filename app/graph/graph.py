@@ -9,13 +9,15 @@ from app.graph.consts import (
     WEB_SEARCH,
     ENHANCED_QUERY_NODE,
     RETRIEVE_AND_WEB_SEARCH,
+    COMBINE_DOCUMENTS,
 )
 from app.graph.nodes import (
     generate,
     retrieve_and_web_search,
     web_search,
-    retrieve_documents_node,
     generate_enhanced_query_node,
+    retrieve_documents_node,
+    combine_documents,
 )
 from app.graph.chains.router import question_router, RouteQuery
 
@@ -47,6 +49,7 @@ workflow.add_node(ENHANCED_QUERY_NODE, generate_enhanced_query_node)
 workflow.add_node(RETRIEVE_AND_WEB_SEARCH, retrieve_and_web_search)
 workflow.add_node(RETRIEVE, retrieve_documents_node)
 workflow.add_node(WEB_SEARCH, web_search)
+workflow.add_node(COMBINE_DOCUMENTS, combine_documents)
 workflow.add_node(GENERATE, generate)
 
 # Graph flow
@@ -56,10 +59,11 @@ workflow.add_conditional_edges(
     route_question,
     path_map={WEB_SEARCH: WEB_SEARCH, RETRIEVE_AND_WEB_SEARCH: RETRIEVE_AND_WEB_SEARCH},
 )
-workflow.add_edge(RETRIEVE, GENERATE)
-workflow.add_edge(WEB_SEARCH, GENERATE)
 workflow.add_edge(RETRIEVE_AND_WEB_SEARCH, RETRIEVE)
 workflow.add_edge(RETRIEVE_AND_WEB_SEARCH, WEB_SEARCH)
+workflow.add_edge(RETRIEVE, COMBINE_DOCUMENTS)
+workflow.add_edge(WEB_SEARCH, COMBINE_DOCUMENTS)
+workflow.add_edge(COMBINE_DOCUMENTS, GENERATE)
 workflow.add_edge(GENERATE, END)
 
 
