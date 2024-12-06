@@ -45,4 +45,4 @@ def generate_enhanced_query_node(state: GraphState) -> GraphState:
     enhanced_query = generate_enhanced_query.invoke(
         {"question": state.question, "chat_history": state.chat_history or []}
     )
-    return {"enhanced_query": enhanced_query, "documents": []}
+    return {"enhanced_query": enhanced_query}
