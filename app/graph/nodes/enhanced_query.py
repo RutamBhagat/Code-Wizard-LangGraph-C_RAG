@@ -33,7 +33,7 @@ generate_enhanced_query = (
 
 def generate_enhanced_query_node(state: GraphState) -> GraphState:
     """Node for generating an enhanced query from question and chat history"""
-    state.enhanced_query = generate_enhanced_query.invoke(
+    enhanced_query = generate_enhanced_query.invoke(
         {"question": state.question, "chat_history": state.chat_history or []}
     )
-    return state
+    return {"enhanced_query": enhanced_query}

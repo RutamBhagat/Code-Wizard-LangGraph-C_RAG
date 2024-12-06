@@ -42,13 +42,35 @@ workflow.add_node(GENERATE, generate)
 
 # Graph flow
 workflow.set_entry_point(ENHANCED_QUERY_NODE)
+
+
+# Conditional logic: WEB_SEARCH skips RETRIEVE; RETRIEVE executes both RETRIEVE and WEB_SEARCH
+def route_and_handle_parallel(state: GraphState) -> dict:
+    route = route_question(state)
+    if route == WEB_SEARCH:
+        # Skip RETRIEVE and go directly to WEB_SEARCH
+        return {"next": [WEB_SEARCH]}
+    else:
+        # Execute both RETRIEVE and WEB_SEARCH in parallel
+        return {"next": [RETRIEVE, WEB_SEARCH]}
+
+
+# Add conditional edge routing
 workflow.add_conditional_edges(
     ENHANCED_QUERY_NODE,
-    route_question,
-    path_map={WEB_SEARCH: WEB_SEARCH, RETRIEVE: RETRIEVE},
+    route_and_handle_parallel,
+    path_map={RETRIEVE: RETRIEVE, WEB_SEARCH: WEB_SEARCH},
 )
+
+# Parallel Execution
+# RETRIEVE leads to WEB_SEARCH in parallel mode
 workflow.add_edge(RETRIEVE, WEB_SEARCH)
+
+# Both RETRIEVE and WEB_SEARCH lead to GENERATE
 workflow.add_edge(WEB_SEARCH, GENERATE)
+workflow.add_edge(RETRIEVE, GENERATE)
+
+# GENERATE leads to END
 workflow.add_edge(GENERATE, END)
 
 
