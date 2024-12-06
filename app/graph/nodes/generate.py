@@ -18,4 +18,5 @@ def generate(state: GraphState) -> Dict[str, Any]:
             HumanMessage(content=state.question),
             AIMessage(content=generation),
         ],
+        "generation": generation,
     }
