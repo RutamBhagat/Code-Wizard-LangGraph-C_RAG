@@ -67,7 +67,7 @@ workflow.add_edge(GENERATE, END)
 def get_graph_instance():
     conn = sqlite3.connect("checkpoints.sqlite", check_same_thread=False)
     memory = SqliteSaver(conn)
-    memory.setup()  # Create tables if they don't exist
+    memory.setup()
     graph = workflow.compile(checkpointer=memory)
     graph.get_graph().draw_mermaid_png(output_file_path="graph.png")
     return graph
