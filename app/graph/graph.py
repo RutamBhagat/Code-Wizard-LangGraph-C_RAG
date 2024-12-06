@@ -43,7 +43,9 @@ workflow.add_node(GENERATE, generate)
 # Graph flow
 workflow.set_entry_point(ENHANCED_QUERY_NODE)
 workflow.add_conditional_edges(
-    ENHANCED_QUERY_NODE, route_question, path_map={RETRIEVE, WEB_SEARCH}
+    ENHANCED_QUERY_NODE,
+    route_question,
+    path_map={WEB_SEARCH: WEB_SEARCH, RETRIEVE: RETRIEVE},
 )
 workflow.add_edge(RETRIEVE, WEB_SEARCH)
 workflow.add_edge(WEB_SEARCH, GENERATE)
