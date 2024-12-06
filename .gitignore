@@ -131,3 +131,6 @@ dmypy.json
 # Langchain Docs
 langchain_docs/
 .vercel
+checkpoints.sqlite3
+checkpoints.sqlite-shm
+checkpoints.sqlite-wal
