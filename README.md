@@ -98,6 +98,7 @@ Building Code Wizard was a fantastic learning journey, offering valuable lessons
 
 ```bash
    # Remove the old container if present
+   docker stop code-wizard-container
    docker rm code-wizard-container
 
    # Build the new image with no cache
