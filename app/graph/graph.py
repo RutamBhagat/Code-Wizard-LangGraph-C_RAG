@@ -15,6 +15,12 @@ from app.graph.chains.router import question_router, RouteQuery
 _ = load_dotenv(find_dotenv())
 
 
+def save_graph_visualization(graph: StateGraph, filename: str = "graph.png") -> None:
+    """Save graph visualization to file."""
+    with open(filename, "wb") as f:
+        f.write(graph.get_graph().draw_mermaid_png())
+
+
 def route_question(state: GraphState) -> str:
     source: RouteQuery = question_router.invoke(
         {"question": state.enhanced_query, "chat_history": state.chat_history}
@@ -52,3 +58,7 @@ def get_graph_instance():
     graph = workflow.compile(checkpointer=memory)
     graph.get_graph().draw_mermaid_png(output_file_path="graph.png")
     return graph
+
+
+graph = get_graph_instance()
+save_graph_visualization(graph)

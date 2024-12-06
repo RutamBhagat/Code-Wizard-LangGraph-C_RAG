@@ -1,7 +1,7 @@
 import time
 from fastapi import Body, APIRouter
 from pydantic import BaseModel
-from app.graph.graph import get_graph_instance
+from app.graph.graph import graph
 
 router = APIRouter(prefix="/code_wizard", tags=["code_wizard"])
 
@@ -23,11 +23,8 @@ def code_wizard(request_body: RequestBody = Body(...)):
     start_time = time.time()
     config = {"configurable": {"thread_id": request_body.chat_id}}
 
-    # Get a new graph instance for this request
-    graph_instance = get_graph_instance()
-
     # Use the instance for this request
-    res = graph_instance.invoke({"question": question}, config=config)
+    res = graph.invoke({"question": question}, config=config)
 
     end_time = time.time()
     time_taken = end_time - start_time
