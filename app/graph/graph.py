@@ -64,7 +64,6 @@ def get_graph_instance():
     memory = SqliteSaver(conn)
     memory.setup()
     graph = workflow.compile(checkpointer=memory)
-    graph.get_graph().draw_mermaid_png(output_file_path="graph.png")
     return graph
 
 
