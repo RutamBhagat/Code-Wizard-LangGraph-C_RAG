@@ -2,6 +2,7 @@ from langchain.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers import StrOutputParser
 from app.graph.state import GraphState
+from app.graph.utils.time import track_execution_time
 
 template = """You are a query enhancement system. Your role is to analyze the user's question and chat history to create a more comprehensive search query, but only if necessary.
 
@@ -40,6 +41,7 @@ generate_enhanced_query = (
 )
 
 
+@track_execution_time
 def generate_enhanced_query_node(state: GraphState) -> GraphState:
     """Node for generating an enhanced query from question and chat history"""
     enhanced_query = generate_enhanced_query.invoke(
