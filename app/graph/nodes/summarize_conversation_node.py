@@ -34,15 +34,27 @@ def summarize_conversation(state: GraphState):
 
     # Create our summarization prompt
     summary_message = f"""
-        # IDENTITY and PURPOSE
-        You are an expert content summarizer. You take content in and output a Markdown formatted summary using the format below.
-        # OUTPUT INSTRUCTIONS
-        - You only output human readable Markdown.
-        - Do not repeat items in the output sections.
-        - Do not start items with the same opening words.
-        INPUT:
-        {chat_content}
-    """
+Summarize the following conversation in a clear and concise way.
+
+Requirements:
+- Provide a brief overview of the main topics and key points
+- Use simple, direct language
+- Stay under {MAX_TOKENS} tokens
+- Format output in Markdown
+- Focus on essential information only
+
+Input conversation:
+{chat_content}
+
+Format your response as:
+# Summary
+[Your concise summary here]
+
+# Key Points
+- [Point 1]
+- [Point 2]
+- [Point 3]
+"""
 
     # Add prompt to our history
     summarized_messages = [AIMessage(content=summary_message)]
