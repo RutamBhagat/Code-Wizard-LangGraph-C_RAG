@@ -1,7 +1,6 @@
-import operator
-from typing import Any, List, Annotated, Sequence, Union, Dict
+from typing import Any, List, Dict
 
-from langchain_core.messages import HumanMessage, AIMessage
+from langchain_core.messages import AnyMessage
 from pydantic import BaseModel, Field
 
 
@@ -20,9 +19,7 @@ class GraphState(BaseModel):
     question: str = Field(description="Question to be answered")
     enhanced_query: str = Field(default="")
     documents: List[Any] = Field(default_factory=list)
-    chat_history: Annotated[Sequence[Union[HumanMessage, AIMessage]], operator.add] = (
-        Field(default_factory=list)
-    )
+    chat_history: List[AnyMessage] = Field(default_factory=list)
     generation: str = Field(default="")
     execution_times: Dict[str, str] = Field(default_factory=dict)
 
