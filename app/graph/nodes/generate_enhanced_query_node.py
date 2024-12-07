@@ -1,7 +1,7 @@
 from langchain.prompts import ChatPromptTemplate
+from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers import StrOutputParser
 from app.graph.state import GraphState
-from app.graph.utils import model
 from app.graph.utils.time import track_execution_time
 
 template = """You are a query enhancement system. Your role is to analyze the user's question and chat history to create a more comprehensive search query, but only if necessary.
@@ -36,7 +36,9 @@ template = """You are a query enhancement system. Your role is to analyze the us
             Format your response as a single query string without any prefixes or explanations."""
 
 query_generator_prompt = ChatPromptTemplate.from_messages([("system", template)])
-generate_enhanced_query = query_generator_prompt | model | StrOutputParser()
+generate_enhanced_query = (
+    query_generator_prompt | ChatOpenAI(temperature=0) | StrOutputParser()
+)
 
 
 @track_execution_time

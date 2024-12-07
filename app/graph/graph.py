@@ -65,8 +65,7 @@ builder.add_edge(GENERATE_NODE, END)
 # Create a function to get a new graph instance with its own SQLite connection
 def get_graph_instance():
     conn = sqlite3.connect("checkpoints.sqlite", check_same_thread=False)
-    memory = SqliteSaver(conn)
-    memory.setup()
+    memory = SqliteSaver(conn).setup()
     graph = builder.compile(checkpointer=memory)
     return graph
 

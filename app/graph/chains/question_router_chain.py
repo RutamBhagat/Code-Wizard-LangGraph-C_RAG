@@ -1,9 +1,8 @@
 from typing import Literal
 from langchain.prompts import MessagesPlaceholder
 from langchain_core.prompts import ChatPromptTemplate
+from langchain_openai import ChatOpenAI
 from pydantic import BaseModel, Field
-
-from app.graph.utils import model
 
 
 class RouteQuery(BaseModel):
@@ -15,7 +14,8 @@ class RouteQuery(BaseModel):
     )
 
 
-structured_llm_router = model.with_structured_output(RouteQuery)
+llm = ChatOpenAI(temperature=0, model="gpt-4o-mini")
+structured_llm_router = llm.with_structured_output(RouteQuery)
 
 template = """You route user questions between a vectorstore and web search based on the conversation context. Use the vectorstore for LangChain-related queries covering:
 
