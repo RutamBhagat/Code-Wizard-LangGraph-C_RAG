@@ -1,5 +1,5 @@
 import operator
-from typing import Any, List, Annotated, Sequence, Union
+from typing import Any, List, Annotated, Sequence, Union, Dict
 
 from langchain_core.messages import HumanMessage, AIMessage
 from pydantic import BaseModel, Field
@@ -14,6 +14,7 @@ class GraphState(BaseModel):
         documents: list of documents
         chat_history: list of chat messages
         generation: response to the question
+        execution_times: Dictionary to store execution times of each node.
     """
 
     question: str = Field(description="Question to be answered")
@@ -23,3 +24,4 @@ class GraphState(BaseModel):
         Field(default_factory=list)
     )
     generation: str = Field(default="")
+    execution_times: Dict[str, float] = Field(default_factory=dict)
