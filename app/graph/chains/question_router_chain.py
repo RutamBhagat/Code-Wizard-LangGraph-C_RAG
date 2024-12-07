@@ -36,4 +36,4 @@ router_prompt = ChatPromptTemplate.from_messages(
 )
 
 
-question_router = router_prompt | structured_llm_router
+question_router_chain = router_prompt | structured_llm_router

@@ -15,7 +15,7 @@ from app.graph.nodes import (
     retrieve_documents_node,
     generate_node,
 )
-from app.graph.chains.router import question_router, RouteQuery
+from app.graph.chains.question_router_chain import question_router_chain, RouteQuery
 
 
 _ = load_dotenv(find_dotenv())
@@ -28,7 +28,7 @@ def save_graph_visualization(graph: StateGraph, filename: str = "graph.png") -> 
 
 
 def route_question(state: GraphState) -> str:
-    source: RouteQuery = question_router.invoke(
+    source: RouteQuery = question_router_chain.invoke(
         {"question": state.enhanced_query, "chat_history": state.chat_history}
     )
     if source.datasource == "web_search":
