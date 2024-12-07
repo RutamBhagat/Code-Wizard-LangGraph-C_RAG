@@ -49,7 +49,7 @@ def summarize_conversation(state: GraphState):
     model = ChatOpenAI(model=MODEL_NAME, temperature=0)
     response = model.invoke(summarized_messages)
 
-    ## DO NOT DELETE THIS TO BE USED LATER IN PROD
+    ## DO NOT DELETE THIS COULD BE USED LATER IN PROD
     # messages = trim_messages(
     #     messages=state.chat_history,
     #     max_tokens=MAX_TOKENS,
