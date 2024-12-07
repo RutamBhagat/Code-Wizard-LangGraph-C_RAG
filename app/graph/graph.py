@@ -53,7 +53,7 @@ workflow.add_conditional_edges(
     route_question,
     path_map={WEB_SEARCH_NODE: WEB_SEARCH_NODE, RETRIEVE_NODE: RETRIEVE_NODE},
 )
-workflow.add_edge(RETRIEVE_NODE, WEB_SEARCH_NODE)
+workflow.add_edge(RETRIEVE_NODE, GENERATE_NODE)
 workflow.add_edge(WEB_SEARCH_NODE, GENERATE_NODE)
 workflow.add_edge(GENERATE_NODE, END)
 
