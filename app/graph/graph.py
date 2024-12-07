@@ -61,14 +61,8 @@ builder.add_edge(RETRIEVE_NODE, GENERATE_NODE)
 builder.add_edge(WEB_SEARCH_NODE, GENERATE_NODE)
 builder.add_edge(GENERATE_NODE, END)
 
-
-# Create a function to get a new graph instance with its own SQLite connection
-def get_graph_instance():
-    conn = sqlite3.connect("checkpoints.sqlite", check_same_thread=False)
-    memory = SqliteSaver(conn).setup()
-    graph = builder.compile(checkpointer=memory)
-    return graph
-
-
-graph = get_graph_instance()
+# Checkpointer
+conn = sqlite3.connect("checkpoints.sqlite", check_same_thread=False)
+memory = SqliteSaver(conn).setup()
+graph = builder.compile(checkpointer=memory)
 save_graph_visualization(graph)
