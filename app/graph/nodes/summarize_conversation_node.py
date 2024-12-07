@@ -25,7 +25,7 @@ def summarize_conversation_node(state: GraphState):
 
 
 def summarize_conversation(state: GraphState):
-    MAX_TOKENS = 100
+    MAX_TOKENS = 250
     MODEL = "gpt-4o-mini"
 
     # Extract content from chat history
