@@ -2,7 +2,7 @@ import sqlite3
 from dotenv import load_dotenv, find_dotenv
 from langgraph.graph import END, START, StateGraph
 from langgraph.checkpoint.sqlite import SqliteSaver
-from app.graph.state import GraphState
+from app.graph.state import GraphInputState, GraphOutputState, GraphState
 from app.graph.consts import (
     ENHANCED_QUERY_NODE,
     RETRIEVE_NODE,
@@ -38,7 +38,7 @@ def route_question(state: GraphState) -> str:
 
 
 # Create the workflow without the SQLite connection
-workflow = StateGraph(GraphState)
+workflow = StateGraph(GraphState, input=GraphInputState, output=GraphOutputState)
 
 # Node Definition
 workflow.add_node(ENHANCED_QUERY_NODE, generate_enhanced_query_node)

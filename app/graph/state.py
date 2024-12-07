@@ -25,3 +25,23 @@ class GraphState(BaseModel):
     )
     generation: str = Field(default="")
     execution_times: Dict[str, str] = Field(default_factory=dict)
+
+
+class GraphInputState(BaseModel):
+    """Represents the state of our graph.
+
+    Attributes:
+        question: question to be answered
+    """
+
+    question: str = Field(description="Question to be answered")
+
+
+class GraphOutputState(BaseModel):
+    """Represents the state of our graph.
+
+    Attributes:
+        generation: response to the question
+    """
+
+    generation: str = Field(default="")
