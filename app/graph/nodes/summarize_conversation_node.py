@@ -1,8 +1,8 @@
 from langchain.schema import AIMessage
 from langchain_core.messages import trim_messages
 from langchain_openai import ChatOpenAI
+from app.graph.consts import MODEL_NAME
 from app.graph.state import GraphState
-from app.graph.utils import model
 from app.graph.utils.time import track_execution_time
 
 
@@ -17,10 +17,11 @@ def summarize_conversation_node(state: GraphState):
     )
 
     return {
+        "enhanced_query": "",
         "documents": [],
+        "chat_history": chat_history,
         "generation": "",
         "execution_times": state.execution_times,
-        "chat_history": chat_history,
     }
 
 
@@ -45,14 +46,18 @@ def summarize_conversation(state: GraphState):
 
     # Add prompt to our history
     summarized_messages = [AIMessage(content=summary_message)]
+    model = ChatOpenAI(model=MODEL_NAME, temperature=0)
     response = model.invoke(summarized_messages)
 
-    messages = trim_messages(
-        messages=state.chat_history,
-        max_tokens=MAX_TOKENS,
-        token_counter=ChatOpenAI(model=MODEL),
-        strategy="last",
-        allow_partial=False,
-    )
+    ## DO NOT DELETE THIS TO BE USED LATER IN PROD
+    # messages = trim_messages(
+    #     messages=state.chat_history,
+    #     max_tokens=MAX_TOKENS,
+    #     token_counter=ChatOpenAI(model=MODEL),
+    #     strategy="last",
+    #     allow_partial=False,
+    # )
+
+    messages = state.chat_history[-2:]
     state.chat_history = [response, *messages]
     return state

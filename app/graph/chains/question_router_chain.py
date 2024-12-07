@@ -9,22 +9,52 @@ class RouteQuery(BaseModel):
     """Route a user query to the most relevant data source."""
 
     datasource: Literal["vectorstore", "web_search"] = Field(
-        ...,
-        description="Given a user question choose to route it to web search or a vector store",
+        default="vectorstore", description="The data source to route the query to"
     )
+
+    class Config:
+        use_enum_values = True
 
 
 llm = ChatOpenAI(temperature=0, model="gpt-4o-mini")
 structured_llm_router = llm.with_structured_output(RouteQuery)
 
-template = """You route user questions between a vectorstore and web search based on the conversation context. Use the vectorstore for LangChain-related queries covering:
+template = """You are a specialized routing assistant that directs questions to the most appropriate data source.
 
-                - Core Components: Model I/O, Prompts, Chat/LLM interfaces, Retrieval, Document loaders, Text splitters, Embeddings, Vectorstores, Retrievers, Tools, Agents, Chains, Memory, Callbacks
-                - Off-the-shelf chains for high-level tasks
-                - Libraries: langchain-core, langchain-community, langchain, langgraph, langserve
-                - LangChain Expression Language (LCEL)
+AVAILABLE DATA SOURCES:
+1. Vectorstore (Primary Source)
+2. Web Search (Secondary Source)
 
-                Use web search for all other topics."""
+VECTORSTORE DOMAIN EXPERTISE:
+1. LangChain Core Components:
+   - Model I/O and Interfaces (Chat/LLM)
+   - Prompts and Templates
+   - Document Processing (Loaders, Splitters)
+   - Retrieval Systems (Embeddings, Vectorstores, Retrievers)
+   - Agent Components (Tools, Agents, Chains)
+   - System Features (Memory, Callbacks)
+
+2. LangChain Ecosystem:
+   - Framework Libraries (langchain-core, langchain-community, langchain)
+   - Extensions (langgraph, langserve)
+   - LangChain Expression Language (LCEL)
+   - Off-the-shelf chains and applications
+
+ROUTING GUIDELINES:
+- Default to vectorstore for LangChain-related queries
+- Use web_search for:
+  - Non-LangChain topics
+  - Current events or recent updates
+  - General programming questions
+  - Topics not covered in LangChain documentation
+
+RESPONSE FORMAT:
+You must respond with exactly one of these options:
+- "vectorstore"
+- "web_search"
+
+Consider both the chat history and current question context for optimal routing.
+"""
 
 
 router_prompt = ChatPromptTemplate.from_messages(
