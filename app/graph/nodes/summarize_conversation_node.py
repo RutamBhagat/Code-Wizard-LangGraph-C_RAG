@@ -10,11 +10,11 @@ from app.graph.utils.time import track_execution_time
 def summarize_conversation_node(state: GraphState):
     state.execution_times.clear()
 
-    chat_history = (
-        summarize_conversation(state)["chat_history"]
-        if len(state.chat_history) > 4
-        else state.chat_history
-    )
+    if len(state.chat_history) > 4:
+        state = summarize_conversation(state)
+        chat_history = state.chat_history
+    else:
+        chat_history = state.chat_history
 
     return {
         "enhanced_query": "",
