@@ -54,5 +54,5 @@ def summarize_conversation(state: GraphState):
         strategy="last",
         allow_partial=False,
     )
-
-    return {"chat_history": [response, *messages]}
+    state.chat_history = [response, *messages]
+    return state
