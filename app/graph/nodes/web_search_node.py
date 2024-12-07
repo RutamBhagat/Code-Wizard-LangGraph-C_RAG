@@ -10,7 +10,7 @@ _ = load_dotenv(find_dotenv())
 web_search_tool = TavilySearchResults(max_results=3)
 
 
-def web_search(state: GraphState) -> Dict[str, Any]:
+def web_search_node(state: GraphState) -> Dict[str, Any]:
     tavily_results = web_search_tool.invoke({"query": state.enhanced_query})
     web_results = [
         Document(page_content=result["content"])

@@ -5,7 +5,7 @@ from app.graph.chains.generation import generation_chain
 from app.graph.state import GraphState
 
 
-def generate(state: GraphState) -> Dict[str, Any]:
+def generate_node(state: GraphState) -> Dict[str, Any]:
     generation = generation_chain.invoke(
         {
             "context": state.documents,

@@ -10,10 +10,10 @@ from app.graph.consts import (
     ENHANCED_QUERY_NODE,
 )
 from app.graph.nodes import (
-    generate,
-    web_search,
     generate_enhanced_query_node,
+    web_search_node,
     retrieve_documents_node,
+    generate_node,
 )
 from app.graph.chains.router import question_router, RouteQuery
 
@@ -43,8 +43,8 @@ workflow = StateGraph(GraphState)
 # Node Definition
 workflow.add_node(ENHANCED_QUERY_NODE, generate_enhanced_query_node)
 workflow.add_node(RETRIEVE, retrieve_documents_node)
-workflow.add_node(WEB_SEARCH, web_search)
-workflow.add_node(GENERATE, generate)
+workflow.add_node(WEB_SEARCH, web_search_node)
+workflow.add_node(GENERATE, generate_node)
 
 # Graph flow
 workflow.set_entry_point(ENHANCED_QUERY_NODE)

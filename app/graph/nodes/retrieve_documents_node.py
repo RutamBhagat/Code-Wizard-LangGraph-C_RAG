@@ -1,5 +1,5 @@
 # retrieval_node.py
-from app.graph.nodes.enhanced_query import generate_enhanced_query_node
+from app.graph.nodes.generate_enhanced_query_node import generate_enhanced_query_node
 from app.graph.state import GraphState
 from app.ingestion import retriever
 
