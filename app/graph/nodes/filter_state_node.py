@@ -9,5 +9,5 @@ def filter_state_node(state: GraphState):
         "documents": [],
         "generation": "",
         "execution_times": state.execution_times,
-        "chat_history": state.chat_history[-2:],
+        "chat_history": state.chat_history[-6:],
     }
