@@ -4,14 +4,14 @@ from langgraph.graph import START, END, StateGraph
 from langgraph.checkpoint.sqlite import SqliteSaver
 from app.graph.state import GraphInputState, GraphOutputState, GraphState
 from app.graph.consts import (
-    FILTER_STATE_NODE,
+    SUMMARIZE_CONVERSATION_NODE,
     ENHANCED_QUERY_NODE,
     RETRIEVE_NODE,
     WEB_SEARCH_NODE,
     GENERATE_NODE,
 )
 from app.graph.nodes import (
-    filter_state_node,
+    summarize_conversation_node,
     generate_enhanced_query_node,
     web_search_node,
     retrieve_documents_node,
@@ -43,15 +43,15 @@ def route_question(state: GraphState) -> str:
 builder = StateGraph(GraphState, input=GraphInputState, output=GraphOutputState)
 
 # Node Definition
-builder.add_node(FILTER_STATE_NODE, filter_state_node)
+builder.add_node(SUMMARIZE_CONVERSATION_NODE, summarize_conversation_node)
 builder.add_node(ENHANCED_QUERY_NODE, generate_enhanced_query_node)
 builder.add_node(RETRIEVE_NODE, retrieve_documents_node)
 builder.add_node(WEB_SEARCH_NODE, web_search_node)
 builder.add_node(GENERATE_NODE, generate_node)
 
 # Graph flow
-builder.add_edge(START, FILTER_STATE_NODE)
-builder.add_edge(FILTER_STATE_NODE, ENHANCED_QUERY_NODE)
+builder.add_edge(START, SUMMARIZE_CONVERSATION_NODE)
+builder.add_edge(SUMMARIZE_CONVERSATION_NODE, ENHANCED_QUERY_NODE)
 builder.add_conditional_edges(
     ENHANCED_QUERY_NODE,
     route_question,
