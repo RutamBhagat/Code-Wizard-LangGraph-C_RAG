@@ -48,13 +48,6 @@ def generate_enhanced_query_node(state: GraphState) -> GraphState:
         {"question": state.question, "chat_history": state.chat_history or []}
     )
 
-    # Clear all keys from execution_times
-    for key in list(state.execution_times.keys()):
-        del state.execution_times[key]
-
     return {
         "enhanced_query": enhanced_query,
-        "documents": [],
-        "generation": "",
-        "execution_times": state.execution_times,
     }

@@ -1,15 +1,17 @@
 import sqlite3
 from dotenv import load_dotenv, find_dotenv
-from langgraph.graph import END, START, StateGraph
+from langgraph.graph import START, END, StateGraph
 from langgraph.checkpoint.sqlite import SqliteSaver
 from app.graph.state import GraphInputState, GraphOutputState, GraphState
 from app.graph.consts import (
+    FILTER_STATE_NODE,
     ENHANCED_QUERY_NODE,
     RETRIEVE_NODE,
     WEB_SEARCH_NODE,
     GENERATE_NODE,
 )
 from app.graph.nodes import (
+    filter_state_node,
     generate_enhanced_query_node,
     web_search_node,
     retrieve_documents_node,
@@ -37,25 +39,27 @@ def route_question(state: GraphState) -> str:
         return RETRIEVE_NODE
 
 
-# Create the workflow without the SQLite connection
-workflow = StateGraph(GraphState, input=GraphInputState, output=GraphOutputState)
+# Create the builder without the SQLite connection
+builder = StateGraph(GraphState, input=GraphInputState, output=GraphOutputState)
 
 # Node Definition
-workflow.add_node(ENHANCED_QUERY_NODE, generate_enhanced_query_node)
-workflow.add_node(RETRIEVE_NODE, retrieve_documents_node)
-workflow.add_node(WEB_SEARCH_NODE, web_search_node)
-workflow.add_node(GENERATE_NODE, generate_node)
+builder.add_node(FILTER_STATE_NODE, filter_state_node)
+builder.add_node(ENHANCED_QUERY_NODE, generate_enhanced_query_node)
+builder.add_node(RETRIEVE_NODE, retrieve_documents_node)
+builder.add_node(WEB_SEARCH_NODE, web_search_node)
+builder.add_node(GENERATE_NODE, generate_node)
 
 # Graph flow
-workflow.set_entry_point(ENHANCED_QUERY_NODE)
-workflow.add_conditional_edges(
+builder.add_edge(START, FILTER_STATE_NODE)
+builder.add_edge(FILTER_STATE_NODE, ENHANCED_QUERY_NODE)
+builder.add_conditional_edges(
     ENHANCED_QUERY_NODE,
     route_question,
     path_map={WEB_SEARCH_NODE: WEB_SEARCH_NODE, RETRIEVE_NODE: RETRIEVE_NODE},
 )
-workflow.add_edge(RETRIEVE_NODE, GENERATE_NODE)
-workflow.add_edge(WEB_SEARCH_NODE, GENERATE_NODE)
-workflow.add_edge(GENERATE_NODE, END)
+builder.add_edge(RETRIEVE_NODE, GENERATE_NODE)
+builder.add_edge(WEB_SEARCH_NODE, GENERATE_NODE)
+builder.add_edge(GENERATE_NODE, END)
 
 
 # Create a function to get a new graph instance with its own SQLite connection
@@ -63,7 +67,7 @@ def get_graph_instance():
     conn = sqlite3.connect("checkpoints.sqlite", check_same_thread=False)
     memory = SqliteSaver(conn)
     memory.setup()
-    graph = workflow.compile(checkpointer=memory)
+    graph = builder.compile(checkpointer=memory)
     return graph
 
 
