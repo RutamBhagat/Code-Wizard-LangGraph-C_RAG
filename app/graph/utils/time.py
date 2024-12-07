@@ -21,7 +21,7 @@ def track_execution_time(node_func: Callable) -> Callable:
         start_time = time.time()
         updated_data = node_func(state)
         end_time = time.time()
-        elapsed_time = end_time - start_time
+        elapsed_time = f"{(end_time - start_time):.2f} seconds"
 
         # Update execution_times
         updated_data["execution_times"] = {

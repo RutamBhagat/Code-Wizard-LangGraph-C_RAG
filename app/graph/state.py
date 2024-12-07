@@ -24,4 +24,4 @@ class GraphState(BaseModel):
         Field(default_factory=list)
     )
     generation: str = Field(default="")
-    execution_times: Dict[str, float] = Field(default_factory=dict)
+    execution_times: Dict[str, str] = Field(default_factory=dict)
