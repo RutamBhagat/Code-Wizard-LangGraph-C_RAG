@@ -8,6 +8,9 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 llm = ChatGoogleGenerativeAI(
     model=MODEL_NAME,
     temperature=0,
+    max_tokens=None,
+    timeout=None,
+    max_retries=2,
 )
 
 

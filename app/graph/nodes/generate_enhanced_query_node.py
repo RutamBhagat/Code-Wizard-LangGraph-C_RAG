@@ -32,12 +32,16 @@ Question: "Explain what is LangChain in detail"
 Enhanced query: "Explain what is LangChain in detail"
 Format your response as a single query string without any prefixes or explanations."""
 
-query_generator_prompt = ChatPromptTemplate.from_messages([("system", template)])
+query_generator_prompt = ChatPromptTemplate.from_messages([("human", template)])
+
 generate_enhanced_query = (
     query_generator_prompt
     | ChatGoogleGenerativeAI(
         model=MODEL_NAME,
         temperature=0,
+        max_tokens=None,
+        timeout=None,
+        max_retries=2,
     )
     | StrOutputParser()
 )

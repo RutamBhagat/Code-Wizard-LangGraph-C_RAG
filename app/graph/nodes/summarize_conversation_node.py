@@ -1,5 +1,4 @@
-from langchain.schema import AIMessage
-from langchain_core.messages import trim_messages
+from langchain.schema import HumanMessage
 from app.graph.state import GraphState
 from app.graph.utils.time import track_execution_time
 from app.graph.consts import MODEL_NAME
@@ -56,23 +55,20 @@ Format your response as:
 """
 
     # Add prompt to our history
-
-    summarized_messages = [AIMessage(content=summary_message)]
+    summarized_messages = [HumanMessage(content=summary_message)]
     llm = ChatGoogleGenerativeAI(
         model=MODEL_NAME,
         temperature=0,
+        max_tokens=None,
+        timeout=None,
+        max_retries=2,
     )
     response = llm.invoke(summarized_messages)
 
-    ## DO NOT DELETE THIS COULD BE USED LATER IN PROD
-    # messages = trim_messages(
-    #     messages=state.chat_history,
-    #     max_tokens=MAX_TOKENS,
-    #     token_counter=ChatGoogleGenerativeAI(model=MODEL, temperature=0),
-    #     strategy="last",
-    #     allow_partial=False,
-    # )
-
     messages = state.chat_history[-2:]
-    state.chat_history = [response, *messages]
+    state.chat_history = [
+        HumanMessage(content="Here's a summary of our conversation up to this point:"),
+        response,
+        *messages,
+    ]
     return state
