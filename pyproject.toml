@@ -18,4 +18,5 @@ dependencies = [
     "langchain-core>=0.3.19",
     "langgraph-cli[inmem]==0.1.61",
     "uvicorn>=0.32.1",
+    "langchain-google-genai>=2.0.6",
 ]

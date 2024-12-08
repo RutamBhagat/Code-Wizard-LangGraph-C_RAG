@@ -1,8 +1,9 @@
 from langchain.prompts import ChatPromptTemplate
-from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers import StrOutputParser
 from app.graph.state import GraphState
 from app.graph.utils.time import track_execution_time
+from app.graph.consts import MODEL_NAME
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 template = """You are a query enhancement system. Your role is to analyze the user's question and chat history to create a more comprehensive search query, but only if necessary. You are not supposed to answer the question directly, but rather formulate a better question based on the chat history.
 Instructions:
@@ -33,7 +34,12 @@ Format your response as a single query string without any prefixes or explanatio
 
 query_generator_prompt = ChatPromptTemplate.from_messages([("system", template)])
 generate_enhanced_query = (
-    query_generator_prompt | ChatOpenAI(temperature=0) | StrOutputParser()
+    query_generator_prompt
+    | ChatGoogleGenerativeAI(
+        model=MODEL_NAME,
+        temperature=0,
+    )
+    | StrOutputParser()
 )
 
 

@@ -1,8 +1,14 @@
 from typing import Literal
 from langchain.prompts import MessagesPlaceholder
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_openai import ChatOpenAI
 from pydantic import BaseModel, Field
+from app.graph.consts import MODEL_NAME
+from langchain_google_genai import ChatGoogleGenerativeAI
+
+llm = ChatGoogleGenerativeAI(
+    model=MODEL_NAME,
+    temperature=0,
+)
 
 
 class RouteQuery(BaseModel):
@@ -16,7 +22,6 @@ class RouteQuery(BaseModel):
         use_enum_values = True
 
 
-llm = ChatOpenAI(temperature=0, model="gpt-4o-mini")
 structured_llm_router = llm.with_structured_output(RouteQuery)
 
 template = """You are a specialized routing assistant that directs questions to the most appropriate data source.

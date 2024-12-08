@@ -1,9 +1,9 @@
 from langchain.schema import AIMessage
 from langchain_core.messages import trim_messages
-from langchain_openai import ChatOpenAI
-from app.graph.consts import MODEL_NAME
 from app.graph.state import GraphState
 from app.graph.utils.time import track_execution_time
+from app.graph.consts import MODEL_NAME
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 
 @track_execution_time
@@ -27,7 +27,6 @@ def summarize_conversation_node(state: GraphState):
 
 def summarize_conversation(state: GraphState):
     MAX_TOKENS = 250
-    MODEL = "gpt-4o-mini"
 
     # Extract content from chat history
     chat_content = "\n".join([msg.content for msg in state.chat_history])
@@ -57,15 +56,19 @@ Format your response as:
 """
 
     # Add prompt to our history
+
     summarized_messages = [AIMessage(content=summary_message)]
-    model = ChatOpenAI(model=MODEL_NAME, temperature=0)
-    response = model.invoke(summarized_messages)
+    llm = ChatGoogleGenerativeAI(
+        model=MODEL_NAME,
+        temperature=0,
+    )
+    response = llm.invoke(summarized_messages)
 
     ## DO NOT DELETE THIS COULD BE USED LATER IN PROD
     # messages = trim_messages(
     #     messages=state.chat_history,
     #     max_tokens=MAX_TOKENS,
-    #     token_counter=ChatOpenAI(model=MODEL),
+    #     token_counter=ChatGoogleGenerativeAI(model=MODEL, temperature=0),
     #     strategy="last",
     #     allow_partial=False,
     # )

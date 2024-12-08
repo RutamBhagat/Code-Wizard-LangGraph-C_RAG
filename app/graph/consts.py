@@ -1,5 +1,6 @@
 INDEX_NAME = "langchain-doc-index-unstructured"
-MODEL_NAME = "gpt-4o-mini"
+# MODEL_NAME = "gpt-4o-mini"
+MODEL_NAME = "gemini-pro"
 SUMMARIZE_CONVERSATION_NODE = "summarize_conversation_node"
 ENHANCED_QUERY_NODE = "enhanced_query_node"
 RETRIEVE_NODE = "retrieve_node"
