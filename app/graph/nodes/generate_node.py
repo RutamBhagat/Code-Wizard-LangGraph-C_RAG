@@ -12,15 +12,15 @@ def generate_node(state: GraphState) -> Dict[str, Any]:
         {
             "context": state.documents,
             "question": state.enhanced_query,
-            "chat_history": state.chat_history or [],
+            "messages": state.messages or [],
         }
     )
 
-    state.chat_history.extend(
+    state.messages.extend(
         [HumanMessage(content=state.question), AIMessage(content=generation)]
     )
 
     return {
-        "chat_history": state.chat_history,
+        "messages": state.messages,
         "generation": generation,
     }

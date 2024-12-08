@@ -21,7 +21,7 @@ If you don't know the answer based on the provided information, just say that yo
 Try to keep the answer concise unless the question asks for more details or code is requested 
 (only provide code if the context contains the code or else ignore providing code).
 Please provide your responses in valid markdown format.
-Chat History: {chat_history}
+Chat History: {messages}
 Context: {context}
 Question: {question}
 Answer:"""
@@ -29,7 +29,7 @@ Answer:"""
 ANSWER_PROMPT = ChatPromptTemplate.from_messages(
     [
         ("human", template),  # System message converted to human message
-        MessagesPlaceholder(variable_name="chat_history"),  # Keep as is
+        MessagesPlaceholder(variable_name="messages"),  # Keep as is
         (
             "human",
             "{question}",

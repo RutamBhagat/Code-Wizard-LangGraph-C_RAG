@@ -31,7 +31,7 @@ def save_graph_visualization(graph: StateGraph, filename: str = "graph.png") -> 
 
 def route_question(state: GraphState) -> str:
     source: RouteQuery = question_router_chain.invoke(
-        {"question": state.enhanced_query, "chat_history": state.chat_history}
+        {"question": state.enhanced_query, "messages": state.messages}
     )
     if source.datasource == "web_search":
         return WEB_SEARCH_NODE

@@ -11,7 +11,7 @@ class GraphState(BaseModel):
         question: question to be answered
         enhanced_query: query after being enhanced
         documents: list of documents
-        chat_history: list of chat messages
+        messages: list of chat messages
         generation: response to the question
         execution_times: Dictionary to store execution times of each node.
     """
@@ -19,7 +19,7 @@ class GraphState(BaseModel):
     question: str = Field(description="Question to be answered")
     enhanced_query: str = Field(default="")
     documents: List[Any] = Field(default_factory=list)
-    chat_history: List[AnyMessage] = Field(default_factory=list)
+    messages: List[AnyMessage] = Field(default_factory=list)
     generation: str = Field(default="")
     execution_times: Dict[str, str] = Field(default_factory=dict)
 

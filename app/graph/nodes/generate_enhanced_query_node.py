@@ -18,7 +18,7 @@ Instructions:
 - Maintains the original intent of the question.
 - Includes important contextual details that were mentioned earlier in the chat history.
 - Replaces ambiguous pronouns with their referents from the context.
-Chat History for context: {chat_history}
+Chat History for context: {messages}
 Current question: {question}
 Return only the (potentially enhanced) query text without any prefixes or explanations.
 Example:
@@ -51,7 +51,7 @@ generate_enhanced_query = (
 def generate_enhanced_query_node(state: GraphState) -> GraphState:
     """Node for generating an enhanced query from question and chat history"""
     enhanced_query = generate_enhanced_query.invoke(
-        {"question": state.question, "chat_history": state.chat_history or []}
+        {"question": state.question, "messages": state.messages or []}
     )
 
     return {

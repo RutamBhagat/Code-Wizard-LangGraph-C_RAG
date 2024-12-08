@@ -68,7 +68,7 @@ Consider both the chat history and current question context for optimal routing.
 router_prompt = ChatPromptTemplate.from_messages(
     [
         ("system", template),
-        MessagesPlaceholder(variable_name="chat_history"),
+        MessagesPlaceholder(variable_name="messages"),
         ("human", "Question: {question}"),
     ]
 )

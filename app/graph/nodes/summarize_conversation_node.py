@@ -9,16 +9,16 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 def summarize_conversation_node(state: GraphState):
     state.execution_times.clear()
 
-    if len(state.chat_history) > 4:
+    if len(state.messages) > 4:
         state = summarize_conversation(state)
-        chat_history = state.chat_history
+        messages = state.messages
     else:
-        chat_history = state.chat_history
+        messages = state.messages
 
     return {
         "enhanced_query": "",
         "documents": [],
-        "chat_history": chat_history,
+        "messages": messages,
         "generation": "",
         "execution_times": state.execution_times,
     }
@@ -28,7 +28,7 @@ def summarize_conversation(state: GraphState):
     MAX_TOKENS = 250
 
     # Extract content from chat history
-    chat_content = "\n".join([msg.content for msg in state.chat_history])
+    chat_content = "\n".join([msg.content for msg in state.messages])
 
     # Create our summarization prompt
     summary_message = f"""
@@ -65,8 +65,8 @@ Format your response as:
     )
     response = llm.invoke(summarized_messages)
 
-    messages = state.chat_history[-2:]
-    state.chat_history = [
+    messages = state.messages[-2:]
+    state.messages = [
         HumanMessage(content="Here's a summary of our conversation up to this point:"),
         response,
         *messages,
