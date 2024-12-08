@@ -18,7 +18,8 @@ llm = ChatGoogleGenerativeAI(
 template = """You are an assistant for question-answering tasks. 
 Use the following pieces of retrieved context and the chat history to answer the question. 
 If you don't know the answer based on the provided information, just say that you don't know. 
-Try to keep the answer concise unless the question asks for more details or code is requested.
+Try to keep the answer concise unless the question asks for more details or code is requested 
+(only provide code if the context contains the code or else ignore providing code).
 Please provide your responses in valid markdown format.
 Chat History: {chat_history}
 Context: {context}
