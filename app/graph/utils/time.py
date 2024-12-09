@@ -4,6 +4,7 @@ from typing import Any, Callable, Dict
 from app.graph.state import GraphState
 from langchain_community.tools.tavily_search.tool import TavilySearchResults
 from dotenv import load_dotenv, find_dotenv
+import inspect
 
 # Load environment variables
 _ = load_dotenv(find_dotenv())
@@ -17,18 +18,20 @@ def track_execution_time(node_func: Callable) -> Callable:
     """Decorator to track the execution time of a node."""
 
     @wraps(node_func)
-    def wrapper(state: GraphState) -> Dict[str, Any]:
+    async def wrapper(*args, **kwargs) -> Any:
         start_time = time.time()
-        updated_data = node_func(state)
-        end_time = time.time()
-        elapsed_time = f"{(end_time - start_time):.2f} seconds"
+        try:
+            if inspect.iscoroutinefunction(node_func):
+                result = await node_func(*args, **kwargs)
+            else:
+                result = node_func(*args, **kwargs)
+            execution_time = time.time() - start_time
 
-        # Update execution_times
-        updated_data["execution_times"] = {
-            **state.execution_times,
-            **updated_data.get("execution_times", {}),
-            node_func.__name__: elapsed_time,
-        }
-        return updated_data
+            # Update execution times in state
+            if isinstance(result, dict) and "execution_times" in result:
+                result["execution_times"][node_func.__name__] = execution_time
+            return result
+        except Exception as e:
+            raise e
 
     return wrapper

@@ -7,20 +7,20 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 
 @track_execution_time
 async def summarize_conversation_node(state: GraphState):
-    state.execution_times.clear()
+    execution_times = {}
+    messages = state.messages
 
-    if len(state.messages) > 4:
-        state = await summarize_conversation(state)
-        messages = state.messages
-    else:
-        messages = state.messages
+    if len(messages) > 4:
+        summarized_state = await summarize_conversation(state)
+        messages = summarized_state.messages
+        execution_times = summarized_state.execution_times
 
     return {
         "enhanced_query": "",
         "documents": [],
         "messages": messages,
         "generation": "",
-        "execution_times": state.execution_times,
+        "execution_times": execution_times,
     }
 
 
