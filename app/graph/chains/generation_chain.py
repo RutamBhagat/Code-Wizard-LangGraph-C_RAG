@@ -14,7 +14,6 @@ llm = ChatGoogleGenerativeAI(
     max_retries=2,
 )
 
-# The following is now part of the first human message.
 template = """You are an assistant for question-answering tasks. 
 Use the following pieces of retrieved context and the chat history to answer the question. 
 If you don't know the answer based on the provided information, just say that you don't know. 
@@ -28,12 +27,12 @@ Answer:"""
 
 ANSWER_PROMPT = ChatPromptTemplate.from_messages(
     [
-        ("human", template),  # System message converted to human message
-        MessagesPlaceholder(variable_name="messages"),  # Keep as is
+        ("human", template),
+        MessagesPlaceholder(variable_name="messages"),
         (
             "human",
             "{question}",
-        ),  # Keep as is - this is just for separation within the human prompt
+        ),
     ]
 )
 generation_chain = ANSWER_PROMPT | llm | StrOutputParser()

@@ -12,8 +12,8 @@ web_search_tool = TavilySearchResults(max_results=3)
 
 
 @track_execution_time
-def web_search_node(state: GraphState) -> Dict[str, Any]:
-    tavily_results = web_search_tool.invoke({"query": state.enhanced_query})
+async def web_search_node(state: GraphState) -> Dict[str, Any]:
+    tavily_results = await web_search_tool.ainvoke({"query": state.enhanced_query})
     web_results = [
         Document(page_content=result["content"])
         for result in tavily_results

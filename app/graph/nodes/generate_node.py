@@ -7,8 +7,8 @@ from app.graph.utils.time import track_execution_time
 
 
 @track_execution_time
-def generate_node(state: GraphState) -> Dict[str, Any]:
-    generation = generation_chain.invoke(
+async def generate_node(state: GraphState) -> Dict[str, Any]:
+    generation = await generation_chain.ainvoke(
         {
             "context": state.documents,
             "question": state.enhanced_query,

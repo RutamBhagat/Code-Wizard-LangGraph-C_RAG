@@ -23,14 +23,16 @@ from app.graph.chains.question_router_chain import question_router_chain, RouteQ
 _ = load_dotenv(find_dotenv())
 
 
-def save_graph_visualization(graph: StateGraph, filename: str = "graph.png") -> None:
+async def save_graph_visualization(
+    graph: StateGraph, filename: str = "graph.png"
+) -> None:
     """Save graph visualization to file."""
     with open(filename, "wb") as f:
         f.write(graph.get_graph().draw_mermaid_png())
 
 
-def route_question(state: GraphState) -> str:
-    source: RouteQuery = question_router_chain.invoke(
+async def route_question(state: GraphState) -> str:
+    source: RouteQuery = await question_router_chain.ainvoke(
         {"question": state.enhanced_query, "messages": state.messages}
     )
     if source.datasource == "web_search":

@@ -34,23 +34,21 @@ Format your response as a single query string without any prefixes or explanatio
 
 query_generator_prompt = ChatPromptTemplate.from_messages([("human", template)])
 
-generate_enhanced_query = (
-    query_generator_prompt
-    | ChatGoogleGenerativeAI(
-        model=MODEL_NAME,
-        temperature=0,
-        max_tokens=None,
-        timeout=None,
-        max_retries=2,
-    )
-    | StrOutputParser()
+llm = ChatGoogleGenerativeAI(
+    model=MODEL_NAME,
+    temperature=0,
+    max_tokens=None,
+    timeout=None,
+    max_retries=2,
 )
+
+generate_enhanced_query = query_generator_prompt | llm | StrOutputParser()
 
 
 @track_execution_time
-def generate_enhanced_query_node(state: GraphState) -> GraphState:
+async def generate_enhanced_query_node(state: GraphState) -> GraphState:
     """Node for generating an enhanced query from question and chat history"""
-    enhanced_query = generate_enhanced_query.invoke(
+    enhanced_query = await generate_enhanced_query.ainvoke(
         {"question": state.question, "messages": state.messages or []}
     )
 
