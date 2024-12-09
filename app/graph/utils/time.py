@@ -1,16 +1,7 @@
 import time
 from functools import wraps
-from typing import Any, Callable, Dict
-from app.graph.state import GraphState
-from langchain_community.tools.tavily_search.tool import TavilySearchResults
-from dotenv import load_dotenv, find_dotenv
+from typing import Any, Callable
 import inspect
-
-# Load environment variables
-_ = load_dotenv(find_dotenv())
-
-# Initialize Tavily search tool
-web_search_tool = TavilySearchResults(max_results=3)
 
 
 # --- Decorator ---
