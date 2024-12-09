@@ -25,8 +25,12 @@ _ = load_dotenv(find_dotenv())
 
 def save_graph_visualization(graph: StateGraph, filename: str = "graph.png") -> None:
     """Save graph visualization to file."""
-    with open(filename, "wb") as f:
-        f.write(graph.get_graph().draw_mermaid_png())
+    try:
+        with open(filename, "wb") as f:
+            f.write(graph.get_graph().draw_mermaid_png())
+    except Exception:
+        # Silently fail in production if visualization fails
+        pass
 
 
 async def route_question(state: GraphState) -> str:
@@ -64,4 +68,6 @@ builder.add_edge(GENERATE_NODE, END)
 conn = sqlite3.connect("checkpoints.sqlite", check_same_thread=False)
 memory = SqliteSaver(conn).setup()
 graph = builder.compile(checkpointer=memory)
+
+# Try to save visualization during initialization only
 save_graph_visualization(graph)
