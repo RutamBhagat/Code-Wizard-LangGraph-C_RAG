@@ -42,7 +42,6 @@ async def route_question(state: GraphState) -> str:
         return RETRIEVE_NODE
 
 
-# Create the builder without the SQLite connection
 builder = StateGraph(GraphState, input=GraphInputState, output=GraphOutputState)
 
 # Node Definition
