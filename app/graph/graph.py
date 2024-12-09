@@ -1,8 +1,10 @@
 import sqlite3
+import asyncio
 from dotenv import load_dotenv, find_dotenv
 from langgraph.graph import START, END, StateGraph
 from langgraph.checkpoint.sqlite import SqliteSaver
 from app.graph.state import GraphInputState, GraphOutputState, GraphState
+from app.graph.chains.question_router_chain import question_router_chain, RouteQuery
 from app.graph.consts import (
     SUMMARIZE_CONVERSATION_NODE,
     ENHANCED_QUERY_NODE,
@@ -17,8 +19,6 @@ from app.graph.nodes import (
     retrieve_documents_node,
     generate_node,
 )
-from app.graph.chains.question_router_chain import question_router_chain, RouteQuery
-import asyncio
 
 
 _ = load_dotenv(find_dotenv())
