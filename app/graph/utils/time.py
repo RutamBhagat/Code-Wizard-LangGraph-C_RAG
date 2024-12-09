@@ -25,12 +25,18 @@ def track_execution_time(node_func: Callable) -> Callable:
                 result = await node_func(*args, **kwargs)
             else:
                 result = node_func(*args, **kwargs)
+
             execution_time = time.time() - start_time
 
-            # Update execution times in state
-            if isinstance(result, dict) and "execution_times" in result:
-                result["execution_times"][node_func.__name__] = execution_time
+            if isinstance(result, dict):
+                if "execution_times" not in result:
+                    result["execution_times"] = {}
+                result["execution_times"][
+                    node_func.__name__
+                ] = f"{execution_time:.4f} seconds"
+
             return result
+
         except Exception as e:
             raise e
 
