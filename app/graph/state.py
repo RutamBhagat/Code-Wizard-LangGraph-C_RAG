@@ -21,9 +21,7 @@ class GraphState(BaseModel):
     documents: List[Any] = Field(default_factory=list)
     messages: List[AnyMessage] = Field(default_factory=list)
     generation: str = Field(default="")
-    execution_times: Dict[str, str] = Field(
-        default_factory=dict
-    )  # Change back to str type
+    execution_times: Dict[str, str] = Field(default_factory=dict)
 
 
 class GraphInputState(BaseModel):
@@ -34,9 +32,7 @@ class GraphInputState(BaseModel):
     """
 
     question: str = Field(description="Question to be answered")
-    execution_times: Dict[str, str] = Field(
-        default_factory=dict
-    )  # Change back to str type
+    execution_times: Dict[str, str] = Field(default_factory=dict)
 
 
 class GraphOutputState(BaseModel):
@@ -47,6 +43,4 @@ class GraphOutputState(BaseModel):
     """
 
     generation: str = Field(default="")
-    execution_times: Dict[str, str] = Field(
-        default_factory=dict
-    )  # Change back to str type
+    execution_times: Dict[str, str] = Field(default_factory=dict)

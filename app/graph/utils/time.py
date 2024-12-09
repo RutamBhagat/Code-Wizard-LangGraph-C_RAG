@@ -4,7 +4,6 @@ from typing import Any, Callable
 import inspect
 
 
-# --- Decorator ---
 def track_execution_time(node_func: Callable) -> Callable:
     """Decorator to track the execution time of a node."""
 
