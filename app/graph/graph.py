@@ -1,5 +1,4 @@
 import sqlite3
-import asyncio
 from dotenv import load_dotenv, find_dotenv
 from langgraph.graph import START, END, StateGraph
 from langgraph.checkpoint.sqlite import SqliteSaver
@@ -24,9 +23,7 @@ from app.graph.nodes import (
 _ = load_dotenv(find_dotenv())
 
 
-async def save_graph_visualization(
-    graph: StateGraph, filename: str = "graph.png"
-) -> None:
+def save_graph_visualization(graph: StateGraph, filename: str = "graph.png") -> None:
     """Save graph visualization to file."""
     with open(filename, "wb") as f:
         f.write(graph.get_graph().draw_mermaid_png())
@@ -67,4 +64,4 @@ builder.add_edge(GENERATE_NODE, END)
 conn = sqlite3.connect("checkpoints.sqlite", check_same_thread=False)
 memory = SqliteSaver(conn).setup()
 graph = builder.compile(checkpointer=memory)
-asyncio.run(save_graph_visualization(graph))
+save_graph_visualization(graph)
