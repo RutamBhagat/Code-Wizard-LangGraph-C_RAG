@@ -18,6 +18,7 @@ from app.graph.nodes import (
     generate_node,
 )
 from app.graph.chains.question_router_chain import question_router_chain, RouteQuery
+import asyncio
 
 
 _ = load_dotenv(find_dotenv())
@@ -67,4 +68,4 @@ builder.add_edge(GENERATE_NODE, END)
 conn = sqlite3.connect("checkpoints.sqlite", check_same_thread=False)
 memory = SqliteSaver(conn).setup()
 graph = builder.compile(checkpointer=memory)
-save_graph_visualization(graph)
+asyncio.run(save_graph_visualization(graph))
