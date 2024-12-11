@@ -1,5 +1,5 @@
 INDEX_NAME = "langchain-doc-index-unstructured"
-MODEL_NAME = "gemini-1.5-flash"
+MODEL_NAME = "gemini-2.0-flash-exp"
 SUMMARIZE_CONVERSATION_NODE = "summarize_conversation_node"
 ENHANCED_QUERY_NODE = "enhanced_query_node"
 RETRIEVE_NODE = "retrieve_node"
