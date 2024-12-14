@@ -44,4 +44,4 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 # Expose the port that the application uses
 EXPOSE 8000
 
-CMD ["uvicorn", "app.server:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "4"]
+CMD ["uvicorn", "app.server:app", "--host", "0.0.0.0", "--port", "8000"]
