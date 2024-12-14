@@ -270,8 +270,8 @@ requires-dist = [
     { name = "langgraph", specifier = ">=0.2.52" },
     { name = "langgraph-checkpoint-sqlite", specifier = ">=2.0.1" },
     { name = "langgraph-cli", extras = ["inmem"], specifier = "==0.1.61" },
-    { name = "pinecone", specifier = "<5.4.0" },
-    { name = "pinecone-client", specifier = ">=3.2.2" },
+    { name = "pinecone", specifier = ">=5.3.1" },
+    { name = "pinecone-client", specifier = ">=5.0.1" },
     { name = "python-dotenv", specifier = ">=1.0.1" },
     { name = "uvicorn", specifier = ">=0.32.1" },
 ]
