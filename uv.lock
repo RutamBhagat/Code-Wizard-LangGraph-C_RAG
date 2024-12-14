@@ -1004,7 +1004,7 @@ wheels = [
 
 [[package]]
 name = "langgraph-api"
-version = "0.0.7"
+version = "0.0.8"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "cryptography" },
@@ -1023,9 +1023,9 @@ dependencies = [
     { name = "uvicorn" },
     { name = "watchfiles" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/13/ba/2b2fec4294d54f491b5d1e53c11f8693a4b6a7c6e08eaa98ea08c0892688/langgraph_api-0.0.7.tar.gz", hash = "sha256:e43291825a183fa221215bd0b04067812b18266e846290dec651f3cba6b796f0", size = 150611 }
+sdist = { url = "https://files.pythonhosted.org/packages/bd/1f/9665e9c5d609c347f52f658c5a082a8398ce997738f5bed626f07ebb050d/langgraph_api-0.0.8.tar.gz", hash = "sha256:b1304beb9d72392ce5d5602cd524a4f57839f1dcd1da6f4e1391832fb4a6edc5", size = 150115 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/e5/ab/cdc569c7efaadf95b5d16bcd6da2ebe546c7f407fe139c8245adc04dc154/langgraph_api-0.0.7-py3-none-any.whl", hash = "sha256:c94bcdce10a1a4f9e65c85d1c76268a6777e3e7ee71e1e6d5dae5d2da98a87c3", size = 173825 },
+    { url = "https://files.pythonhosted.org/packages/41/8f/75019b00ee743a61f18812a11e25a83a8afd4f85210fa146dbc5973844f2/langgraph_api-0.0.8-py3-none-any.whl", hash = "sha256:ab9b4a5ec8393d17ef921b94f3f019f49f3f17910ba9351beb1e1f962b02a33e", size = 173848 },
 ]
 
 [[package]]
