@@ -1,5 +1,5 @@
 [project]
-name = "code-wizard-langgraph-c-rag"
+name = "langchain-documentation-chatbot"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
@@ -13,7 +13,6 @@ dependencies = [
     "langchain-community>=0.3.7",
     "python-dotenv>=1.0.1",
     "langchain-core>=0.3.19",
-    "langgraph-cli[inmem]==0.1.61",
     "uvicorn>=0.32.1",
     "langchain-google-genai>=2.0.6",
     "pinecone>=5.3.1",
