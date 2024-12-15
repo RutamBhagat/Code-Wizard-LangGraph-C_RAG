@@ -21,9 +21,9 @@ def track_execution_time(node_func: Callable) -> Callable:
             if isinstance(result, dict):
                 if "execution_times" not in result:
                     result["execution_times"] = {}
-                result["execution_times"][
-                    node_func.__name__
-                ] = f"{execution_time:.4f} seconds"
+                result["execution_times"][node_func.__name__] = (
+                    f"{execution_time:.4f} seconds"
+                )
 
             return result
 
