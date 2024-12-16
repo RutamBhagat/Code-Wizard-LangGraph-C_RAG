@@ -1,7 +1,5 @@
-import sqlite3
 from dotenv import load_dotenv, find_dotenv
 from langgraph.graph import START, END, StateGraph
-from langgraph.checkpoint.sqlite import SqliteSaver
 from app.graph.state import GraphInputState, GraphOutputState, GraphState
 from app.graph.chains.question_router_chain import question_router_chain, RouteQuery
 from app.graph.consts import (
@@ -64,10 +62,7 @@ builder.add_edge(RETRIEVE_NODE, GENERATE_NODE)
 builder.add_edge(WEB_SEARCH_NODE, GENERATE_NODE)
 builder.add_edge(GENERATE_NODE, END)
 
-# Checkpointer
-conn = sqlite3.connect("checkpoints.sqlite", check_same_thread=False)
-memory = SqliteSaver(conn).setup()
-graph = builder.compile(checkpointer=memory)
+graph = builder.compile()
 
 # Try to save visualization during initialization only
 save_graph_visualization(graph)
